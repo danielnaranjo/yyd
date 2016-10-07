@@ -188,13 +188,13 @@
                                                     <div class="col2">
                                                         <div class="date"> 
                                                         <!-- convertir a moment() -->
-                                                            <?php 
+                                                        <?php 
                                                             $fecha = mysql_to_unix($n['created']);
                                                             $now = time();
                                                             $units = 2;
                                                             echo timespan($fecha, $now, $units) . ' ago';
                                                             //echo timespan($fecha, $now) . ' ago';
-                                                            ?> 
+                                                        ?> 
                                                         </div>
                                                     </div>
                                                 </li>

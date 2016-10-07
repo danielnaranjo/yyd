@@ -5,6 +5,7 @@
     {
         parent::__construct();
         $this->load->model('Property_model');//AQUI
+        $this->load->model('Client_model');//AQUI
     }
 
     public function index()
@@ -17,7 +18,7 @@
         //$data['news'] = $this->Administrator_model->get_news();
         //echo json_encode($data);
 
-        $data['title'] = 'Propiedades';
+        $data['titulo'] = 'Propiedades';
         $data['result'] = $this->Property_model->listar();
         $data['fields'] = $this->Property_model->columnas();
 
@@ -82,9 +83,10 @@
         // footer
         $this->load->view('templates/footer');
     }  
-
+/*
     public function people($id){
         $data['result'] = $this->Property_model->personas($id);
+        $data['fields'] = $this->Client_model->columnas();
         //seguridad
         $this->load->view('templates/secure');
         // header
@@ -100,6 +102,7 @@
     public function visitors($id){
         $data['visits'] = $this->Property_model->visitas($id);
         $data['result'] = $this->Property_model->ver($id);
+        $data['fields'] = $this->Client_model->columnas();
 
         //seguridad
         $this->load->view('templates/secure');
@@ -108,10 +111,11 @@
         // sidebar
         $this->load->view('templates/menu');
         // main
-        $this->load->view('pages/compradores', $data);
+        $this->load->view('tables/compradores', $data);
         // footer
         $this->load->view('templates/footer');
     }  
+*/
     /* FORMULARIOS */
     public function action($action = NULL, $id = NULL){
         //$data['model'] = "property";

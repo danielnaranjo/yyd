@@ -13,7 +13,7 @@
     {        
         //$data = $this->Client_model->listar();//AQUI
         //echo json_encode($data);
-        $data['title'] = 'Compradores';
+        $data['titulo'] = 'Compradores';
         $data['result'] = $this->Client_model->listar();
 
         //seguridad
@@ -38,7 +38,7 @@
         //$data['news'] = $this->Administrator_model->get_news();
         //echo json_encode($data);
 
-        $data['title'] = 'Compradores';
+        $data['titulo'] = 'Compradores';
         $data['result'] = $this->Client_model->completo();
         $data['fields'] = $this->Client_model->columnas();
 
@@ -64,7 +64,7 @@
         //$data['news'] = $this->Administrator_model->get_news();
         //echo json_encode($data);
 
-        $data['title'] = 'Compradores';
+        $data['titulo'] = 'Visitantes';
         $data['result'] = $this->Client_model->visitantes();
         $data['fields'] = $this->Client_model->columnas();
 
@@ -133,6 +133,32 @@
     public function delete($id){
         $this->Client_model->deletear($id);
          redirect('client/all', 'location', 302);
+    }
+
+    public function add(){
+        $data = array(
+            'firstname' => $this->input->post("firstname"),
+            'lastname' => $this->input->post("lastname"),
+            'registered' => $this->input->post("registered"),
+            'status' => 0
+        );
+        $data = $this->Client_model->registrar($data);
+        if(!$data){
+            redirect('client/all', 'location', 302);
+        } 
+    }
+
+    public function update(){
+        $id = $this->input->post("client_id");
+        $data = array(
+            'firstname' => $this->input->post("firstname"),
+            'lastname' => $this->input->post("lastname"),
+        );
+        $data = $this->Client_model->updatear($id, $data);
+        echo json_encode($id);
+        /*if(!$data){
+            redirect('client/all', 'location', 302);
+        } */
     }
 
 }

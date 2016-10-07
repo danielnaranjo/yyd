@@ -24,6 +24,7 @@
 
         switch ($this->session->userdata('level')) {
             case '0':
+                $data['title']="Dashboard General";
                 $data['manyfree'] = $this->Property_model->disponibles()->total;
                 $data['howmanysold'] = $this->Property_model->vendidas()->total;
                 $data['howmuch'] = number_format((float)$this->Property_model->dinero()->total/1000000, 2, '.', '');
@@ -40,6 +41,7 @@
                 $data['howmuch'] = number_format((float)$this->Property_model->dinero()->total/1000000, 2, '.', '');
                 $data['visitors'] = $this->Client_model->contar();
                 $data['property'] = $this->Property_model->portada();
+                $data['title']=$data['property'][0]['name'];
                 $this->load->view('pages/dashboard', $data);
             break;
 
@@ -69,7 +71,7 @@
         //$data['news'] = $this->Administrator_model->get_news();
         //echo json_encode($data);
 
-        $data['title'] = 'Administradores & Usuarios';
+        $data['titulo'] = 'Administradores & Usuarios';
         $data['result'] = $this->Administrator_model->listar();
         $data['fields'] = $this->Administrator_model->columnas();
 

@@ -21,7 +21,7 @@
     }
     public function all(){
         
-        $data['title'] = 'Formas de pago';
+        $data['titulo'] = 'Formas de pago';
         $data['result'] = $this->Bank_model->listar();
         $data['fields'] = $this->Bank_model->columnas();
         //$data['model'] = "bank";

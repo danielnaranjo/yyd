@@ -50,32 +50,16 @@
             $query = $this->db->field_data('client');
             return $query;
         }
-        public function insertar(){
-            $data = array(
-                'title' => $title,
-                'name' => $name,
-                'date' => $date
-            );
-            //$this->db->insert('client', $data);
-            //$data = array('name' => $name, 'email' => $email, 'url' => $url);
-            $str = $this->db->insert_string('client', $data);
-            // devuelve el ultimo id
-            return $this->db->insert_id();
+        public function registrar($data){
+            $query = $this->db->insert_string('client', $data);
+            return $query;
         }
-        public function updatear($id){
-            $data = array(
-                'title' => $title,
-                'name' => $name,
-                'date' => $date
-            );
+        public function updatear($id, $data){
             $this->db->where('client_id', $id);
             $this->db->update('client', $data);
         }
         public function deletear($id){
             $this->db->where('client_id', $id);
             $this->db->delete('client');
-
         }
-
-
 }

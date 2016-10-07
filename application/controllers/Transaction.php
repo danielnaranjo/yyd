@@ -5,6 +5,7 @@
     {
         parent::__construct();
         $this->load->model('Transaction_model');//AQUI
+        $this->load->model('Client_info_model');//AQUI
         //$this->load->library('session');
     }
 
@@ -43,6 +44,38 @@
         $this->load->view('templates/menu');
         // main
         $this->load->view('forms/pagina', $data);
+        // footer
+        $this->load->view('templates/footer');
+    }
+
+    public function countries($id = NULL) {
+        $data['result'] = $this->Transaction_model->paises($id);//AQUI
+        $data['titulo'] = 'Nacionalidades';
+
+        //seguridad
+        $this->load->view('templates/secure');
+        // header
+        $this->load->view('templates/header');
+        // sidebar
+        $this->load->view('templates/menu');
+        // main
+        $this->load->view('pages/reportes', $data);
+        // footer
+        $this->load->view('templates/footer');
+    }
+
+    public function unities($id = NULL) {
+        $data['result'] = $this->Transaction_model->unidades($id);//AQUI
+        $data['titulo'] = 'Unidades';
+
+        //seguridad
+        $this->load->view('templates/secure');
+        // header
+        $this->load->view('templates/header');
+        // sidebar
+        $this->load->view('templates/menu');
+        // main
+        $this->load->view('pages/unidades', $data);
         // footer
         $this->load->view('templates/footer');
     }

@@ -22,7 +22,7 @@ $nivel = $this->session->userdata('level');
             </li>
             
             <!-- administrador general -->
-            <?php if($nivel==0) { ?>
+            <?php if($nivel!=2) { ?>
             <li class="nav-item">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="fa fa-user"></i>
@@ -40,8 +40,14 @@ $nivel = $this->session->userdata('level');
                             <span class="title">Visitantes</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="<?php echo site_url() ?>/client/action/new" class="nav-link ">
+                            <span class="title">Nueva visita</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
+            <?php if($nivel==0) { ?>
             <li class="nav-item">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="fa fa-building"></i>
@@ -50,17 +56,18 @@ $nivel = $this->session->userdata('level');
                 </a>
                 <ul class="sub-menu">
                     <li class="nav-item">
-                        <a href="<?php echo site_url() ?>/property/action/new" class="nav-link ">
-                            <span class="title">Nueva</span>
+                        <a href="<?php echo site_url() ?>/property/all" class="nav-link ">
+                            <span class="title">Ver Proyectos</span>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo site_url() ?>/property/all" class="nav-link ">
-                            <span class="title">Ver todos</span>
+                        <a href="<?php echo site_url() ?>/property/action/new" class="nav-link ">
+                            <span class="title">Nuevo Proyecto</span>
                         </a>
                     </li>                          
                 </ul>
             </li>
+            <?php } ?>
             <li class="nav-item">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="fa fa-cog"></i>
@@ -76,7 +83,12 @@ $nivel = $this->session->userdata('level');
 
                     <li class="nav-item">
                         <a href="<?php echo site_url() ?>/administrator/all" class="nav-link ">
-                            <span class="title">Brokers & Usuarios</span>
+                            <span class="title">Ver Brokers y Usuarios</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?php echo site_url() ?>/administrator/action/new" class="nav-link ">
+                            <span class="title">Nuevo Usuario</span>
                         </a>
                     </li>
 
@@ -95,6 +107,17 @@ $nivel = $this->session->userdata('level');
                 </a>
                 <ul class="sub-menu">
                     <li class="nav-item">
+                        <a href="<?php echo site_url() ?>/transaction/countries" class="nav-link ">
+                            <span class="title">Nacionalidades</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="<?php echo site_url() ?>/transaction/unities" class="nav-link ">
+                            <span class="title">Unidades</span>
+                        </a>
+                    </li>
+                    <!--
+                    <li class="nav-item">
                         <a href="<?php echo site_url() ?>/reports/broker" class="nav-link ">
                             <span class="title">Brokers</span>
                         </a>
@@ -104,11 +127,7 @@ $nivel = $this->session->userdata('level');
                             <span class="title">Clientes</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="<?php echo site_url() ?>/reports/country" class="nav-link ">
-                            <span class="title">Nacionalidades</span>
-                        </a>
-                    </li>
+                    
                     <li class="nav-item">
                         <a href="<?php echo site_url() ?>/reports/payments" class="nav-link ">
                             <span class="title">Pagos</span>
@@ -124,6 +143,7 @@ $nivel = $this->session->userdata('level');
                             <span class="title">Ventas</span>
                         </a>
                     </li>
+                    -->
                 </ul>
             </li>
             <?php } ?>
@@ -137,15 +157,21 @@ $nivel = $this->session->userdata('level');
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?php echo site_url() ?>/property/people/1" class="nav-link">
+                <a href="<?php echo site_url() ?>/client/all" class="nav-link">
                     <i class="fa fa-user"></i>
                     <span class="title">Compradores</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="<?php echo site_url() ?>/property/visitors/1" class="nav-link">
+                <a href="<?php echo site_url() ?>/client/visitors" class="nav-link">
                     <i class="fa fa-suitcase"></i>
                     <span class="title">Visitantes</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="<?php echo site_url() ?>/client/action/new" class="nav-link ">
+                    <i class="fa fa-user-plus"></i>
+                    <span class="title">Nueva visita</span>
                 </a>
             </li>
             <?php } ?>

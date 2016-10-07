@@ -17,7 +17,7 @@
         </div>
         <!-- END PAGE BAR -->
         <!-- BEGIN PAGE TITLE-->
-        <h3 class="page-title"> Dashboard </h3>
+        <h3 class="page-title"> <? echo $title; ?> </h3>
         <!-- END PAGE TITLE-->
         <!-- END PAGE HEADER-->
         <!-- BEGIN DASHBOARD STATS 1-->
@@ -128,7 +128,7 @@
                     <div class="portlet-title">
                         <div class="caption">
                             <i class="icon-microphone font-dark hide"></i>
-                            <span class="caption-subject bold font-dark uppercase"> Proyectos disponibles</span>
+                            <span class="caption-subject bold font-dark uppercase"> Proyecto<?php if($this->session->userdata('level')==2) { ?>s disponibles<? } ?></span>
                         </div>
                     </div>
                     <div class="portlet-body">
@@ -149,6 +149,26 @@
                                     </div>
                                 </div>
                             </div>
+                            <?php if($this->session->userdata('level')==1) { ?>
+                            <div class="col-md-8" style="height: 390px">
+                                <h3><?php echo $p['name'] ?></h3>
+                                <p>
+                                   <?php echo $p['description'] ?> 
+                                </p>
+                                <ul>
+                                    <li><?php echo $p['address'] ?></li>
+                                    <li><?php echo $p['city'] ?></li>
+                                    <li><?php echo $p['province'] ?> <?php echo $p['country'] ?></li>
+                                    <li><?php echo $p['phone'] ?> </li>
+                                    <li><?php echo $p['email'] ?> </li>
+                                </ul>
+                                <p>
+                                    <a href="<?php echo site_url()?>/property/see/<?php echo $p['property_id'] ?>" class="btn btn-circle btn-danger btn-sm">
+                                        Ver proyecto completo
+                                    </a>
+                                </p>
+                            </div>
+                            <? } ?>
                         <? } ?>
                         </div>
                     </div>

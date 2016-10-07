@@ -2,15 +2,19 @@
 
 	// comienza el formulario
 	$model = $this->uri->segment(1);
-	$action = $this->uri->segment(2);
-	if($action=='new'){
-		$btn = "Agregar nuevo";
-	} else {
+	$action = $this->uri->segment(3);
+	$nivel = $this->session->userdata('level');
+
+	if($action=='edit'){
 		$btn = "Actualizar";
+		$ejecutar = "update/".$this->uri->segment(4);
+	} else {
+		$btn = "Agregar nuevo";
+		$ejecutar = "add";
 	}
 	
-	echo form_open($model.'/'.$action, ['class'=>"form-horizontal", 'role'=>"form"]);
-
+	echo form_open($model.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]);
+	//echo form_label($ejecutar.$this->uri->segment(3));
 	foreach ($fields as $field){
 		
 		// campo clave
@@ -32,12 +36,12 @@
 			}
 			// nombre/clase/etc
 			$atributes = array(
-			    'name'          => $field->name,
-			    'id'            => $field->name,
-			    'placeholder'   => $field->name,
-			    'maxlength'     => $field->max_length,
+			    'name'          => 	$field->name,
+			    'id'            => 	$field->name,
+			    'placeholder'   => 	$field->name,
+			    'maxlength'     => 	$field->max_length,
 			    'class'			=>	'form-control',
-			    'autocomplete'	=> 'off' 
+			    'autocomplete'	=> 	'off' 
 			);
 
 			/*
@@ -76,8 +80,10 @@
 					echo form_textarea($atributes);
 					break;
 				case 'char':
+					$selected="";
 					if($field->name=="level") {
-						if($this->session->userdata('level')==2){
+						if($nivel==2){
+							$selected = 2;
 							$atributes['disabled'] = 'disabled';
 						}
 						$options = array( '0' => 'Administrador', '1' => 'Gerente de Proyecto', '2' => 'Broker' );
@@ -92,7 +98,12 @@
 					} else {
 						$options = array( '-1' => 'SELECCIONA' );
 					}
-					echo form_dropdown($atributes, $options);
+					
+					if($nivel==1) {
+						$selected = 1;
+						unset($options[0]);
+					}
+					echo form_dropdown($atributes, $options, $selected);
 					break;
 				case 'varchar':
 					//echo form_input($field->name)."<br>";

@@ -1,11 +1,17 @@
 <?
 /* variables */
-$title ="";
+
 // comienza el formulario
 $model = $this->uri->segment(1);
 $action = $this->uri->segment(2);
 // niveles de usuario
 $nivel = $this->session->userdata('level');
+
+if($titulo==''){
+    $title=$model;
+} else {
+    $title=$titulo;
+}
 
 ?>
 <!-- BEGIN CONTENT -->
@@ -21,13 +27,13 @@ $nivel = $this->session->userdata('level');
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
-                    <span style="text-transform: capitalize;"><?php echo $model ?></span>
+                    <span style="text-transform: capitalize;"><?php echo $title ?></span>
                 </li>
             </ul>
         </div>
         <!-- END PAGE BAR -->
         <!-- BEGIN PAGE TITLE-->
-        <h3 class="page-title" style="text-transform: capitalize;"> <?php echo $model ?></h3>
+        <h3 class="page-title" style="text-transform: capitalize;"> <?php echo $title ?></h3>
         <!-- END PAGE TITLE-->
         <!-- END PAGE HEADER-->
         <div class="row">
@@ -48,8 +54,8 @@ $nivel = $this->session->userdata('level');
                                 </div>
                             </div>
                         </div>
-                        <?php echo json_encode($fields) ?>
-                        <?php echo json_encode($result) ?>
+                        <?php //echo json_encode($fields) ?>
+                        <?php //echo json_encode($result) ?>
                         <table class="table table-striped table-hover table-bordered" id="sample_1">
                             <thead>
                                 <tr>
@@ -57,7 +63,7 @@ $nivel = $this->session->userdata('level');
                                         <?php 
                                             if (!preg_match("/_id/i", $field->name) 
                                                 && !preg_match("/status/i", $field->name)  
-                                                && !preg_match("/level/i", $field->name) 
+                                                //&& !preg_match("/level/i", $field->name) 
                                                 && !preg_match("/password/i", $field->name)
                                                 && !preg_match("/description/i", $field->name)
                                                 && !preg_match("/notes/i", $field->name)
@@ -84,7 +90,7 @@ $nivel = $this->session->userdata('level');
                                         <?php 
                                             if (!preg_match("/_id/i", $f->name) 
                                                 && !preg_match("/status/i", $f->name)  
-                                                && !preg_match("/level/i", $f->name)  
+                                                //&& !preg_match("/level/i", $f->name)  
                                                 && !preg_match("/password/i", $f->name)
                                                 && !preg_match("/description/i", $f->name)
                                                 && !preg_match("/notes/i", $f->name)
@@ -92,7 +98,30 @@ $nivel = $this->session->userdata('level');
                                                 && !preg_match("/email/i", $f->name)
                                             ) {  // campos con "_id" ?>
                                             <td id="<?php echo $f->name ?>">
-                                                <?php echo $r[$f->name]; ?>
+                                                <?php 
+                                                    //echo $r[$f->name]; 
+                                                    if (preg_match("/registered/i", $f->name) ) {
+                                                        
+                                                        $fecha = mysql_to_unix($r[$f->name]);
+                                                        $now = time();
+                                                        $units = 2;
+                                                        echo timespan($fecha, $now, $units) . ' ago';
+
+                                                    } else if (preg_match("/level/i", $f->name) ) {
+
+                                                        if ($r['level']==0) {
+                                                            echo 'Administrador';
+                                                        } else if ($r['level']==1) {
+                                                            echo 'Gerente de Proyecto';
+                                                        } else { 
+                                                            echo "Broker"; 
+                                                        }
+
+                                                    } else {
+                                                        echo $r[$f->name];
+                                                    }
+  
+                                                ?>
                                             </td>
                                         <? } ?>
                                     <? } ?>

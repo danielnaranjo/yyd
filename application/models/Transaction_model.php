@@ -22,4 +22,31 @@
             $query = $this->db->field_data('transaction');
             return $query;
         }
+
+        public function paises($id = FALSE) {
+            if ($id === FALSE){
+                //$query = $this->db->like('country', $id);               
+                //$query = $this->db->get('client_info');
+                $query = $this->db->query("SELECT COUNT(*) AS total, country FROM client_info GROUP BY country ORDER BY total DESC");
+                return $query->result_array();
+            }
+
+            //$query = $this->db->group_by(array("country"));
+            //$query = $this->db->select('country')->get("client_info");
+            $query = $this->db->query("SELECT COUNT(*) AS total, country FROM client_info WHERE country LIKE '%$id%'  GROUP BY country ORDER BY total DESC");   
+            return $query->result_array();
+        }
+        public function unidades($id = FALSE) {
+            /*
+            pendiente anidar unidades->cliente->client_info
+            WHERE property_id='.$id.'
+            */
+            if ($id === FALSE){
+                $query = $this->db->query("SELECT COUNT(*) AS total, type FROM property_unity GROUP BY type");
+                return $query->result_array();
+            }
+
+            $query = $this->db->query("SELECT COUNT(*) AS total, type FROM property_unity  GROUP BY type");   
+            return $query->result_array();
+        }
 }

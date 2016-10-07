@@ -23,7 +23,7 @@
         //$data['news'] = $this->Administrator_model->get_news();
         //echo json_encode($data);
 
-        $data['title'] = 'Brokers';
+        $data['titulo'] = 'Brokers';
         $data['result'] = $this->Broker_model->listar();
         $data['fields'] = $this->Broker_model->columnas();
 
