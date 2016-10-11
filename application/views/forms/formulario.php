@@ -172,6 +172,5 @@ function makeaform($fields, $model, $nivel, $action, $btn) {
 	// cerrar formulario
 	//echo form_close();
 	//echo json_encode($fields);// test purpose
-
 }
 ?>

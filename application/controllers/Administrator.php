@@ -42,15 +42,27 @@
                 $data['visitors'] = $this->Client_model->contar();
                 $data['property'] = $this->Property_model->portada();
                 $data['title']=$data['property'][0]['name'];
+
+                $id = $this->session->userdata('property_id');
+                $data['result'] = $this->Property_model->ver($id);
+                // added to session
+                $this->session->set_userdata('property_id', $data['result']['property_id']);
+                $this->session->set_userdata('project', $data['result']['name']);
+                // vista!
                 $this->load->view('pages/dashboard', $data);
             break;
 
             case '2':
-                $id = 1;
+                $id = $this->session->userdata('property_id');
+                
                 $data['result'] = $this->Property_model->ver($id);
                 $data['features'] = $this->Property_model->caracteristicas($id);
                 $data['photos'] = $this->Property_model->fotos($id);
                 $data['free'] = $this->Property_model->departamentosdisponibles($id);
+                // added to session
+                $this->session->set_userdata('property_id', $data['result']['property_id']);
+                $this->session->set_userdata('project', $data['result']['name']);
+                // vista!
                 $this->load->view('pages/propiedad', $data);
             break;
             

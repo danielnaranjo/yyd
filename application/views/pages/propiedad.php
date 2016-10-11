@@ -23,7 +23,7 @@
         <!-- END PAGE BAR -->
         <!-- BEGIN PAGE TITLE-->
         <h3 class="page-title">
-            <?php echo $result['name']?>
+            <?php echo $result['name']?> 
 
             <?php if($this->session->userdata('level')!=2) { ?>
             <div class="actions pull-right">
@@ -76,14 +76,6 @@
                 <div class="col-lg-3">
                     <div class="blog-single-sidebar bordered blog-container">
                         <div class="blog-single-sidebar-recent">
-                            <?php /*if($free>0) { ?>
-                            <h3 class="blog-sidebar-title uppercase">Unidades</h3>
-                            <ul>
-                                <li>
-                                    <a href="#">Disponibles: <?php echo $free?></a>
-                                </li>
-                            </ul>
-                            <? }*/ ?>
                             <h3 class="blog-sidebar-title uppercase">Ubicación</h3>
                             <ul>
                                 <li>

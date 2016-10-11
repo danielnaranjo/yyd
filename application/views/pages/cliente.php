@@ -62,6 +62,12 @@
                                 <div class="uppercase profile-stat-text"> Parking </div>
                             </div>
                         </div>
+                        <? } else {?>
+                        <div>
+                            <div class="margin-top-20 margin-bottom-30 profile-desc-text">
+                                <a href="#" class="btn btn-default btn-block">Agregar unidad</a>
+                            </div>
+                        </div>
                         <? } ?>
                         <!-- END STAT -->
                         <? if(count($info)>0) { ?>
@@ -96,8 +102,8 @@
                                         <span class="caption-subject font-blue-madison bold uppercase">Transacciones</span>
                                     </div>
                                 </div>
-                                <div class="portlet-body">
-                                    <? if(count($total)>0) { ?>
+                                <div class="portlet-body"><?php echo $total[0]['total'] ?>
+                                    <? if($total[0]['total']>0) { ?>
                                     <div class="row number-stats margin-bottom-30">
                                         <div class="col-md-6 col-sm-6 col-xs-6">
                                             <div class="stat-left">
@@ -170,7 +176,7 @@
                                     <div class="tab-content">
                                         <div class="scroller" style="height: 320px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
                                             <ul class="feeds">
-                                                <?php if($notes>0) { ?>
+                                            <?php if(count($notes)>0) { ?>
                                                 <?php foreach ($notes as $n) { // columnas ?>
                                                 <li>
                                                     <div class="col1">
@@ -199,9 +205,9 @@
                                                     </div>
                                                 </li>
                                                 <? } ?>
-                                                <? } else { ?>
+                                            <? } else { ?>
                                                 <li>No hay notas disponibles</li>
-                                                <? } ?>
+                                            <? } ?>
                                             </ul>
                                         </div>
                                     </div>
@@ -234,7 +240,16 @@
                                                 <div class="timeline-body-head">
                                                     <div class="timeline-body-head-caption">
                                                         <span class="timeline-body-alerttitle font-green-haze"><?php echo $v['name'] ?></span>
-                                                        <span class="timeline-body-time font-grey-cascade"><?php echo $v['timestamp'] ?></span>
+                                                        <span class="timeline-body-time font-grey-cascade">
+                                                            <?php 
+                                                                //echo $v['timestamp'];
+                                                                $fecha = mysql_to_unix($v['timestamp']);
+                                                                $now = time();
+                                                                $units = 2;
+                                                                echo timespan($fecha, $now, $units) . ' ago';
+                                                            ?>
+                                                            
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div class="timeline-body-content">

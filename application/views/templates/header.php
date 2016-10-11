@@ -1,4 +1,7 @@
 <?php
+if ($this->session->userdata('logged_in') == FALSE) {
+    redirect(site_url().'?msg=Por+favor+verifica+los+datos+de+acceso', 'refresh');
+}
 /* variables */
 $nivel = $this->session->userdata('level');
 $options = array( '0' => 'Administrador', '1' => 'Manager', '2' => 'Broker' );
@@ -100,6 +103,13 @@ $titulo=$options[$nivel];
                                         <i class="icon-lock"></i> Perfil: <?php echo $titulo ?>
                                     </a>
                                 </li>
+                                <?php if($this->session->userdata('project')!='') { ?>
+                                <li style="overflow: hidden;">
+                                    <a href="javascript:;">
+                                        <i class="fa fa-building"></i> <?php echo $this->session->userdata('project') ?>
+                                    </a>
+                                </li>
+                                <? } ?>
                                 <li>
                                     <a href="<?php echo site_url() ?>/administrator/action/edit/<?php echo $this->session->userdata('aID') ?>">
                                         <i class="fa fa-pencil"></i> Editar Perfil 

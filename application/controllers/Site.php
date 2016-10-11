@@ -6,9 +6,8 @@ class Site extends CI_Controller {
 	public function __construct()
     {
         parent::__construct();
-        //$this->load->library('session');
-		//$this->load->library('form_validation');
         $this->load->model('Administrator_model');
+        $this->load->model('Property_model');
         $this->load->library('email');
     }
 
@@ -26,11 +25,16 @@ class Site extends CI_Controller {
 			'firstname'  => '',
 			'email'     => '',
 			'level'     => '',
+            'property_id'   => '',
+            'property'  => '',
+            'project'  => '',
 			'logged_in' => FALSE
         );
         $this->session->unset_userdata('logged_in', $sess_array);
         $data['success'] = 'Has salido correctamente!';
-        $this->load->view('site/login', $data);
+        $this->output->delete_cache();
+        $this->session->sess_destroy();
+        //$this->load->view('site/login', $data);
         redirect(site_url(), 'location');
     }
 
@@ -40,6 +44,9 @@ class Site extends CI_Controller {
         $data = $this->Administrator_model->logeo($password, $login);
 
         if($data!=null){
+
+            $data['session'] = $this->Property_model->ver($id);
+
         	$newdata = array(
 	           'aID'  => $data['administrator_id'],
 	           'username'  => $data['email'],
@@ -47,18 +54,12 @@ class Site extends CI_Controller {
 	           'lastname'  => $data['lastname'],
 	           'email'     => $data['email'],
 	           'level'     => $data['level'],
+               'property_id'   => $data['session']['property_id'],
+               'property'  => $data['session']['name'],
+               'project'  => $data['session']['name'],
 	           'logged_in' => TRUE
 	        );
 			$this->session->set_userdata($newdata);
-/*
-            if($this->session->userdata('level')==1){ // nivel -> broker
-        	   redirect('administrator/broker', 'location', 302);
-            } else if($this->session->userdata('level')==2){ // nivel -> gerente de proyecto
-               redirect('administrator/manager', 'location', 302);
-            } else { // nivel -> administrador aka Donald Trump
-                redirect('administrator/', 'location', 302);
-            }
-*/
             redirect('administrator/', 'location', 302);
        	 	//echo json_encode($data);
 

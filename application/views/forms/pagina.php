@@ -57,7 +57,7 @@ $nivel = $this->session->userdata('level');
                                 <?php echo form_close();?>
                             </div>
                         </div>
-                        <?php if($model=='client') { ?>
+                        <?php if($model=='client' && $action=='edit') { ?>
                         <div class="col-md-6">
                             <div class="portlet-body form">
                                 <?php echo form_open($model.'_info'.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]); ?>

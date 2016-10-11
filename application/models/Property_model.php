@@ -32,7 +32,11 @@
             return $query->row();
         }
 
-        public function ver($id) {
+        public function ver($id = FALSE) {
+            if($this->session->userdata('level')!=0) {
+                $query = $this->db->query("SELECT property.* FROM property_broker LEFT JOIN administrator on property_broker.broker_id=administrator.administrator_id LEFT JOIN property ON property.property_id = property_broker.property_id WHERE property_broker.broker_id=".$this->session->userdata('aID'));
+                return $query->row_array();
+            } 
             $query = $this->db->get_where('property', array('property_id' => $id));//AQUI
             return $query->row_array();
         }
@@ -54,7 +58,7 @@
             return $query->result_array();
         }
         public function departamentosdisponibles($id) {
-            $query = $this->db->query('SELECT property_unity.*, property.name FROM property_unity LEFT JOIN property ON property.property_id=property_unity.property_id WHERE property.property_id='.$id.' AND property_unity.status=0');//AQUI
+            $query = $this->db->query('SELECT property_unity.*, property.name FROM property_unity LEFT JOIN property ON property.property_id=property_unity.property_id WHERE property_unity.status=0 AND property.property_id=1');//AQUI.$id
             return $query->num_rows();
         }
         public function personas($id) {

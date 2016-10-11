@@ -135,7 +135,7 @@ $nivel = $this->session->userdata('level');
 
             <?php  if($nivel==2) { ?>
             <li class="nav-item">
-                <a href="<?php echo site_url() ?>/property/unities/1" class="nav-link">
+                <a href="<?php echo site_url() ?>/property/unities/<?php echo $this->session->userdata('property_id') ?>" class="nav-link">
                     <i class="fa fa-building-o"></i>
                     <span class="title">Unidades disponibles</span>
                 </a>

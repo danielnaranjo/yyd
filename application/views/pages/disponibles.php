@@ -16,7 +16,7 @@
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
-                    <a href="<?php echo site_url() ?>/property/see/<?php echo $result[0]['property_id']?>"><?php echo $result[0]['name']?></a>
+                    <a href="<?php echo site_url() ?>/property/see/<?php echo @$result[0]['property_id']?>"><?php echo @$result[0]['name']?></a>
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
@@ -26,13 +26,14 @@
         </div>
         <!-- END PAGE BAR -->
         <!-- BEGIN PAGE TITLE-->
-        <h3 class="page-title"><?php echo $result[0]['name']?></h3>
+        <h3 class="page-title"><?php echo @$result[0]['name']?></h3>
         <!-- END PAGE TITLE-->
 
         <!-- END PAGE HEADER-->
+        <?php if(count($result)>0) { ?>
         <div class="portfolio-content portfolio-1">
             <div id="js-filters-juicy-projects" class="cbp-l-filters-button">
-                <div data-filter="*" class="cbp-filter-item-active cbp-filter-item btn dark btn-outline uppercase"> All
+                <div data-filter="*" class="cbp-filter-item-active cbp-filter-item btn dark btn-outline uppercase"> Todas
                     <div class="cbp-filter-counter"></div>
                 </div>
                 <?php foreach($types as $t) { ?>
@@ -69,6 +70,9 @@
                 </p>
             </div>
         </div>
+        <? } else { ?>
+            <p>No hay unidades disponibles</p>
+        <? } ?>
     </div>
     <!-- END CONTENT BODY -->
 </div>

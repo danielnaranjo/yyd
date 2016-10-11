@@ -6,7 +6,6 @@
         parent::__construct();
         $this->load->model('Client_model');//AQUI
         $this->load->model('Client_info_model');//AQUI
-        //$this->load->library('session');
     }
 
     public function index()
@@ -17,7 +16,7 @@
         $data['result'] = $this->Client_model->listar();
 
         //seguridad
-//      $this->load->view('templates/secure');
+        $this->load->view('templates/secure');
         
         // header
         $this->load->view('templates/header');
@@ -35,15 +34,13 @@
     }
 
     public function all(){
-        //$data['news'] = $this->Administrator_model->get_news();
-        //echo json_encode($data);
 
         $data['titulo'] = 'Compradores';
         $data['result'] = $this->Client_model->completo();
         $data['fields'] = $this->Client_model->columnas();
 
         //seguridad
-//      $this->load->view('templates/secure');
+        $this->load->view('templates/secure');
 
         // header
         $this->load->view('templates/header');
@@ -61,15 +58,13 @@
     }
 
     public function visitors(){
-        //$data['news'] = $this->Administrator_model->get_news();
-        //echo json_encode($data);
 
         $data['titulo'] = 'Visitantes';
         $data['result'] = $this->Client_model->visitantes();
         $data['fields'] = $this->Client_model->columnas();
 
         //seguridad
-//      $this->load->view('templates/secure');
+        $this->load->view('templates/secure');
 
         // header
         $this->load->view('templates/header');
@@ -109,7 +104,7 @@
         $data['fieldsmore'] = $this->Client_info_model->columnas();
         //$this->load->view('forms/general', $data);// test purpose
         
-        if($action){
+        if($action=='edit'){
             //$data['action']="edit";// acction
             //$data['btn']="Editar registro";// Texto boton
             $data['result'] = $this->Client_model->listar($id);
@@ -160,6 +155,15 @@
         );
         $this->Client_model->updatear($id, $data);
         redirect('client/all', 'location');
+    }
+
+    public function visited(){
+        $data = array(
+            'client_id' => $this->input->post("client_id"),
+            'property_id' => $this->input->post("property_id"),
+        );
+        $result = $this->Client_info_model->marcarvisita($data);
+        echo json_encode($data);
     }
 
 }

@@ -133,27 +133,38 @@ if($titulo==''){
                                         ver compradores
                                         -->
                                         <?php if($model=="client") { ?>
+                                        <i class="fa fa-eye"></i> 
                                         <a class="view" href="<? echo site_url() ?>/<?php echo $model ?>/profile/<? echo $r[$model.'_id']?>">
-                                            <i class="fa fa-eye"></i> Ver perfil
+                                            Ver perfil
                                         </a>
+
+                                        <?php if($nivel!=0) { ?>
+                                        <i class="fa fa-calendar-check-o" aria-hidden="true"></i> 
+                                        <a class="view" href="javascript:;" onclick="javascript:visit(<? echo $r[$model.'_id']?>,1)">
+                                            Visita
+                                        </a>
+                                        <? } ?>
                                         <? } ?>
 
                                         <?php if($model=="property") { ?>
+                                        <i class="fa fa-eye"></i> 
                                         <a class="view" href="<? echo site_url()?>/<?php echo $model ?>/see/<? echo $r[$model.'_id']?>">
-                                            <i class="fa fa-eye"></i> Ver proyecto
+                                            Ver proyecto
                                         </a>
                                         <? } ?>
 
 
                                         <?php if($nivel!=2) { ?>
+                                        <i class="fa fa-pencil"></i> 
                                         <a class="edit" href="<? echo site_url()?>/<?php echo $model ?>/action/edit/<? echo $r[$model.'_id']?>">
-                                            <i class="fa fa-pencil"></i> Editar
+                                            Editar
                                         </a>
                                         <? } ?>
                                         
                                         <?php if($nivel==0) { ?>
+                                        <i class="fa fa-trash"></i> 
                                         <a class="delete" href="javascript:;" onclick="javascript:check(<? echo $r[$model.'_id']?>);">
-                                           <i class="fa fa-trash"></i> Borrar
+                                           Borrar
                                         </a>
                                         <? } ?>
                                     </td>
@@ -180,5 +191,15 @@ function check(id){
     } else {
         return false;
     }
+}
+function visit(c,p){
+    $.ajax({
+        url: "<? echo site_url() ?>/<?php echo $model ?>/visited",
+        method: "POST",
+        data: { client_id: c, property_id: p }
+    }).done(function(data) {
+        console.log('data', data);
+        toastr.success('Visita registrada!');
+    });
 }
 </script>

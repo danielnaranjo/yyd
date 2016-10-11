@@ -18,4 +18,23 @@
     {
         $data = $this->Client_info_model->listar($slug);//AQUI
     }
+
+    public function delete($id){
+        $this->Client_info_model->deletear($id);
+        redirect('client/all', 'location', 302);
+    }
+
+    public function update(){
+        $id = $this->input->post("client_info_id");
+        $data = array(
+            'email' => $this->input->post("email"),
+            'address' => $this->input->post("address"),
+            'city' => $this->input->post("city"),
+            'country' => $this->input->post("country"),
+            'phone' => $this->input->post("phone"),
+        );
+        $this->Client_info_model->updatear($id, $data);
+        redirect('client/all', 'location');
+    }
+
 }

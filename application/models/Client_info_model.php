@@ -56,7 +56,16 @@
         }
 
         public function populateforms($id){
-            $query = $this->db->query("SELECT client_info.* FROM client_data LEFT JOIN client ON client.client_id=client_data.client_id LEFT JOIN client_info ON client_info.client_info_id=client_data.client_id WHERE client_data.client_id=$id");
+            $query = $this->db->query("SELECT client_info.*, client.client_id FROM client_data LEFT JOIN client ON client.client_id=client_data.client_id LEFT JOIN client_info ON client_info.client_info_id=client_data.client_id WHERE client_data.client_id=$id");
             return $query->row_array();
+        }
+
+        public function updatear($id, $data){
+            $this->db->where('client_info_id', $id);
+            $this->db->update('client_info', $data);
+        }
+        public function marcarvisita($data){
+            $query = $this->db->insert('client_visits', $data);
+            return $query;
         }
 }
