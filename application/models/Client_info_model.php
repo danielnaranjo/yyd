@@ -54,4 +54,9 @@
             //$query = $this->db->order_by('created', 'DESC');//AQUI
             return $query->result_array();
         }
+
+        public function populateforms($id){
+            $query = $this->db->query("SELECT client_info.* FROM client_data LEFT JOIN client ON client.client_id=client_data.client_id LEFT JOIN client_info ON client_info.client_info_id=client_data.client_id WHERE client_data.client_id=$id");
+            return $query->row_array();
+        }
 }

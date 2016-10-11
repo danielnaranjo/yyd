@@ -106,17 +106,20 @@
     public function action($action = NULL, $id = NULL){
         //$data['model'] = "client";
         $data['fields'] = $this->Client_model->columnas();
+        $data['fieldsmore'] = $this->Client_info_model->columnas();
         //$this->load->view('forms/general', $data);// test purpose
         
         if($action){
             //$data['action']="edit";// acction
             //$data['btn']="Editar registro";// Texto boton
             $data['result'] = $this->Client_model->listar($id);
+            $data['resultmore'] = $this->Client_info_model->populateforms($id);
 
         } else {
             //$data['action']="new";// acction
             //$data['btn']="Agregar nuevo";// Texto boton
             $data['result'] = "";
+            $data['resultmore'] = "";
         }
         
         //seguridad
@@ -139,13 +142,14 @@
         $data = array(
             'firstname' => $this->input->post("firstname"),
             'lastname' => $this->input->post("lastname"),
-            'registered' => $this->input->post("registered"),
+            //'registered' => $this->input->post("registered"),
             'status' => 0
         );
         $data = $this->Client_model->registrar($data);
-        if(!$data){
-            redirect('client/all', 'location', 302);
-        } 
+        //echo json_encode($data);
+        if($data){
+            redirect('client/all', 'location');
+        }
     }
 
     public function update(){
@@ -154,11 +158,8 @@
             'firstname' => $this->input->post("firstname"),
             'lastname' => $this->input->post("lastname"),
         );
-        $data = $this->Client_model->updatear($id, $data);
-        echo json_encode($id);
-        /*if(!$data){
-            redirect('client/all', 'location', 302);
-        } */
+        $this->Client_model->updatear($id, $data);
+        redirect('client/all', 'location');
     }
 
 }

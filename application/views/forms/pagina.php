@@ -3,8 +3,16 @@
 $title ="";
 // comienza el formulario
 $model = $this->uri->segment(1);
-$action = $this->uri->segment(2);
+$action = $this->uri->segment(3);
 $nivel = $this->session->userdata('level');
+
+    if($action=='edit'){
+        $btn = "Actualizar";
+        $ejecutar ="update"; //"update/".$this->uri->segment(4);
+    } else {
+        $btn = "Agregar nuevo";
+        $ejecutar = "add";
+    }
 ?>
 <div class="page-content-wrapper">
     <!-- BEGIN CONTENT BODY -->
@@ -43,13 +51,43 @@ $nivel = $this->session->userdata('level');
                     <div class="row">
                         <div class="col-md-6">
                             <div class="portlet-body form">
-                                <?php require_once('formulario.php');// campos ?>
-                                <?// echo json_encode($result)?>
+                                <?php echo form_open($model.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]); ?>
+                                    <?php require_once('formulario.php');// campos ?>
+                                    <?php makeaform($fields, $model, $nivel, $action, $btn) ?>
+                                <?php echo form_close();?>
                             </div>
                         </div>
+                        <?php if($model=='client') { ?>
+                        <div class="col-md-6">
+                            <div class="portlet-body form">
+                                <?php echo form_open($model.'_info'.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]); ?>
+                                    <?php //require_once('formulario.php');// campos ?>
+                                    <?php makeaform($fieldsmore, $model.'_info', $nivel, $action, $btn) ?>
+                                <?php echo form_close();?>
+                            </div>
+                        </div>
+                        <script>
+                            var datamore = <? echo json_encode($resultmore) ?>;
+                            setTimeout(function(){
+                                console.log('custom', datamore);
+                                $.each(datamore, function (index, value) {
+                                    $('#'+index).val(value);
+                                    })
+                                }, 300);
+                        </script>
+                        <? } ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+var data = <? echo json_encode($result) ?>;
+setTimeout(function(){
+    console.log('fire', data);
+    $.each(data, function (index, value) {
+        $('#'+index).val(value);
+        })
+    }, 300);
+</script>

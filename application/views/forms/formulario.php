@@ -1,5 +1,5 @@
 <?php 
-
+/*
 	// comienza el formulario
 	$model = $this->uri->segment(1);
 	$action = $this->uri->segment(3);
@@ -7,19 +7,26 @@
 
 	if($action=='edit'){
 		$btn = "Actualizar";
-		$ejecutar = "update/".$this->uri->segment(4);
+		$ejecutar ="update"; //"update/".$this->uri->segment(4);
 	} else {
 		$btn = "Agregar nuevo";
 		$ejecutar = "add";
 	}
-	
-	echo form_open($model.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]);
+*/	
+	//echo form_open($model.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]);
 	//echo form_label($ejecutar.$this->uri->segment(3));
+function makeaform($fields, $model, $nivel, $action, $btn) {
+	//$fields = $campos;
 	foreach ($fields as $field){
 		
 		// campo clave
 		if($field->name==$model."_id") { 
-			echo form_hidden($field->name);
+			$atribute = array(
+			    'type'          => 	'hidden',
+			    'name'          => 	$field->name,
+			    'id'            => 	$field->name 
+			);
+			echo form_input($atribute);
 		} else {
 
 			// begin boostrap
@@ -88,7 +95,7 @@
 						}
 						$options = array( '0' => 'Administrador', '1' => 'Gerente de Proyecto', '2' => 'Broker' );
 					} else if($field->name=="status") {
-						if($this->session->userdata('level')==2){
+						if($nivel==2){
 							$atributes['disabled'] = 'disabled';
 						}
 						if($action=='new'){
@@ -108,7 +115,7 @@
 				case 'varchar':
 					//echo form_input($field->name)."<br>";
 					if($field->name=="password") {
-						if($this->session->userdata('level')==2){
+						if($nivel==2){
 							$atributes['disabled'] = 'disabled';
 						}
 						echo form_password($atributes);
@@ -118,7 +125,7 @@
 						echo '<span id="helpBlock" class="help-block">Nota: Formatos soportados JPG, PNG, GIF</span>';
 					} else {
 						if($field->name=="email") {
-							if($this->session->userdata('level')==2){
+							if($nivel==2){
 								$atributes['disabled'] = 'disabled';
 							}
 						}
@@ -128,7 +135,7 @@
 				case 'timestamp':
 					$datestring = '%Y-%m-%d %h:%i:%s';
 					$time = time();
-					if($this->session->userdata('level')==2){
+					if($nivel==2){
 						$atributes['disabled'] = 'disabled';
 					}
 					if($action=='new'){
@@ -163,7 +170,8 @@
 	echo '</div>';
 	
 	// cerrar formulario
-	echo form_close();
+	//echo form_close();
 	//echo json_encode($fields);// test purpose
+
+}
 ?>
-<script>var data = <? echo json_encode($result) ?>;setTimeout(function(){console.log('fire', data);$.each(data, function (index, value) {$('#'+index).val(value);})}, 300);</script>
