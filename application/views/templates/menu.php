@@ -40,11 +40,6 @@ $nivel = $this->session->userdata('level');
                             <span class="title">Visitantes</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="<?php echo site_url() ?>/client/action/new" class="nav-link ">
-                            <span class="title">Nueva visita</span>
-                        </a>
-                    </li>
                 </ul>
             </li>
             <?php if($nivel==0) { ?>
@@ -59,12 +54,7 @@ $nivel = $this->session->userdata('level');
                         <a href="<?php echo site_url() ?>/property/all" class="nav-link ">
                             <span class="title">Ver Proyectos</span>
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="<?php echo site_url() ?>/property/action/new" class="nav-link ">
-                            <span class="title">Nuevo Proyecto</span>
-                        </a>
-                    </li>                          
+                    </li>                     
                 </ul>
             </li>
             <?php } ?>
@@ -86,12 +76,6 @@ $nivel = $this->session->userdata('level');
                             <span class="title">Ver Brokers y Usuarios</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="<?php echo site_url() ?>/administrator/action/new" class="nav-link ">
-                            <span class="title">Nuevo Usuario</span>
-                        </a>
-                    </li>
-
                 </ul>
             </li>
             <?php } ?>
@@ -166,12 +150,6 @@ $nivel = $this->session->userdata('level');
                 <a href="<?php echo site_url() ?>/client/visitors" class="nav-link">
                     <i class="fa fa-suitcase"></i>
                     <span class="title">Visitantes</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="<?php echo site_url() ?>/client/action/new" class="nav-link ">
-                    <i class="fa fa-user-plus"></i>
-                    <span class="title">Nueva visita</span>
                 </a>
             </li>
             <?php } ?>

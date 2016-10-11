@@ -51,7 +51,7 @@
             return $query;
         }
         public function registrar($data){
-            $query = $this->db->insert_string('client', $data);
+            $query = $this->db->insert('client', $data);
             return $query;
         }
         public function updatear($id, $data){
