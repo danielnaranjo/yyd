@@ -73,7 +73,7 @@
             if($id) {
                 $quien = "WHERE property_broker.property_id=".$id;
             }
-            $query = $this->db->query("SELECT property.*, property_photo.photo, property_broker.broker_id FROM property LEFT JOIN property_photo on property.property_id=property_photo.property_id LEFT JOIN property_broker ON property_broker.property_id=property.property_id ".$quien." GROUP BY property_photo.property_id LIMIT 3");
+            $query = $this->db->query("SELECT property.*, property_photo.file, property_broker.broker_id FROM property LEFT JOIN property_photo on property.property_id=property_photo.property_id LEFT JOIN property_broker ON property_broker.property_id=property.property_id ".$quien." GROUP BY property_photo.property_id LIMIT 3");
             return $query->result_array();
         }
         public function visitas($id) {
@@ -86,7 +86,7 @@
         }
 
         public function solo() {
-            $query = $this->db->query("SELECT property.property_id, property.name, property.city, property.country, property_photo.photo, administrator.firstname FROM property LEFT JOIN property_photo on property.property_id=property_photo.property_id LEFT JOIN property_broker ON property.property_id=property_broker.property_id LEFT JOIN administrator ON administrator.administrator_id=property_broker.broker_id  WHERE administrator.administrator_id=".$this->session->userdata('aID') ." GROUP BY property_photo.property_id ");
+            $query = $this->db->query("SELECT property.property_id, property.name, property.city, property.country, property_photo.file, administrator.firstname FROM property LEFT JOIN property_photo on property.property_id=property_photo.property_id LEFT JOIN property_broker ON property.property_id=property_broker.property_id LEFT JOIN administrator ON administrator.administrator_id=property_broker.broker_id  WHERE administrator.administrator_id=".$this->session->userdata('aID') ." GROUP BY property_photo.property_id ");
             return $query->result_array();
         }
         public function registrar($data){
