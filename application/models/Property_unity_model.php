@@ -24,4 +24,20 @@
             $query = $this->db->field_data('property_unity');
             return $query;
         }
+        public function registrar($data){
+            $query = $this->db->insert('property_unity', $data);
+            return $query;
+        }
+        public function updatear($id, $data){
+            $this->db->where('property_unity_id', $id);
+            $this->db->update('property_unity', $data);
+        }
+        public function deletear($id){
+            $this->db->where('property_unity_id', $id);
+            $this->db->delete('property_unity');
+        }
+        public function lista($id){
+            $query = $this->db->get_where('property_unity', array('property_id' => $id));//AQUI
+            return $query->result_array();
+        }
 }

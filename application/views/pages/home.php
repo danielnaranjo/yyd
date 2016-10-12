@@ -12,7 +12,7 @@
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
-                    <span>Broker</span>
+                    <span>Administrador</span>
                 </li>
             </ul>
         </div>
@@ -26,7 +26,7 @@
                 <div class="col-md-4">
                     <div class="mt-widget-4 bg-grey-gallery bg-font-grey-gallery">
                         <div class=""><!-- mt-img-container -->
-                            <a href="<?php echo site_url()?>/property/see/<?php echo $p['property_id'] ?>">
+                            <a href="<?php echo site_url()?>/administrator/project/<?php echo $p['property_id'] ?>">
                                 <img src="<?php echo base_url()?>/upload/<?php echo $p['file'] ?>" class="img-responsive" />
                             </a>
                         </div>

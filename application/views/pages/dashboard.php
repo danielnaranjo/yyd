@@ -20,6 +20,8 @@
         <h3 class="page-title"> <? echo $title; ?></h3>
         <!-- END PAGE TITLE-->
         <!-- END PAGE HEADER-->
+        
+        <?php if($this->session->userdata('level')==0) { ?>
         <!-- BEGIN DASHBOARD STATS 1-->
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -76,6 +78,8 @@
         </div>
         <div class="clearfix"></div>
         <!-- END DASHBOARD STATS 1-->
+        <?php } ?>
+
         <div class="row">
             <div class="col-md-6 col-sm-6">
                 <!-- BEGIN PORTLET-->
@@ -137,7 +141,7 @@
                             <div class="col-md-4">
                                 <div class="mt-widget-4">
                                     <div class="mt-img-container">
-                                        <img src="<?php echo base_url()?>/upload/<?php echo $p['photo'] ?>" />
+                                        <img src="<?php echo base_url()?>/upload/<?php echo $p['file'] ?>" />
                                     </div>
                                     <div class="mt-container bg-dark-opacity">
                                         <div class="mt-head-title"> <?php echo $p['name'] ?></div>

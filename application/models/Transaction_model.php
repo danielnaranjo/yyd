@@ -18,10 +18,6 @@
             $query = $this->db->get_where('transaction', array('transaction_id' => $id));//AQUI
             return $query->row_array();
         }
-        public function columnas(){
-            $query = $this->db->field_data('transaction');
-            return $query;
-        }
 
         public function paises($id = FALSE) {
             if ($id === FALSE){
@@ -48,5 +44,23 @@
 
             $query = $this->db->query("SELECT COUNT(*) AS total, type FROM property_unity  GROUP BY type");   
             return $query->result_array();
+        }
+
+
+        public function columnas(){
+            $query = $this->db->field_data('transaction');
+            return $query;
+        }
+        public function registrar($data){
+            $query = $this->db->insert('transaction', $data);
+            return $query;
+        }
+        public function updatear($id, $data){
+            $this->db->where('transaction_id', $id);
+            $this->db->update('transaction', $data);
+        }
+        public function deletear($id){
+            $this->db->where('transaction_id', $id);
+            $this->db->delete('transaction');
         }
 }

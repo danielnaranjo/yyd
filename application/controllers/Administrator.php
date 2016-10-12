@@ -32,10 +32,16 @@
                 $data['property'] = $this->Property_model->portada();
 
                 // main
-                $this->load->view('pages/dashboard', $data);
+                $this->load->view('pages/home', $data);
             break;
 
             case '1':
+                $id = $this->session->userdata('property_id');
+                $data['result'] = $this->Property_model->ver($id);
+                // added to session
+                $this->session->set_userdata('property_id', $data['result']['property_id']);
+                $this->session->set_userdata('project', $data['result']['name']);
+
                 $data['manyfree'] = $this->Property_model->disponibles()->total;
                 $data['howmanysold'] = $this->Property_model->vendidas()->total;
                 $data['howmuch'] = number_format((float)$this->Property_model->dinero()->total/1000000, 2, '.', '');
@@ -43,25 +49,22 @@
                 $data['property'] = $this->Property_model->portada();
                 $data['title']=$data['property'][0]['name'];
 
-                $id = $this->session->userdata('property_id');
-                $data['result'] = $this->Property_model->ver($id);
-                // added to session
-                $this->session->set_userdata('property_id', $data['result']['property_id']);
-                $this->session->set_userdata('project', $data['result']['name']);
                 // vista!
                 $this->load->view('pages/dashboard', $data);
             break;
 
             case '2':
                 $id = $this->session->userdata('property_id');
-                
                 $data['result'] = $this->Property_model->ver($id);
-                $data['features'] = $this->Property_model->caracteristicas($id);
-                $data['photos'] = $this->Property_model->fotos($id);
-                $data['free'] = $this->Property_model->departamentosdisponibles($id);
+
                 // added to session
                 $this->session->set_userdata('property_id', $data['result']['property_id']);
                 $this->session->set_userdata('project', $data['result']['name']);
+
+                $data['features'] = $this->Property_model->caracteristicas($id);
+                $data['photos'] = $this->Property_model->fotos($id);
+                $data['free'] = $this->Property_model->departamentosdisponibles($id);
+
                 // vista!
                 $this->load->view('pages/propiedad', $data);
             break;
@@ -103,7 +106,7 @@
     public function action($action = NULL, $id = NULL){
         //$data['model'] = "administrator";
         $data['fields'] = $this->Administrator_model->columnas();
-        //$this->load->view('forms/general', $data);// test purpose
+        $data['tables'] = ""; // <-- Linea 79 / formulario.php
         
         if($action){
             $data['action']="edit";// acction
@@ -126,6 +129,63 @@
         $this->load->view('forms/pagina', $data);
         // footer
         $this->load->view('templates/footer');
+    }
+
+    public function project($id) {
+
+        //seguridad 
+        $this->load->view('templates/secure');
+        // header
+        $this->load->view('templates/header');
+        // sidebar
+        $this->load->view('templates/menu');
+
+        $data['manyfree'] = $this->Property_model->disponibles()->total;
+        $data['howmanysold'] = $this->Property_model->vendidas()->total;
+        $data['howmuch'] = number_format((float)$this->Property_model->dinero()->total/1000000, 2, '.', '');
+        $data['visitors'] = $this->Client_model->contar();
+        $data['property'] = $this->Property_model->portada($id);
+
+        $data['title']=@$data['property'][0]['name'];
+        // main
+        $this->load->view('pages/dashboard', $data);
+
+        // footer
+        $this->load->view('templates/footer');
+    }
+
+    public function delete($id){
+        $this->Administrator_model->deletear($id);
+         redirect('administrator/all', 'location', 302);
+    }
+    public function add(){
+        $data = array(
+            'firstname' => $this->input->post("firstname"),
+            'lastname' => $this->input->post("lastname"),
+            'email' => $this->input->post("email"),
+            'city' => $this->input->post("city"),
+            'country' => $this->input->post("country"),
+            'level' => $this->input->post("level"),
+            'status' => 1
+        );
+        $data = $this->Administrator_model->registrar($data);
+        //echo json_encode($data);
+        if($data){
+            redirect('administrator/all', 'location');
+        }
+    }
+    public function update(){
+        $id = $this->input->post("administrator_id");
+        $data = array(
+            'firstname' => $this->input->post("firstname"),
+            'lastname' => $this->input->post("lastname"),
+            'email' => $this->input->post("email"),
+            'city' => $this->input->post("city"),
+            'country' => $this->input->post("country"),
+            'level' => $this->input->post("level"),
+        );
+        $this->Administrator_model->updatear($id, $data);
+        redirect('administrator/all', 'location');
     }
 
 }

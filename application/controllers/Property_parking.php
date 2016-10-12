@@ -5,7 +5,7 @@
     {
         parent::__construct();
         $this->load->model('Property_parking_model');//AQUI
-        //$this->load->library('session');
+        $this->load->model('Property_model');//AQUI
     }
 
     public function index()
@@ -22,7 +22,7 @@
     public function action($action = NULL, $id = NULL){
         $data['model'] = "property_parking";
         $data['fields'] = $this->Property_parking_model->columnas();
-        //$this->load->view('forms/general', $data);// test purpose
+        $data['tables'] = $this->Property_model->listar();//<-- Linea 79 / formulario.php
         
         if($action){
             $data['action']="edit";// acction
@@ -43,6 +43,52 @@
         $this->load->view('templates/menu');
         // main
         $this->load->view('forms/pagina', $data);
+        // footer
+        $this->load->view('templates/footer');
+    }
+    public function delete($id){
+        $this->Property_parking_model->deletear($id);
+         redirect('property/all', 'location', 302);
+    }
+    public function add(){
+        $data = array(
+            'property_id' => $this->input->post("property_id"),
+            'property_unity_id' => $this->input->post("property_unity_id"),
+            'total' => $this->input->post("total"),
+            'type' => $this->input->post("type"),
+            'notes' => $this->input->post("notes"),
+        );
+        $data = $this->Property_parking_model->registrar($data);
+        //echo json_encode($data);
+        if($data){
+            redirect('property/all', 'location');
+        }
+    }
+    public function update(){
+        $id = $this->input->post("property_parking_id");
+        $data = array(
+            'property_id' => $this->input->post("property_id"),
+            'property_unity_id' => $this->input->post("property_unity_id"),
+            'total' => $this->input->post("total"),
+            'type' => $this->input->post("type"),
+            'notes' => $this->input->post("notes"),
+        );
+        $this->Property_parking_model->updatear($id, $data);
+        redirect('property/all', 'location');
+    } 
+    public function by($id) {        
+        $data['titulo'] = 'Parking';
+        $data['result'] = $this->Property_parking_model->lista($id);
+        $data['fields'] = $this->Property_parking_model->columnas();
+
+        //seguridad
+        $this->load->view('templates/secure');
+        // header
+        $this->load->view('templates/header');
+        // sidebar
+        $this->load->view('templates/menu');
+        // main
+        $this->load->view('tables/pages', $data);
         // footer
         $this->load->view('templates/footer');
     }

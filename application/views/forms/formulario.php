@@ -15,7 +15,7 @@
 */	
 	//echo form_open($model.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]);
 	//echo form_label($ejecutar.$this->uri->segment(3));
-function makeaform($fields, $model, $nivel, $action, $btn) {
+function makeaform($fields, $model, $nivel, $action, $btn, $tables) {
 	//$fields = $campos;
 	foreach ($fields as $field){
 		
@@ -74,12 +74,12 @@ function makeaform($fields, $model, $nivel, $action, $btn) {
 						if (!preg_match("/_id/i", $field->name)) {
 							echo form_input($atributes);
 						} else {
-							$options = array( '-1' => 'SELECCIONA' );
+							$options = array( '0' => 'Seleccionar' );
 							//Recibe el nombre de la tabla
-							foreach ($tables as $table) {
-								array_push($options, $table['name']);
+							foreach ($tables as $table) { // <- PENDIENTE CON ESTO!!!
+								array_push($options,$table['name']);
 							}
-							echo form_dropdown($atributes, $options, $options[0]);
+							echo form_dropdown($atributes, $options);//, $options[0]
 						}
 					}
 					break;
@@ -103,7 +103,7 @@ function makeaform($fields, $model, $nivel, $action, $btn) {
 						}
 						$options = array( '0' => 'NO', '1' => 'SI' );
 					} else {
-						$options = array( '-1' => 'SELECCIONA' );
+						$options = array( '0' => 'Seleccionar' );
 					}
 					
 					if($nivel==1) {
@@ -121,6 +121,9 @@ function makeaform($fields, $model, $nivel, $action, $btn) {
 						echo form_password($atributes);
 						echo '<span id="helpBlock" class="help-block">Nota: Por cuestiones de seguridad no se muestra el password</span>';
 					} else if($field->name=="file") {
+						if($action=='edit'){
+							$atributes['disabled'] = 'disabled';
+						}
 						echo form_upload($atributes);
 						echo '<span id="helpBlock" class="help-block">Nota: Formatos soportados JPG, PNG, GIF</span>';
 					} else {

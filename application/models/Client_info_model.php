@@ -15,7 +15,7 @@
         }
 
         public function visita($id){
-            $query = $this->db->query("SELECT client_visits.*, client.lastname, property.* FROM client_visits LEFT JOIN client ON client_visits.client_id=client.client_id left JOIN property ON property.property_id=client_visits.client_id WHERE client_visits.client_id=$id");
+            $query = $this->db->query("SELECT client_visits.*, client.lastname, property.* FROM client_visits LEFT JOIN client ON client_visits.client_id=client.client_id left JOIN property ON property.property_id=client_visits.client_id WHERE client_visits.client_id=$id  ORDER BY client_visits.timestamp DESC");
             return $query->result_array();
         }
 

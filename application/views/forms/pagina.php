@@ -9,6 +9,9 @@ $nivel = $this->session->userdata('level');
     if($action=='edit'){
         $btn = "Actualizar";
         $ejecutar ="update"; //"update/".$this->uri->segment(4);
+    } else if($action=='upload'){
+        $btn = "Subir imagen";
+        $ejecutar ="upload"; //"update/".$this->uri->segment(4);
     } else {
         $btn = "Agregar nuevo";
         $ejecutar = "add";
@@ -51,18 +54,25 @@ $nivel = $this->session->userdata('level');
                     <div class="row">
                         <div class="col-md-6">
                             <div class="portlet-body form">
-                                <?php echo form_open($model.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]); ?>
+                                <!-- necesario si hay upload files -->
+                                    <?php 
+                                        if (!preg_match("/_photo/i", $model) ) {
+                                            echo form_open($model.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]);
+                                        } else {
+                                            echo form_open_multipart($model.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]);
+                                        }
+                                    ?>
                                     <?php require_once('formulario.php');// campos ?>
-                                    <?php makeaform($fields, $model, $nivel, $action, $btn) ?>
+                                    <?php makeaform($fields, $model, $nivel, $action, $btn, $tables) ?>
                                 <?php echo form_close();?>
                             </div>
                         </div>
-                        <?php if($model=='client' && $action=='edit') { ?>
+                        <?php if($model=='client') { ?>
                         <div class="col-md-6">
                             <div class="portlet-body form">
                                 <?php echo form_open($model.'_info'.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]); ?>
                                     <?php //require_once('formulario.php');// campos ?>
-                                    <?php makeaform($fieldsmore, $model.'_info', $nivel, $action, $btn) ?>
+                                    <?php makeaform($fieldsmore, $model.'_info', $nivel, $action, $btn, '') ?>
                                 <?php echo form_close();?>
                             </div>
                         </div>
@@ -75,6 +85,16 @@ $nivel = $this->session->userdata('level');
                                     })
                                 }, 300);
                         </script>
+                        <? } ?>
+
+                        <?php if($model=='client' && $action=='new') { ?>
+                            <script>
+                                setTimeout(function(){
+                                    $('#email').removeAttr('disabled');
+                                    $('.form-group label[for="registered"]').parent().attr('style','display:none;');
+                                    $('.form-group label[for="status"]').parent().attr('style','display:none;');
+                                }, 1);
+                            </script>
                         <? } ?>
                     </div>
                 </div>

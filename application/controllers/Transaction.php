@@ -23,7 +23,7 @@
     public function action($action = NULL, $id = NULL){
         $data['model'] = "transaction_model";
         $data['fields'] = $this->Transaction_model->columnas();
-        //$this->load->view('forms/general', $data);// test purpose
+        $data['tables'] = ""; // <-- Linea 79 / formulario.php
         
         if($action){
             $data['action']="edit";// acction
@@ -78,5 +78,42 @@
         $this->load->view('pages/unidades', $data);
         // footer
         $this->load->view('templates/footer');
+    }
+    public function delete($id){
+        $this->Transaction_model->deletear($id);
+         redirect('property/all', 'location', 302);
+    }
+    public function add(){
+        $data = array(
+            'property_id' => $this->input->post("property_id"),
+            'broker_id' => $this->input->post("broker_id"),
+            'transaction_type' => $this->input->post("transaction_type"),
+            'amount' => $this->input->post("amount"),
+            'number' => $this->input->post("number"),
+            'payment_type' => $this->input->post("payment_type"),
+            'date' => $this->input->post("date"),
+            'notes' => $this->input->post("notes"),
+            'status' => $this->input->post("status"),
+        );
+        $data = $this->Transaction_model->registrar($data);
+        if($data){
+            redirect('property/all', 'location');
+        }
+    }
+    public function update(){
+        $id = $this->input->post("transation_id");
+        $data = array(
+            'property_id' => $this->input->post("property_id"),
+            'broker_id' => $this->input->post("broker_id"),
+            'transaction_type' => $this->input->post("transaction_type"),
+            'amount' => $this->input->post("amount"),
+            'number' => $this->input->post("number"),
+            'payment_type' => $this->input->post("payment_type"),
+            'date' => $this->input->post("date"),
+            'notes' => $this->input->post("notes"),
+            'status' => $this->input->post("status"),
+        );
+        $this->Transaction_model->updatear($id, $data);
+        redirect('property/all', 'location');
     }
 }

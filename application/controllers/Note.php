@@ -22,7 +22,7 @@
     public function action($action = NULL, $id = NULL){
         $data['model'] = "note";
         $data['fields'] = $this->Note_model->columnas();
-        //$this->load->view('forms/general', $data);// test purpose
+        $data['tables'] = ""; // <-- Linea 79 / formulario.php
         
         if($action){
             $data['action']="edit";// acction

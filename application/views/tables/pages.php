@@ -45,9 +45,15 @@ if($titulo==''){
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="btn-group">
+                                        <?php if($model=='property_photo') { ?>
+                                        <a href="<? echo site_url()?>/<?php echo $model ?>/action/upload" id="" class="btn green"> Cargar imagen
+                                            <i class="fa fa-upload"></i>
+                                        </a>
+                                        <?php } else { ?>
                                         <a href="<? echo site_url()?>/<?php echo $model ?>/action/new" id="" class="btn green"> Agregar nuevo
                                             <i class="fa fa-plus"></i>
                                         </a>
+                                        <?php } ?>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -117,6 +123,16 @@ if($titulo==''){
                                                             echo "Broker"; 
                                                         }
 
+                                                    } else if (preg_match("/file/i", $f->name) ) {
+
+                                                        $imagen = array(
+                                                            'src'   => base_url().'/upload/'.$r['file'],
+                                                            'class' => 'img_responsive',
+                                                            'width' => '200',
+                                                            'height'=> '200',
+                                                        );
+                                                        echo img($imagen);
+
                                                     } else {
                                                         echo $r[$f->name];
                                                     }
@@ -153,7 +169,6 @@ if($titulo==''){
                                         </a>
                                         <? } ?>
 
-
                                         <?php if($nivel!=2) { ?>
                                         <i class="fa fa-pencil"></i> 
                                         <a class="edit" href="<? echo site_url()?>/<?php echo $model ?>/action/edit/<? echo $r[$model.'_id']?>">
@@ -186,8 +201,8 @@ if($titulo==''){
 function check(id){
     // confirm delete or not
     if (confirm('Desea eliminar este registro?')) {
-        //window.location.href="<? echo site_url()?>/<?php echo $model ?>/delete/"+id;
-        toastr.success('Acción ejecutada con exito!')
+        window.location.href="<? echo site_url()?>/<?php echo $model ?>/delete/"+id;
+        toastr.success('Acción ejecutada con exito!');
     } else {
         return false;
     }

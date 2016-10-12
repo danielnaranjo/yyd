@@ -5,24 +5,26 @@
     {
         parent::__construct();
         $this->load->model('Property_amenities_model');//AQUI
-        //$this->load->library('session');
+        $this->load->model('Property_model');//AQUI
     }
 
-    public function index()
-    {        
-        $data = $this->Property_amenities_model->listar();//AQUI
-        echo json_encode($data);
+    public function index() {        
+        $data = $this->Property_amenities_model->listar($id);//AQUI
+        //echo json_encode($data);
+        redirect('property/all', 'location', 302);
     }
 
-    public function view($slug = NULL)
-    {
-        $data = $this->Property_amenities_model->listar($slug);//AQUI
+    public function all() {        
+        $data = $this->Property_amenities_model->listar($id);//AQUI
+        //echo json_encode($data);
+        redirect('property/all', 'location', 302);
     }
+
     /* FORMULARIOS */
     public function action($action = NULL, $id = NULL){
         $data['model'] = "property_amenities";
         $data['fields'] = $this->Property_amenities_model->columnas();
-        //$this->load->view('forms/general', $data);// test purpose
+        $data['tables'] = $this->Property_model->listar();//<-- Linea 79 / formulario.php
         
         if($action){
             $data['action']="edit";// acction
@@ -46,4 +48,54 @@
         // footer
         $this->load->view('templates/footer');
     }
+    
+    public function delete($id){
+        $this->Property_amenities_model->deletear($id);
+         redirect('property_amenities/by/', 'location', 302);
+    }
+    public function add(){
+        $pID = $this->input->post("property_id");
+        $data = array(
+            'property_id' => $this->input->post("property_id"),
+            'name' => $this->input->post("name"),
+            'description' => $this->input->post("description"),
+            'status' => 1
+        );
+        $data = $this->Property_amenities_model->registrar($data);
+        //echo json_encode($data);
+        if($data){
+            redirect('property_amenities/by/'.$pID, 'location');
+        }
+    }
+    public function update(){
+        $pID = $this->input->post("property_id");
+        $id = $this->input->post("property_amenities_id");
+        $data = array(
+            'property_id' => $this->input->post("property_id"),
+            'name' => $this->input->post("name"),
+            'description' => $this->input->post("description"),
+        );
+        $this->Property_amenities_model->updatear($id, $data);
+        redirect('property_amenities/by/'.$pID, 'location');
+    }   
+
+    public function by($id) {        
+        //$data = $this->Property_amenities_model->listar($id);//AQUI
+        //echo json_encode($data);
+        $data['titulo'] = 'Amenities';
+        $data['result'] = $this->Property_amenities_model->lista($id);
+        $data['fields'] = $this->Property_amenities_model->columnas();
+
+        //seguridad
+        $this->load->view('templates/secure');
+        // header
+        $this->load->view('templates/header');
+        // sidebar
+        $this->load->view('templates/menu');
+        // main
+        $this->load->view('tables/pages', $data);
+        // footer
+        $this->load->view('templates/footer');
+    }
+
 }

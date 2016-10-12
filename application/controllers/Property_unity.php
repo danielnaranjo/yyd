@@ -5,7 +5,7 @@
     {
         parent::__construct();
         $this->load->model('Property_unity_model');//AQUI
-        //$this->load->library('session');
+        $this->load->model('Property_model');//AQUI
     }
 
     public function index()
@@ -22,7 +22,7 @@
     public function action($action = NULL, $id = NULL){
         $data['model'] = "property_unity";
         $data['fields'] = $this->Property_unity_model->columnas();
-        //$this->load->view('forms/general', $data);// test purpose
+        $data['tables'] = $this->Property_model->listar();//<-- Linea 79 / formulario.php
         
         if($action){
             $data['action']="edit";// acction
@@ -43,6 +43,58 @@
         $this->load->view('templates/menu');
         // main
         $this->load->view('forms/pagina', $data);
+        // footer
+        $this->load->view('templates/footer');
+    }
+    public function delete($id){
+        $this->Property_unity_model->deletear($id);
+         redirect('property/all', 'location', 302);
+    }
+    public function add(){
+        $data = array(
+            'property_id' => $this->input->post("property_id"),
+            'number' => $this->input->post("number"),
+            'type' => $this->input->post("type"),
+            'square' => $this->input->post("square"),
+            'price' => $this->input->post("price"),
+            'comission' => $this->input->post("comission"),
+            'flat' => $this->input->post("flat"),
+            'status' => 1,
+        );
+        $data = $this->Property_unity_model->registrar($data);
+        //echo json_encode($data);
+        if($data){
+            redirect('property/all', 'location');
+        }
+    }
+    public function update(){
+        $id = $this->input->post("property_unity_id");
+        $data = array(
+            'property_id' => $this->input->post("property_id"),
+            'number' => $this->input->post("number"),
+            'type' => $this->input->post("type"),
+            'square' => $this->input->post("square"),
+            'price' => $this->input->post("price"),
+            'comission' => $this->input->post("comission"),
+            'flat' => $this->input->post("flat"),
+            //'status' => $this->input->post("status"),
+        );
+        $this->Property_unity_model->updatear($id, $data);
+        redirect('property/all', 'location');
+    }
+    public function by($id) {        
+        $data['titulo'] = 'Unidades';
+        $data['result'] = $this->Property_unity_model->lista($id);
+        $data['fields'] = $this->Property_unity_model->columnas();
+
+        //seguridad
+        $this->load->view('templates/secure');
+        // header
+        $this->load->view('templates/header');
+        // sidebar
+        $this->load->view('templates/menu');
+        // main
+        $this->load->view('tables/pages', $data);
         // footer
         $this->load->view('templates/footer');
     }

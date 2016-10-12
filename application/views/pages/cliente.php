@@ -102,8 +102,8 @@
                                         <span class="caption-subject font-blue-madison bold uppercase">Transacciones</span>
                                     </div>
                                 </div>
-                                <div class="portlet-body"><?php echo $total[0]['total'] ?>
-                                    <? if($total[0]['total']>0) { ?>
+                                <div class="portlet-body"><?php //echo $total[0]['total'] ?>
+                                    <? /*if($total[0]['total']>0) { ?>
                                     <div class="row number-stats margin-bottom-30">
                                         <div class="col-md-6 col-sm-6 col-xs-6">
                                             <div class="stat-left">
@@ -130,7 +130,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <? } ?>
+                                    <? } */?>
                                     <div class="table-scrollable table-scrollable-borderless">
                                         <table class="table table-hover table-light">
                                             <thead>
@@ -223,6 +223,9 @@
                                 <div class="portlet-title">
                                     <div class="caption">
                                         <span class="caption-subject bold font-green uppercase"> Visitas</span>
+                                        <a class="pull-right" href="javascript:;" onclick="javascript:visit(<? echo $result[0]['client_id']?>,1)">
+                                            <i class="fa fa-check" aria-hidden="true"></i> 
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="portlet-body">
@@ -261,6 +264,7 @@
                                         </div>
                                         <?php } ?>
                                         <!-- END TIMELINE ITEM -->
+
                                         <?php if(count($visits)==0) { ?>
                                         <div class="timeline-item">
                                             <div class="timeline-badge">
@@ -430,3 +434,16 @@
         </div>
     </div>
 </div>
+
+<script>
+function visit(c,p){
+    $.ajax({
+        url: "<? echo site_url() ?>/client/visited",
+        method: "POST",
+        data: { client_id: c, property_id: p }
+    }).done(function(data) {
+        console.log('data', data);
+        toastr.success('Visita registrada!');
+    });
+}
+</script>

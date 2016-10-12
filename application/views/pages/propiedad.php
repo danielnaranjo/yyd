@@ -25,39 +25,39 @@
         <h3 class="page-title">
             <?php echo $result['name']?> 
 
-            <?php if($this->session->userdata('level')!=2) { ?>
+            <?php if($this->session->userdata('level')==0) { ?>
             <div class="actions pull-right">
                 <div class="btn-group">
-                    <a class="btn green-haze btn-outline" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                        <i class="fa fa-search"></i> Vista rapida
+                    <a class="btn green-haze" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                        <i class="fa fa-pencil"></i> Agregar nueva 
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu pull-right">
                         <li>
-                            <?php if($free>0) { ?>
-                            <a href="<?php echo site_url() ?>/property/unities/<?php echo $result['property_id']?>">
-                                <i class="fa fa-building"></i> Ver unidades disponibles
-                            </a>
-                            <? } else { ?>
-                            <a href="javascript:;">
-                                <i class="fa fa-building"></i> No unidades disponibles
-                            </a>
-                            <? } ?>
-                        </li>
-                        <li>
-                            <a href="<?php echo site_url() ?>/property/people/<?php echo $result['property_id']?>">
-                                <i class="fa fa-user"></i> Ver compradores 
+                            <a href="<?php echo site_url() ?>/property_amenities/by/<?php echo $result['property_id']?>">
+                                <i class="fa fa-building"></i> Amerities
                             </a>
                         </li>
                         <li>
-                            <a href="<?php echo site_url() ?>/property/visitors/<?php echo $result['property_id']?>">
-                                <i class="fa fa-eye"></i> Ver visitantes
+                            <a href="<?php echo site_url() ?>/property_parking/by/<?php echo $result['property_id']?>">
+                                <i class="fa fa-user"></i> Parking
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo site_url() ?>/property_unity/by/<?php echo $result['property_id']?>">
+                                <i class="fa fa-user"></i> Unidades
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo site_url() ?>/property_photo/by/<?php echo $result['property_id']?>">
+                                <i class="fa fa-eye"></i> Fotografias
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
             <? } ?>
+
         </h3>
         <!-- END PAGE TITLE-->
         <!-- END PAGE HEADER-->
@@ -66,7 +66,7 @@
                 <div class="col-lg-9">
                     <div class="blog-single-content bordered blog-container">
                         <div class="blog-single-img" style="max-height: 600px;overflow-y: hidden;">
-                            <img src="<?php echo base_url() ?>/upload/<?php echo $photos[0]['photo']?>" /> 
+                            <p>Loading..</p>
                         </div>
                         <div class="blog-single-desc">
                             <p><?php echo $result['description']?></p>
@@ -96,7 +96,10 @@
                             </ul>
                         </div>
                         <div class="blog-single-sidebar-tags">
-                            <h3 class="blog-sidebar-title uppercase">Amerities</h3>
+                            <h3 class="blog-sidebar-title uppercase">
+                                Amerities
+                                <a href="<?php echo site_url() ?>/property_amenities/by/<?php echo $result['property_id']?>"><i class="fa fa-pencil"></i></a>
+                            </h3>
                             <ul class="blog-post-tags">
                                 <?php  foreach($features as $feat) { ?>
                                 <li class="uppercase">
@@ -106,12 +109,15 @@
                             </ul>
                         </div>
                         <div class="blog-single-sidebar-ui">
-                            <h3 class="blog-sidebar-title uppercase">Fotografias</h3>
+                            <h3 class="blog-sidebar-title uppercase">
+                                Fotografias
+                                <a href="<?php echo site_url() ?>/property_photo/by/<?php echo $result['property_id']?>"><i class="fa fa-pencil"></i></a>
+                            </h3>
                             <div class="row ui-margin">
                                 <?php foreach($photos as $photo) { ?>
                                 <div class="col-xs-4 ui-padding">
-                                    <a href="<?php echo base_url() ?>/upload/<?php echo $photo['photo'] ?>" target="_blank">
-                                        <img src="<?php echo base_url() ?>/upload/<?php echo $photo['photo'] ?>" />
+                                    <a href="<?php echo base_url() ?>upload/<?php echo $photo['file'] ?>" target="_blank">
+                                        <img src="<?php echo base_url() ?>upload/<?php echo $photo['file'] ?>" />
                                     </a>
                                 </div>
                                 <? } ?>
@@ -125,3 +131,12 @@
     <!-- END CONTENT BODY -->
 </div>
 <!-- END CONTENT -->
+<script>
+    setTimeout(function(){
+        $.getJSON("<?php echo site_url() ?>/property/pictures/<?php echo $result['property_id']?>", function( data ) {
+            if(data && data.length>0){
+                $('.blog-single-img').html('<img src="<?php echo base_url() ?>upload/'+data[0].file+'" alt="" />');
+            }
+        })
+    },300);
+</script>

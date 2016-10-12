@@ -34,4 +34,18 @@
             return $query->num_rows();
         }
 
+
+        public function registrar($data){
+            $query = $this->db->insert('administrator', $data);
+            return $query;
+        }
+        public function updatear($id, $data){
+            $this->db->where('administrator_id', $id);
+            $this->db->update('administrator', $data);
+        }
+        public function deletear($id){
+            $this->db->where('administrator_id', $id);
+            $this->db->delete('administrator');
+        }
+
 }

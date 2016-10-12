@@ -43,18 +43,13 @@
         //$data['model'] = "bank";
         $data['fields'] = $this->Bank_model->columnas();
         $data['tables'] = $this->Property_model->listar();// tablas relacionadas
-        //$this->load->view('forms/general', $data);// test purpose
-        
-        if($action){
-            $data['action']="edit";// acction
-            $data['btn']="Editar registro";// Texto boton
+
+        if($action=='edit'){
             $data['result'] = $this->Bank_model->listar($id);
         } else {
-            $data['action']="new";// acction
-            $data['btn']="Agregar nuevo";// Texto boton
             $data['result'] = "";
+            $data['resultmore'] = "";
         }
-        
         //seguridad
         $this->load->view('templates/secure');
         // header
@@ -65,5 +60,41 @@
         $this->load->view('forms/pagina', $data);
         // footer
         $this->load->view('templates/footer');
-    }  
+    }
+
+    public function delete($id){
+        $this->Bank_model->deletear($id);
+         redirect('bank/all', 'location', 302);
+    }
+    public function add(){
+        $data = array(
+            'property_id' => $this->input->post("property_id"),
+            'name' => $this->input->post("name"),
+            'account' => $this->input->post("account"),
+            'country' => $this->input->post("country"),
+            'swift' => $this->input->post("swift"),
+            'currency' => $this->input->post("currency"),
+            'instructions' => $this->input->post("instructions"),
+        );
+        $data = $this->Bank_model->registrar($data);
+        //echo json_encode($data);
+        if($data){
+            redirect('bank/all', 'location');
+        }
+    }
+    public function update(){
+        $id = $this->input->post("bank_id");
+        $data = array(
+            'property_id' => $this->input->post("property_id"),
+            'name' => $this->input->post("name"),
+            'account' => $this->input->post("account"),
+            'country' => $this->input->post("country"),
+            'swift' => $this->input->post("swift"),
+            'currency' => $this->input->post("currency"),
+            'instructions' => $this->input->post("instructions"),
+        );
+        $this->Bank_model->updatear($id, $data);
+        redirect('bank/all', 'location');
+    }
+
 }

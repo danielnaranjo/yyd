@@ -102,7 +102,7 @@
         //$data['model'] = "client";
         $data['fields'] = $this->Client_model->columnas();
         $data['fieldsmore'] = $this->Client_info_model->columnas();
-        //$this->load->view('forms/general', $data);// test purpose
+        $data['tables'] = ""; // <-- Linea 79 / formulario.php
         
         if($action=='edit'){
             //$data['action']="edit";// acction

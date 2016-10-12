@@ -65,10 +65,13 @@
             $query = $this->db->query('SELECT client.*, property_unity.*, property.name FROM property_client LEFT JOIN client ON client.client_id=property_client.client_id LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id LEFT JOIN property ON property.property_id=property_client.property_id WHERE property_client.property_id='.$id);//AQUI
             return $query->result_array();
         }
-        public function portada(){
+        public function portada($id = FALSE){
             $quien = "";
             if($this->session->userdata('level')==1) {
                 $quien = "WHERE property_broker.broker_id=".$this->session->userdata('aID');
+            }
+            if($id) {
+                $quien = "WHERE property_broker.property_id=".$id;
             }
             $query = $this->db->query("SELECT property.*, property_photo.photo, property_broker.broker_id FROM property LEFT JOIN property_photo on property.property_id=property_photo.property_id LEFT JOIN property_broker ON property_broker.property_id=property.property_id ".$quien." GROUP BY property_photo.property_id LIMIT 3");
             return $query->result_array();
@@ -86,5 +89,16 @@
             $query = $this->db->query("SELECT property.property_id, property.name, property.city, property.country, property_photo.photo, administrator.firstname FROM property LEFT JOIN property_photo on property.property_id=property_photo.property_id LEFT JOIN property_broker ON property.property_id=property_broker.property_id LEFT JOIN administrator ON administrator.administrator_id=property_broker.broker_id  WHERE administrator.administrator_id=".$this->session->userdata('aID') ." GROUP BY property_photo.property_id ");
             return $query->result_array();
         }
-
+        public function registrar($data){
+            $query = $this->db->insert('property', $data);
+            return $query;
+        }
+        public function updatear($id, $data){
+            $this->db->where('property_id', $id);
+            $this->db->update('property', $data);
+        }
+        public function deletear($id){
+            $this->db->where('property_id', $id);
+            $this->db->delete('property');
+        }
 }

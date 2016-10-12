@@ -6,6 +6,7 @@
         parent::__construct();
         $this->load->model('Property_model');//AQUI
         $this->load->model('Client_model');//AQUI
+        $this->load->model('Property_amenities_model');
     }
 
     public function index()
@@ -116,11 +117,16 @@
         $this->load->view('templates/footer');
     }  
 */
+
+    public function pictures($id){
+        $data = $this->Property_model->fotos($id);
+        echo json_encode($data);
+    }
     /* FORMULARIOS */
     public function action($action = NULL, $id = NULL){
         //$data['model'] = "property";
         $data['fields'] = $this->Property_model->columnas();
-        //$this->load->view('forms/general', $data);// test purpose
+        $data['tables'] = ""; // <-- Linea 79 / formulario.php
         
         if($action){
             $data['action']="edit";// acction
@@ -143,5 +149,42 @@
         $this->load->view('forms/pagina', $data);
         // footer
         $this->load->view('templates/footer');
+    }
+    public function delete($id){
+        $this->Property_model->deletear($id);
+         redirect('property/all', 'location', 302);
+    }
+    public function add(){
+        $data = array(
+            'name' => $this->input->post("name"),
+            'description' => $this->input->post("description"),
+            'email' => $this->input->post("email"),
+            'city' => $this->input->post("city"),
+            'province' => $this->input->post("province"),
+            'country' => $this->input->post("country"),
+            'address' => $this->input->post("address"),
+            'phone' => $this->input->post("phone"),
+            'notes' => $this->input->post("notes"),
+        );
+        $data = $this->Property_model->registrar($data);
+        if($data){
+            redirect('property/all', 'location');
+        }
+    }
+    public function update(){
+        $id = $this->input->post("property_id");
+        $data = array(
+            'name' => $this->input->post("name"),
+            'description' => $this->input->post("description"),
+            'email' => $this->input->post("email"),
+            'city' => $this->input->post("city"),
+            'province' => $this->input->post("province"),
+            'country' => $this->input->post("country"),
+            'address' => $this->input->post("address"),
+            'phone' => $this->input->post("phone"),
+            'notes' => $this->input->post("notes"),
+        );
+        $this->Property_model->updatear($id, $data);
+        redirect('property/all', 'location');
     }
 }

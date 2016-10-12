@@ -22,9 +22,20 @@
             $query = $this->db->get('bank');
             return $query->result_array();
         }
-         public function columnas(){
+        public function columnas(){
             $query = $this->db->field_data('bank');
             return $query;
         }
-        
+        public function registrar($data){
+            $query = $this->db->insert('bank', $data);
+            return $query;
+        }
+        public function updatear($id, $data){
+            $this->db->where('bank_id', $id);
+            $this->db->update('bank', $data);
+        }
+        public function deletear($id){
+            $this->db->where('bank_id', $id);
+            $this->db->delete('bank');
+        }  
 }
