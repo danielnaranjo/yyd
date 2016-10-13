@@ -35,17 +35,17 @@ function makeaform($fields, $model, $nivel, $action, $btn, $tables) {
 			// label
 			if($field->name!=$model."_id") {
 				if (!preg_match("/_id/i", $field->name)) {
-					echo form_label($field->name, $field->name, ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;']);
+					echo form_label(traducir($field->name), $field->name, ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;']);
 				} else {
 					// Property_id -> Property
-					echo form_label(substr(($field->name),0,-3), $field->name, ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;']);
+					echo form_label(traducir(substr(($field->name),0,-3)), $field->name, ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;']);
 				}
 			}
 			// nombre/clase/etc
 			$atributes = array(
 			    'name'          => 	$field->name,
 			    'id'            => 	$field->name,
-			    'placeholder'   => 	$field->name,
+			    'placeholder'   => 	traducir($field->name),
 			    'maxlength'     => 	$field->max_length,
 			    'class'			=>	'form-control',
 			    'autocomplete'	=> 	'off' 
@@ -64,12 +64,6 @@ function makeaform($fields, $model, $nivel, $action, $btn, $tables) {
 			// input/textare/file/password/hidden	
 			switch ($field->type) {
 				case 'int':
-					/*if($field->name!=$model."_id") { 
-						echo form_input($atributes);
-					} else {
-						$options = array( '-1' => 'SELECCIONA' );
-						echo form_dropdown($atributes, $options);
-					}*/
 					if($field->name!=$model."_id") { 
 						if (!preg_match("/_id/i", $field->name)) {
 							echo form_input($atributes);
@@ -113,7 +107,6 @@ function makeaform($fields, $model, $nivel, $action, $btn, $tables) {
 					echo form_dropdown($atributes, $options, $selected);
 					break;
 				case 'varchar':
-					//echo form_input($field->name)."<br>";
 					if($field->name=="password") {
 						if($nivel==2){
 							$atributes['disabled'] = 'disabled';

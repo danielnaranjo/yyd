@@ -89,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url', 'url_helper', 'form', 'date');
+$autoload['helper'] = array('url', 'url_helper', 'form', 'date', 'my_comunes'); // comunes is a custom helper
 
 /*
 | -------------------------------------------------------------------
