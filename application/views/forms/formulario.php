@@ -77,7 +77,7 @@ function makeaform($fields, $model, $nivel, $action, $btn, $tables) {
 							$options = array( '0' => 'Seleccionar' );
 							//Recibe el nombre de la tabla
 							foreach ($tables as $table) { // <- PENDIENTE CON ESTO!!!
-								array_push($options,$table['name']);
+								$options[$table['property_id']]=$table['name'];
 							}
 							echo form_dropdown($atributes, $options);//, $options[0]
 						}
