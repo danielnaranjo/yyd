@@ -21,7 +21,6 @@
         <!-- END PAGE TITLE-->
         <!-- END PAGE HEADER-->
         
-        <?php if($this->session->userdata('level')==0) { ?>
         <!-- BEGIN DASHBOARD STATS 1-->
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -78,7 +77,6 @@
         </div>
         <div class="clearfix"></div>
         <!-- END DASHBOARD STATS 1-->
-        <?php } ?>
 
         <div class="row">
             <div class="col-md-6 col-sm-6">

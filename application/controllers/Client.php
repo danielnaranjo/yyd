@@ -140,9 +140,15 @@
             //'registered' => $this->input->post("registered"),
             'status' => 0
         );
-        $data = $this->Client_model->registrar($data);
-        //echo json_encode($data);
-        if($data){
+        $resp = $this->Client_model->registrar($data);
+        //echo json_encode($resp);
+        if($resp){
+            $data = array(
+                'client_id' => $resp,
+                'property_id' => $this->session->userdata('property_id'),
+            );
+            $passed = $this->Client_model->enlazar($data);
+            //echo json_encode($passed);
             redirect('client/all', 'location');
         }
     }

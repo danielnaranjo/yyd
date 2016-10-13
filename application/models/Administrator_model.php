@@ -48,4 +48,9 @@
             $this->db->delete('administrator');
         }
 
+        public function property_broker(){
+            $query = $this->db->field_data('property_broker');
+            return $query;
+        }
+
 }

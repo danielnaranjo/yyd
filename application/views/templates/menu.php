@@ -52,37 +52,30 @@ $nivel = $this->session->userdata('level');
                 <ul class="sub-menu">
                     <li class="nav-item">
                         <a href="<?php echo site_url() ?>/property/all" class="nav-link ">
-                            <span class="title">Ver Proyectos</span>
+                            <span class="title">Proyectos</span>
                         </a>
-                    </li>                     
-                </ul>
-            </li>
-            <?php } ?>
-            <li class="nav-item">
-                <a href="javascript:;" class="nav-link nav-toggle">
-                    <i class="fa fa-cog"></i>
-                    <span class="title">Administración</span>
-                    <span class="arrow"></span>
-                </a>
-                <ul class="sub-menu">
+                    </li>
                     <li class="nav-item">
                         <a href="<?php echo site_url() ?>/bank/all" class="nav-link ">
                             <span class="title">Formas de pagos</span>
                         </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="<?php echo site_url() ?>/administrator/all" class="nav-link ">
-                            <span class="title">Ver Brokers y Usuarios</span>
-                        </a>
-                    </li>
+                    </li>                    
                 </ul>
+            </li>
+            <?php } ?>
+            <li class="nav-item">
+                <li class="nav-item">
+                    <a href="<?php echo site_url() ?>/administrator/all" class="nav-link ">
+                        <i class="fa fa-users"></i>
+                        <span class="title">Usuarios</span>
+                    </a>
+                </li>
             </li>
             <?php } ?>
             <!-- administrador general -->
 
             <!-- administrador de proyecto -->
-            <?php  if($nivel==1) { ?>
+            <?php  if($nivel!=2) { ?>
             <li class="nav-item">
                 <a href="javascript:;" class="nav-link nav-toggle">
                     <i class="fa fa-line-chart"></i>

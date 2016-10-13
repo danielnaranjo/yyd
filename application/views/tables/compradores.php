@@ -39,7 +39,7 @@
                                     <th> Nombre </th>
                                     <th> Apellido </th>
                                     <th> Fecha de visita </th>
-                                    <th>  </th>
+                                    <th> Opciones </th>
                                 </tr>
                             </thead>
                             <tbody>

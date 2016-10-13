@@ -47,6 +47,7 @@
         $this->load->view('forms/pagina', $data);
         // footer
         $this->load->view('templates/footer');
+        //echo json_encode($data['tables']);
     }
     
     public function delete($id){
@@ -85,7 +86,7 @@
         $data['titulo'] = 'Amenities';
         $data['result'] = $this->Property_amenities_model->lista($id);
         $data['fields'] = $this->Property_amenities_model->columnas();
-
+        //echo json_encode($data);
         //seguridad
         $this->load->view('templates/secure');
         // header

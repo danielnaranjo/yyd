@@ -63,7 +63,7 @@
         }
         public function registrar($data){
             $query = $this->db->insert('client', $data);
-            return $query;
+            return $this->db->insert_id();
         }
         public function updatear($id, $data){
             $this->db->where('client_id', $id);
@@ -73,4 +73,8 @@
             $this->db->where('client_id', $id);
             $this->db->delete('client');
         }
+        public function enlazar($data){
+            $query = $this->db->insert('client_visits', $data);
+        return $query;
+    }
 }

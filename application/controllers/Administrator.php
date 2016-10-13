@@ -86,7 +86,7 @@
         //$data['news'] = $this->Administrator_model->get_news();
         //echo json_encode($data);
 
-        $data['titulo'] = 'Administradores & Usuarios';
+        $data['titulo'] = 'Usuarios';
         $data['result'] = $this->Administrator_model->listar();
         $data['fields'] = $this->Administrator_model->columnas();
 
@@ -106,7 +106,9 @@
     public function action($action = NULL, $id = NULL){
         //$data['model'] = "administrator";
         $data['fields'] = $this->Administrator_model->columnas();
-        $data['tables'] = ""; // <-- Linea 79 / formulario.php
+        $data['tables'] = $this->Property_model->listar(); // <-- Linea 79 / formulario.php
+        //$data['fieldsmore'] = $this->Administrator_model->property_broker();
+        //$data['fieldsothers'] = $this->Administrator_model->listar();
         
         if($action){
             $data['action']="edit";// acction
@@ -117,6 +119,7 @@
             $data['action']="new";// acction
             $data['btn']="Agregar nuevo";// Texto boton
             $data['result'] = "";
+            $data['resultmore'] = "";
         }
         
         //seguridad

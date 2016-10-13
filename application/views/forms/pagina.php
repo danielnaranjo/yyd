@@ -71,7 +71,6 @@ $nivel = $this->session->userdata('level');
                         <div class="col-md-6">
                             <div class="portlet-body form">
                                 <?php echo form_open($model.'_info'.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]); ?>
-                                    <?php //require_once('formulario.php');// campos ?>
                                     <?php makeaform($fieldsmore, $model.'_info', $nivel, $action, $btn, '') ?>
                                 <?php echo form_close();?>
                             </div>
@@ -85,16 +84,6 @@ $nivel = $this->session->userdata('level');
                                     })
                                 }, 300);
                         </script>
-                        <? } ?>
-
-                        <?php if($model=='client' && $action=='new') { ?>
-                            <script>
-                                setTimeout(function(){
-                                    $('#email').removeAttr('disabled');
-                                    $('.form-group label[for="registered"]').parent().attr('style','display:none;');
-                                    $('.form-group label[for="status"]').parent().attr('style','display:none;');
-                                }, 1);
-                            </script>
                         <? } ?>
                     </div>
                 </div>
