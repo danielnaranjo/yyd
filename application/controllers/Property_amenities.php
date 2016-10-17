@@ -86,6 +86,7 @@
         $data['titulo'] = 'Amenities';
         $data['result'] = $this->Property_amenities_model->lista($id);
         $data['fields'] = $this->Property_amenities_model->columnas();
+        $data['property'] = $this->Property_model->listar();
         //echo json_encode($data);
         //seguridad
         $this->load->view('templates/secure');

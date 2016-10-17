@@ -11,13 +11,13 @@
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
-                    <span><?php echo $title ?></span>
+                    <span><?php echo $titulo ?></span>
                 </li>
             </ul>
         </div>
         <!-- END PAGE BAR -->
         <!-- BEGIN PAGE TITLE-->
-        <h3 class="page-title"> <?php echo $title ?></h3>
+        <h3 class="page-title"> <?php echo $titulo ?></h3>
         <!-- END PAGE TITLE-->
         <!-- END PAGE HEADER-->
         <div class="row">
@@ -41,28 +41,29 @@
                         <table class="table table-striped table-hover table-bordered" id="sample_1">
                             <thead>
                                 <tr>
-                                    <th> Nombre </th>
-                                    <th> Apellido </th>
-                                    <th> E-mail </th>
-                                    <th> Ciudad </th>
-                                    <th> País </th>
-                                    <th> Fecha </th>
-                                    <th> Opciones </th>
+                                    <td> name </td>
+                                    <td> number </td>
+                                    <td> price </td>
+                                    <td> comission </td>
+                                    <td> date </td>
+                                    <td> amount </td>
+                                    <td> split </td>
+                                    <td> name </td>
+                                    <td> surname </td>
                                 </tr>
                             </thead>
                             <tbody>
                             <?php foreach($result as $r) {?>
                                 <tr>
-                                    <td> <?php echo $r['firstname'] ?> </td>
-                                    <td> <?php echo $r['lastname'] ?> </td>
-                                    <td> <?php echo $r['email'] ?> </td>
-                                    <td> <?php echo $r['city'] ?> </td>
-                                    <td> <?php echo $r['country'] ?> </td>
-                                    <td> <?php echo $r['registered'] ?> </td>
-                                    <td>
-                                        <a class="edit" href="<? echo site_url()?>/broker/action/edit/<? echo $r['broker_id']?>"> Editar </a> | 
-                                        <a class="delete" href="javascript:;"> Borrar </a>
-                                    </td>
+                                    <td> <?php echo $r['property'] ?> </td>
+                                    <td> <?php echo $r['number'] ?> </td>
+                                    <td> <?php echo $r['price'] ?> </td>
+                                    <td> <?php echo $r['comission'] ?> </td>
+                                    <td> <?php echo $r['date'] ?> </td>
+                                    <td> <?php echo $r['amount'] ?> </td>
+                                    <td> <?php echo $r['split'] ?> </td>
+                                    <td> <?php echo $r['name'] ?> </td>
+                                    <td> <?php echo $r['surname'] ?> </td>
                                 </tr>
                                 <? } ?>
                             </tbody>
@@ -70,6 +71,12 @@
                     </div>
                 </div>
                 <!-- END EXAMPLE TABLE PORTLET-->
+            </div>
+            <div class="col-md-3">
+                <a href="<?php echo site_url() ?>/transaction/download/brokers">
+                    <i class="fa fa-download"></i>
+                     Descargar CSV
+                </a>
             </div>
         </div>
     </div>

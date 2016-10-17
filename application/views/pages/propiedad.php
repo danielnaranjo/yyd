@@ -70,6 +70,9 @@
                         </div>
                         <div class="blog-single-desc">
                             <p><?php echo $result['description']?></p>
+                            <?php if($result['floors']!='') { ?>
+                            <p>Proyecto de <?php echo $result['floors']?> pisos con <?php echo $result['unities']?> unidades.</p>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>

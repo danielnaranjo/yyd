@@ -75,6 +75,35 @@
         }
         public function enlazar($data){
             $query = $this->db->insert('client_visits', $data);
-        return $query;
+            return $query;
+        }
+
+        // descarga todas la info en csv
+        public function descargar(){
+            $this->load->dbutil();
+            $delimiter = ";";
+            $newline = "\r\n";
+            $enclosure = '"';
+            $sql = $this->db->query("
+                SELECT 
+                    property.name AS property, 
+                    property_unity.number, 
+                    property_unity.type, 
+                    property_unity.square,
+                    client.firstname AS name, 
+                    client.lastname AS surname, 
+                    client_info.email, 
+                    client_info.address, 
+                    client_info.city, 
+                    client_info.country, 
+                    client_info.phone
+                FROM client 
+                    LEFT JOIN property_client ON property_client.client_id=client.client_id 
+                    LEFT JOIN property ON property.property_id=property_client.property_id 
+                    LEFT JOIN client_info ON client.client_id=client_info.client_info_id 
+                    LEFT JOIN property_unity ON property_unity.property_unity_id=property_client.property_unity_id
+                WHERE client.status=1
+                ");
+            return $this->dbutil->csv_from_result($sql, $delimiter, $newline, $enclosure);
+        }
     }
-}

@@ -79,6 +79,26 @@
         // footer
         $this->load->view('templates/footer');
     }
+
+    public function brokers() {
+        $data['result'] = $this->Transaction_model->vendedores();//AQUI
+        $data['titulo'] = 'Brokers';
+
+        //seguridad
+        $this->load->view('templates/secure');
+        // header
+        $this->load->view('templates/header');
+        // sidebar
+        $this->load->view('templates/menu');
+        // main
+        $this->load->view('tables/broker', $data);
+        // footer
+        $this->load->view('templates/footer');
+        
+        /*echo json_encode($data);*/
+    }
+
+
     public function delete($id){
         $this->Transaction_model->deletear($id);
          redirect('property/all', 'location', 302);
@@ -115,5 +135,11 @@
         );
         $this->Transaction_model->updatear($id, $data);
         redirect('property/all', 'location');
+    }
+    public function download($report){
+        $this->load->helper('download');
+        $data = $this->Transaction_model->descargar($report);
+        $name = 'yyigroup_'.$report.'_'.now().'.csv';
+        echo force_download($name, $data);
     }
 }

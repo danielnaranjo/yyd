@@ -86,6 +86,7 @@
         $data['titulo'] = 'Unidades';
         $data['result'] = $this->Property_unity_model->lista($id);
         $data['fields'] = $this->Property_unity_model->columnas();
+        $data['property'] = $this->Property_model->listar();
 
         //seguridad
         $this->load->view('templates/secure');

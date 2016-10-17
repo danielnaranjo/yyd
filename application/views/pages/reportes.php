@@ -45,7 +45,14 @@
                 </div>
                 <!-- END EXAMPLE TABLE PORTLET-->
             </div>
+            <div class="col-md-3">
+                <a href="<?php echo site_url() ?>/transaction/download/countries">
+                    <i class="fa fa-download"></i>
+                     Descargar CSV
+                </a>
+            </div>
         </div>
+
     </div>
     <!-- END CONTENT BODY -->
 </div>

@@ -24,10 +24,10 @@
         $data['titulo'] = 'Formas de pago';
         $data['result'] = $this->Bank_model->listar();
         $data['fields'] = $this->Bank_model->columnas();
-        //$data['model'] = "bank";
+        $data['property'] = $this->Property_model->listar();
 
         //seguridad
-//      $this->load->view('templates/secure');
+        $this->load->view('templates/secure');
 
         // header
         $this->load->view('templates/header');

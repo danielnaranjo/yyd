@@ -13,6 +13,7 @@
 				'level'			=>	'Tipo', 
 				'registered'	=>	'fecha',
 				'property'		=>	'propiedad',
+				'property_id'	=>	'Proyecto',
 				'name'			=>	'nombre',
 				'address'		=>	'dirección',
 				'province'		=>	'provincia',

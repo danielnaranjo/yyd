@@ -165,6 +165,8 @@
             'address' => $this->input->post("address"),
             'phone' => $this->input->post("phone"),
             'notes' => $this->input->post("notes"),
+            'floors' => $this->input->post("floors"),
+            'unities' => $this->input->post("unities"),
         );
         $data = $this->Property_model->registrar($data);
         if($data){
@@ -183,6 +185,8 @@
             'address' => $this->input->post("address"),
             'phone' => $this->input->post("phone"),
             'notes' => $this->input->post("notes"),
+            'floors' => $this->input->post("floors"),
+            'unities' => $this->input->post("unities"),
         );
         $this->Property_model->updatear($id, $data);
         redirect('property/all', 'location');

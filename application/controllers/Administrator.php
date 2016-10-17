@@ -82,13 +82,22 @@
         $data = $this->Administrator_model->listar($slug);
     }
 
-    public function all(){
+    public function all($id = NULL){
         //$data['news'] = $this->Administrator_model->get_news();
         //echo json_encode($data);
 
-        $data['titulo'] = 'Usuarios';
-        $data['result'] = $this->Administrator_model->listar();
+        $data['result'] = $this->Administrator_model->filtrar($id);
         $data['fields'] = $this->Administrator_model->columnas();
+        $data['property'] = $this->Property_model->listar();
+
+
+        if($id==2){
+            $data['titulo'] = 'Brokers';
+        } else if($id==1){
+            $data['titulo'] = 'Projects Managers';
+        } else {
+            $data['titulo'] = 'Administradores';
+        }
 
         //seguridad
         $this->load->view('templates/secure');
@@ -159,7 +168,7 @@
 
     public function delete($id){
         $this->Administrator_model->deletear($id);
-         redirect('administrator/all', 'location', 302);
+         redirect('administrator/', 'location', 302);
     }
     public function add(){
         $data = array(
@@ -174,7 +183,7 @@
         $data = $this->Administrator_model->registrar($data);
         //echo json_encode($data);
         if($data){
-            redirect('administrator/all', 'location');
+            redirect('administrator/', 'location');
         }
     }
     public function update(){
@@ -188,7 +197,16 @@
             'level' => $this->input->post("level"),
         );
         $this->Administrator_model->updatear($id, $data);
-        redirect('administrator/all', 'location');
+        redirect('administrator/', 'location');
     }
+    /*
+    public function download(){
+        $this->load->helper('download');
+
+        $data = $this->Client_model->descargar();
+        $name = 'test.csv';
+
+        echo force_download($name, $data);
+    }*/
 
 }

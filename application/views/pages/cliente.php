@@ -1,3 +1,7 @@
+<?
+/* variables */
+$nivel = $this->session->userdata('level');
+?>
 <div class="page-content-wrapper">
     <!-- BEGIN CONTENT BODY -->
     <div class="page-content">
@@ -55,7 +59,7 @@
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-4">
                                 <div class="uppercase profile-stat-title"> <?php echo $unity[0]['square'] ?> </div>
-                                <div class="uppercase profile-stat-text"> Sq. </div>
+                                <div class="uppercase profile-stat-text"> Pies </div>
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-4">
                                 <div class="uppercase profile-stat-title"> <?php echo $parking ?> </div>
@@ -94,6 +98,7 @@
                 <!-- BEGIN PROFILE CONTENT -->
                 <div class="profile-content">
                     <div class="row">
+                        <?php if($nivel!=2) {?>
                         <div class="col-md-6">
                             <!-- BEGIN PORTLET -->
                             <div class="portlet light ">
@@ -102,35 +107,7 @@
                                         <span class="caption-subject font-blue-madison bold uppercase">Transacciones</span>
                                     </div>
                                 </div>
-                                <div class="portlet-body"><?php //echo $total[0]['total'] ?>
-                                    <? /*if($total[0]['total']>0) { ?>
-                                    <div class="row number-stats margin-bottom-30">
-                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                            <div class="stat-left">
-                                                <div class="stat-chart">
-                                                    <!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
-                                                    <div id="sparkline_bar"></div>
-                                                </div>
-                                                <div class="stat-number">
-                                                    <div class="title"> Total </div>
-                                                    <div class="number"> $<?php echo $total[0]['total']?> </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 col-xs-6">
-                                            <div class="stat-right">
-                                                <div class="stat-chart">
-                                                    <!-- do not line break "sparkline_bar" div. sparkline chart has an issue when the container div has line break -->
-                                                    <div id="sparkline_bar2"></div>
-                                                </div>
-                                                <div class="stat-number">
-                                                    <div class="title"> Restante </div>
-                                                    <div class="number"> $<?php echo $total[0]['total']-100000?> </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <? } */?>
+                                <div class="portlet-body">
                                     <div class="table-scrollable table-scrollable-borderless">
                                         <table class="table table-hover table-light">
                                             <thead>
@@ -162,6 +139,7 @@
                             </div>
                             <!-- END PORTLET -->
                         </div>
+                        <?php }  ?>
                         <div class="col-md-6">
                             <!-- BEGIN PORTLET -->
                             <div class="portlet light ">
@@ -169,6 +147,7 @@
                                     <div class="caption caption-md">
                                         <i class="icon-globe theme-font hide"></i>
                                         <span class="caption-subject font-blue-madison bold uppercase">ACTIVIDAD</span>
+                                        <a href="<?php echo site_url() ?>/client/note/1"><i class="fa fa-pencil"></i></a>
                                     </div>
                                 </div>
                                 <div class="portlet-body">
@@ -216,11 +195,13 @@
                             </div>
                             <!-- END PORTLET -->
                         </div>
+                    <?php if($nivel!=2) {?>
                     </div>
                     <div class="row">
+                    <? } ?>
                         <div class="col-md-6">
-                            <div class="portlet light portlet-fit ">
-                                <div class="portlet-title">
+                            <div class="portlet light portlet-fit " >
+                                <div class="portlet-title" <?php if($nivel==2) {?>style="padding: 15px 20px 5px 20px !important;"<? } ?>>
                                     <div class="caption">
                                         <span class="caption-subject bold font-green uppercase"> Visitas</span>
                                         <a class="pull-right" href="javascript:;" onclick="javascript:visit(<? echo $result[0]['client_id']?>,1)">
@@ -249,7 +230,7 @@
                                                                 $fecha = mysql_to_unix($v['timestamp']);
                                                                 $now = time();
                                                                 $units = 2;
-                                                                echo timespan($fecha, $now, $units) . ' ago';
+                                                                echo timespan($fecha, $now, $units);
                                                             ?>
                                                             
                                                         </span>

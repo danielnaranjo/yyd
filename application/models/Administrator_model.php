@@ -52,5 +52,22 @@
             $query = $this->db->field_data('property_broker');
             return $query;
         }
+        public function filtrar($id){
+            if ($id === FALSE){
+                    $query = $this->db->get('administrator');
+                    return $query->result_array();
+            }
+            $query = $this->db->get_where('administrator', array('level' => $id));
+            return $query->result_array();
+        }
 
+        // descarga todas la info en csv
+        public function descargar(){
+            $this->load->dbutil();
+            $delimiter = ";";
+            $newline = "\r\n";
+            $enclosure = '"';
+            $sql = $this->db->query("SELECT * FROM administrator");
+            return $this->dbutil->csv_from_result($sql, $delimiter, $newline, $enclosure);
+        }
 }

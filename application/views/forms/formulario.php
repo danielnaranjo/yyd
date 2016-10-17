@@ -120,7 +120,7 @@ function makeaform($fields, $model, $nivel, $action, $btn, $tables) {
 						echo form_upload($atributes);
 						echo '<span id="helpBlock" class="help-block">Nota: Formatos soportados JPG, PNG, GIF</span>';
 					} else {
-						if($field->name=="email") {
+						if($field->name=="email" && $action!="new") {
 							if($nivel==2){
 								$atributes['disabled'] = 'disabled';
 							}

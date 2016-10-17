@@ -66,7 +66,7 @@ if($titulo==''){
                                 <tr>
                                     <?php foreach ($fields as $field){ //campos ?>
                                         <?php 
-                                            if (!preg_match("/_id/i", $field->name) 
+                                            if (!preg_match("/".$model."_id/i", $field->name) // Muestra todo, excepto el model_id de la tabla
                                                 && !preg_match("/status/i", $field->name)  
                                                 //&& !preg_match("/level/i", $field->name) 
                                                 && !preg_match("/password/i", $field->name)
@@ -74,11 +74,15 @@ if($titulo==''){
                                                 && !preg_match("/notes/i", $field->name)
                                                 && !preg_match("/phone/i", $field->name)
                                                 && !preg_match("/email/i", $field->name)
-                                                && !preg_match("/status/i", $field->name)
+                                                // property
+                                                && !preg_match("/floors/i", $field->name)
+                                                && !preg_match("/unities/i", $field->name)
 
                                             ) {  // campos con "_id" ?>
                                             <th style="text-transform: capitalize;" id="<? echo $field->name ?>"> 
-                                                <? echo traducir($field->name) ?> 
+                                                <?php 
+                                                    echo traducir($field->name);
+                                                ?> 
                                             </th>
                                         <? } ?>
                                     <? } ?>
@@ -95,7 +99,7 @@ if($titulo==''){
                                     <?php foreach ($fields as $f) { // columnas ?>
                                         <?php 
                                             if (
-                                                !preg_match("/_id/i", $f->name) 
+                                                !preg_match("/".$model."_id/i", $f->name) // Muestra todo, excepto el model_id de la tabla
                                                 && !preg_match("/status/i", $f->name)  
                                                 //&& !preg_match("/level/i", $f->name)  
                                                 && !preg_match("/password/i", $f->name)
@@ -104,16 +108,21 @@ if($titulo==''){
                                                 && !preg_match("/phone/i", $f->name)
                                                 && !preg_match("/email/i", $f->name)
                                                 && !preg_match("/status/i", $f->name)
+                                                // property
+                                                && !preg_match("/floors/i", $f->name)
+                                                && !preg_match("/unities/i", $f->name)
                                             ) {  // campos con "_id" ?>
                                             <td id="<?php echo $f->name ?>">
                                                 <?php 
                                                     //echo $r[$f->name]; 
                                                     if (preg_match("/registered/i", $f->name) ) {
-                                                        
+                                                        /*
                                                         $fecha = mysql_to_unix($r[$f->name]);
                                                         $now = time();
                                                         $units = 2;
                                                         echo 'Hace '.timespan($fecha, $now, $units);
+                                                        */
+                                                        echo mdate('%d/%m/%Y %h:%i %a', strtotime($r[$f->name]));
 
                                                     } else if (preg_match("/level/i", $f->name) ) {
 
@@ -134,6 +143,15 @@ if($titulo==''){
                                                             'height'=> '200',
                                                         );
                                                         echo img($imagen);
+
+                                                    } else if (preg_match("/property_id/i", $f->name) ) {
+                                                        /**/
+                                                        if($r[$f->name]!=0){
+                                                            echo $property[$r[$f->name]-1]['name'];
+                                                        } else {
+                                                            echo "YYD Group";
+                                                        }
+                                                        //echo $r[$f->name];
 
                                                     } else {
                                                         echo $r[$f->name];
