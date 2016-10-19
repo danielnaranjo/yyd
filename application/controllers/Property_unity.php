@@ -56,11 +56,11 @@
             'property_id' => $this->input->post("property_id"),
             'number' => $this->input->post("number"),
             'type' => $this->input->post("type"),
-            'square' => $this->input->post("square"),
+            //'square' => $this->input->post("square"),
             'price' => $this->input->post("price"),
-            'comission' => $this->input->post("comission"),
-            'flat' => $this->input->post("flat"),
-            'status' => 1,
+            //'comission' => $this->input->post("comission"),
+            //'flat' => $this->input->post("flat"),
+            'status' => 0,
         );
         $data = $this->Property_unity_model->registrar($data);
         //echo json_encode($data);
@@ -74,10 +74,10 @@
             'property_id' => $this->input->post("property_id"),
             'number' => $this->input->post("number"),
             'type' => $this->input->post("type"),
-            'square' => $this->input->post("square"),
+            //'square' => $this->input->post("square"),
             'price' => $this->input->post("price"),
-            'comission' => $this->input->post("comission"),
-            'flat' => $this->input->post("flat"),
+            //'comission' => $this->input->post("comission"),
+            //'flat' => $this->input->post("flat"),
             //'status' => $this->input->post("status"),
         );
         $this->Property_unity_model->updatear($id, $data);
@@ -99,5 +99,15 @@
         $this->load->view('tables/pages', $data);
         // footer
         $this->load->view('templates/footer');
+    }
+
+    public function change(){
+        $id = $this->input->post("property_unity_id");
+        $data = array(
+            'property_id' => $this->input->post("property_id"),
+            'status' => $this->input->post("status"),
+        );
+        $this->Property_unity_model->cambiarestado($id, $data);
+        echo true;
     }
 }

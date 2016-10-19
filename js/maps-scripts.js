@@ -1,85 +1,35 @@
 //scripts.js
 
-function mapadevisitas() {
-	// svg path for target icon
-	var targetSVG = "M9,0C4.029,0,0,4.029,0,9s4.029,9,9,9s9-4.029,9-9S13.971,0,9,0z M9,15.93 c-3.83,0-6.93-3.1-6.93-6.93S5.17,2.07,9,2.07s6.93,3.1,6.93,6.93S12.83,15.93,9,15.93 M12.5,9c0,1.933-1.567,3.5-3.5,3.5S5.5,10.933,5.5,9S7.067,5.5,9,5.5 S12.5,7.067,12.5,9z";
-	
+function mapadevisitas(dataPoints) {
 	var map = AmCharts.makeChart( "chartdiv", {
-	  "type": "map",
-	  "theme": "light",
-	  "dataProvider": {
-	    "map": "worldLow",
-	    "zoomLevel": 5,
-	    "zoomLongitude": -1.1341,
-	    "zoomLatitude": 49.1712,
-
-	    "lines": [ {
-	      "latitudes": [ 51.5002, 50.4422 ],
-	      "longitudes": [ -0.1262, 30.5367 ]
-	    }, {
-	      "latitudes": [ 51.5002, 50.8371 ],
-	      "longitudes": [ -0.1262, 4.3676 ]
-	    }, {
-	      "latitudes": [ 51.5002, 59.3328 ],
-	      "longitudes": [ -0.1262, 18.0645 ]
-	    }],
-	    "images": [ {
-	      "id": "london",
-	      "svgPath": targetSVG,
-	      "title": "London 1",
-	      "latitude": 50.4422,
-	      "longitude": 30.5367,
-	      "scale": 1
-	    }, {
-	      "svgPath": targetSVG,
-	      "title": "Brussels 10",
-	      "latitude": 50.8371,
-	      "longitude": 4.3676,
-	      "scale": 0.5
-	    }, {
-	      "svgPath": targetSVG,
-	      "title": "Prague 505",
-	      "latitude":  59.3328,
-	      "longitude": 18.0645,
-	      "scale": 0.5
-	    }]
-	  },
-
-	  "areasSettings": {
-	    "unlistedAreasColor": "#FFCC00",
-	    "unlistedAreasAlpha": 0.9
-	  },
-
-	  "imagesSettings": {
-	    "color": "#CC0000",
-	    "rollOverColor": "#CC0000",
-	    "selectedColor": "#000000"
-	  },
-
-	  "linesSettings": {
-	    "arc": -0.7, // this makes lines curved. Use value from -1 to 1
-	    //"arrow": "middle",
-	    "color": "#CC0000",
-	    "alpha": 0.4,
-	    "arrowAlpha": 1,
-	    "arrowSize": 4
-	  },
-	  "zoomControl": {
-	    //"gridHeight": 100,
-	    //"draggerAlpha": 1,
-	    //"gridAlpha": 0.2
-	  },
-
-	  "backgroundZoomsToTop": true,
-	  "linesAboveImages": true,
-	  
-	  "export": {
-	    "enabled": false
-	  }
-	} );
+		"type": "map",
+		"theme": "light",
+		"dataProvider": dataPoints,
+		"areasSettings": {
+			"unlistedAreasColor": "#FFCC00",
+			"unlistedAreasAlpha": 0.9
+		},
+		"imagesSettings": {
+			"color": "#CC0000",
+			"rollOverColor": "#CC0000",
+			"selectedColor": "#000000"
+		},
+		"linesSettings": {
+			"arc": -0.7, // this makes lines curved. Use value from -1 to 1
+			"color": "#CC0000",
+			"alpha": 0.4,
+			"arrowAlpha": 1,
+			"arrowSize": 4
+		},
+		"backgroundZoomsToTop": true,
+		"linesAboveImages": true,
+		"export": {
+			"enabled": false
+		}
+	});
 }
 
-mapadevisitas();
+//mapadevisitas();
 
 function mapadeventas() {
 	var chart = AmCharts.makeChart( "ventas", {

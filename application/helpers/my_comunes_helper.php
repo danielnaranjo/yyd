@@ -31,6 +31,11 @@
 				'phone'			=>	'teléfono',
 				'notes'			=>	'comentarios',
 				'status'		=>	'estado',
+				'price_mts'		=>	'precio por mts',
+				'price_feet'	=>	'precio por pies',
+				'total_mts'		=>	'total mts',
+				'total_feet'	=>	'total pies',
+				'orientation'	=>	'orientación',
 			);
 			return strtr( $arg, $originales );
 	    }

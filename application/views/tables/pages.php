@@ -82,6 +82,7 @@ if($titulo==''){
                                                 && !preg_match("/_unity_id/i", $field->name)
                                                 && !preg_match("/comission/i", $field->name)
                                                 && !preg_match("/flat/i", $field->name)
+                                                && !preg_match("/square/i", $field->name)
 
                                             ) {  // campos con "_id" ?>
                                             <th style="text-transform: capitalize;" id="<? echo $field->name ?>"> 
@@ -121,6 +122,7 @@ if($titulo==''){
                                                 && !preg_match("/_unity_id/i", $f->name)
                                                 && !preg_match("/comission/i", $f->name)
                                                 && !preg_match("/flat/i", $f->name)
+                                                && !preg_match("/square/i", $f->name)
 
                                             ) {  // campos con "_id" ?>
                                             <td id="<?php echo $f->name ?>">

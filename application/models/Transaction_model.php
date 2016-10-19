@@ -63,6 +63,7 @@
                               ELSE 0
                             END) AS sold
                     FROM property_unity 
+                    WHERE property_id='$id' 
                     GROUP BY type
                 ");
                 return $query->result_array();
@@ -89,7 +90,6 @@
                               ELSE 0
                             END) AS sold
                     FROM property_unity 
-                    WHERE property_id='$id' 
                     GROUP BY type
                 ");   
             return $query->result_array();

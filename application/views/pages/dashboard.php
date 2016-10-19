@@ -179,3 +179,79 @@
         </div>
     <!-- END CONTENT BODY -->
 </div>
+
+
+<script>
+        /*
+            ZOOM INICIAL (CENTRO), AKA EJ. PUNTA DEL ESTE
+        */
+        /*
+            PARAM1, PARAM2
+            LAT  CENTRO, LAT PAIS VISITANTES
+            LONG  CENTRO, LONG PAIS VISITANTES
+        */
+        /*
+            ID = uuid
+            PAIS + TOTAL
+            LAT PAIS VISITANTES
+            LONG PAIS VISITANTES
+            ESCALA X
+        */
+window.onload = function(){
+    var targetSVG = "M9,0C4.029,0,0,4.029,0,9s4.029,9,9,9s9-4.029,9-9S13.971,0,9,0z M9,15.93 c-3.83,0-6.93-3.1-6.93-6.93S5.17,2.07,9,2.07s6.93,3.1,6.93,6.93S12.83,15.93,9,15.93 M12.5,9c0,1.933-1.567,3.5-3.5,3.5S5.5,10.933,5.5,9S7.067,5.5,9,5.5 S12.5,7.067,12.5,9z";
+
+    function getCountryInfo(country){
+        $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+country, function(response){
+            return response.results[0].geometry.location;
+        });
+    }
+
+    $.getJSON('<?=site_url()?>/administrator/getCountries', function(response){
+        //console.log('response',response);
+        var location = response.properties[0].location,
+            property = response.properties[0].name, 
+            local = location.split(',');
+        console.log(property, local[0], local[1]);
+        var dataPoints = {
+            "map": "worldLow",
+            "zoomLevel": 6,
+            "zoomLongitude": local[1],
+            "zoomLatitude": local[0],
+            "lines": [ 
+                {
+                    "latitudes": [ local[0], local[0] ],//
+                    "longitudes": [ local[1], local[1] ]//
+                }
+            ],
+            "images": [ 
+                {
+                    "id": "1",
+                    "svgPath": targetSVG,
+                    "title": property,//
+                    "latitude": local[0],//
+                    "longitude": local[1],//
+                    "scale": 1
+                }
+            ]
+        };
+/*
+        for(var i = 0; i < response.visitor.length; i++){
+            //getCountryInfo('Venezuela');
+            //console.log(response.visitor[i].country, response.visitor[i].total);
+            var country = response.visitor[i].country,
+                total = response.visitor[i].total;
+            $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address='+country, function(res){
+                //console.log(country, total, res.results[0].geometry.location);
+                dataPoints['lines']['latitudes']= parseInt(res.results[0].geometry.location.lat);
+                dataPoints['lines']['latitudes']= -28.416097;
+                dataPoints['lines']['longitudes']= parseInt(res.results[0].geometry.location.lng);
+                dataPoints['lines']['longitudes']= -53.61667199999999;
+                console.log(dataPoints.lines);
+            });
+        }
+*/
+        mapadevisitas(dataPoints);
+    });//getJSON
+}
+
+</script>

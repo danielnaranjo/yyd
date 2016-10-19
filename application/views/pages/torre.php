@@ -2,6 +2,13 @@
     .label {
         padding: 5px 10px;
     }
+    ul {
+        margin: 0;
+        padding: 0;
+    }
+    ul li {
+        list-style: none;
+    }
 </style>
 <!-- BEGIN CONTENT -->
 <div class="page-content-wrapper">
@@ -92,72 +99,56 @@
                 <h4></h4>
                 <a></a>
 
-                <div class="col-md-5" id="action" style="display: none;">
-                    <?php echo form_open_multipart('', ['class'=>"form-horizontal", 'role'=>"form"]); ?>
+                <div class="col-md-6" id="action" style="display: none;">
+                    <?php echo form_open_multipart('', ['class'=>"form-horizontal", 'role'=>"form", 'id'=>'property_unity']); ?>
                         <?=form_input(array('type'=>'hidden','name'=>'property_id','id'=>'property_id','value'=>$ID))?>
-                        <?=form_input(array('type'=>'hidden','name'=>'broker_id','id'=>'broker_id','value'=>'0'))?>
+                        <?//=form_input(array('type'=>'hidden','name'=>'broker_id','id'=>'broker_id','value'=> $this->session->userdata('aID')))?>
+                        <?=form_input(array('type'=>'hidden','name'=>'property_unity_id','id'=>'property_unity_id'))?>
                         <div class="form-group">
                             <?=form_label('cambiar','cambiar', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                             <div class="col-md-9">
-                            <? $options = array('-1' => 'Estado', '3' => 'Reservada', '4' => 'Vendida', '2' => 'Disponible'); ?>
+                            <?php 
+                            $options = array(
+                                '-1' => 'Estado', 
+                                '4' => 'Vendida', 
+                                '3' => 'Reservada', 
+                                '2' => 'Disponible',
+                                '1' => 'Disponible'
+                                ); 
+                            ?>
                             <?=form_dropdown(array('name'=>'status','id'=>'status','class'=> 'form-control','autocomplete'=>'off'), $options)?>
                             </div>
                         </div>
-                        <!--<div class="form-group">
-                            <?=form_label('Broker','Broker', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
-                            <div class="col-md-9">
-                            <? 
-                                $options=[];
-                                foreach($brokers as $broke) {
-                                    $options[$broke['administrator_id']]=$broke['firstname'].' '.$broke['lastname']. ' ('.$broke['level'].')';
-                                }   
-                            ?>
-                            <?=form_dropdown(array('name'=>'broker_id','id'=>'broker_id','class'=> 'form-control','autocomplete'=>'off'), $options)?>
-                            </div>
-                        </div>-->
                         <div class="form-actions">
                             <div class="row">
-                                <div class="col-md-offset-3 col-md-9">
-                                    <?=form_submit('Submit', 'Cambiar estado', ['class'=>'btn blue','id'=>'Submit'])?>
+                                <div class="col-md-6">
+                                    <?=form_submit('Submit', 'Cambiar estado', ['class'=>'btn btn-block blue','id'=>'btnStatus'])?>
+                                </div>
+                                <div class="col-md-6">
+                                    <a data-toggle="modal" href="#basic" class="btn btn-block green">Agregar nota</a>
                                 </div>
                             </div>
                         </div>
                     <?php echo form_close();?>
                 </div>
             </div>
+        </div>
+    </div>
+    <!-- END CONTENT BODY -->
+</div>
+<!-- END CONTENT -->
 
-            
-
-
-            <div class="col-md-5" id="notes" style="display: none;">
-                <h3>Información de visita</h3>
-                <?php echo form_open_multipart('', ['class'=>"form-horizontal", 'role'=>"form"]); ?>
-                    <?//=form_input(array('type'=>'hidden','name'=>'note_id','id'=>'note_id'))?>
+<div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Información de visita</h4>
+            </div>
+            <div class="modal-body">
+            <?php echo form_open_multipart('', ['id'=>"addnote", 'class'=>"form-horizontal", 'role'=>"form"]); ?>
                     <?=form_input(array('type'=>'hidden','name'=>'property_id','id'=>'property_id','value'=>$ID))?>
-                    <!--<div class="form-group">
-                        <?=form_label('Propiedad','Propiedad', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
-                        <div class="col-md-9">
-                        <? 
-                            $options=[];
-                            foreach($properties as $property) {
-                                $options[$property['property_id']]=$property['name'];
-                            }   
-                        ?>
-                        <?=form_dropdown(array('name'=>'property_id','id'=>'property_id','class'=> 'form-control','autocomplete'=>'off'), $options)?>
-                        </div>
-                    </div>-->
-                    <div class="form-group">
-                        <?=form_label('Broker','Broker', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
-                        <div class="col-md-9">
-                        <? 
-                            $options=[];
-                            foreach($brokers as $broke) {
-                                $options[$broke['administrator_id']]=$broke['firstname'].' '.$broke['lastname']. ' ('.$broke['level'].')';
-                            }   
-                        ?>
-                        <?=form_dropdown(array('name'=>'broker_id','id'=>'broker_id','class'=> 'form-control','autocomplete'=>'off'), $options)?>
-                        </div>
-                    </div>
+                    <?=form_input(array('type'=>'hidden','name'=>'broker_id','id'=>'broker_id','value'=> $this->session->userdata('aID')))?>
                     <div class="form-group">
                         <?=form_label('Cliente','Cliente', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
@@ -167,67 +158,68 @@
                             foreach($clients as $client) {
                                 $options[$client['client_id']]=$client['firstname'].' '.$client['lastname']. ' ('.$client['country'].')';
                             }   
-                        //echo json_encode($clients);
                         ?>
-                        <?=form_dropdown(array('name'=>'client_id','id'=>'client_id','class'=> 'form-control','autocomplete'=>'off'),$options)?>
+                        <?=form_dropdown(array('name'=>'client_id','id'=>'client_id','class'=> 'form-control','placeholder'=>'Clientes','autocomplete'=>'off'),$options)?>
                         </div>
                     </div>
                     <div class="form-group">
                         <?=form_label('Comentarios','Comentarios', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
-                        <?=form_textarea(array('name'=>'note','id'=>'note','class'=> 'form-control','autocomplete'=>'off'))?>
+                        <?=form_textarea(array('name'=>'note','id'=>'note','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Comentarios',))?>
                         </div>
                     </div>
-
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-offset-3 col-md-9">
                                 <?=form_submit('Submit', 'Agregar nota', ['class'=>'btn blue','id'=>'Submit'])?>
-                                <?=form_reset('reset', 'Borrar', ['class'=>'btn default'])?>
                             </div>
                         </div>
                     </div>
-
                 <?php echo form_close();?>
             </div>
         </div>
     </div>
-    <!-- END CONTENT BODY -->
 </div>
-<!-- END CONTENT -->
+
+
+
 <script>
     function getInfo(id, property){
         $('#detalle h3').html('Unidad '+id);
         $('#detalle h4').html(' ');
-        $('#detalle a').remove();
+        //$('#detalle a').remove();
         $('#detalle p').html('Cargando, por favor espere.');
         $.getJSON('<?=site_url() ?>/transaction/info/'+id+'/'+property, function(res) {
             var info = res.info,
                 broker = res.broker;
             $('#detalle p').html('').removeClass('alert').removeClass('alert-info');
             if(info.status!=0){
-            $('#detalle p').html('<ul></ul>');
-            $('#detalle ul').append('<li><strong>Tipo:</strong> '+info.type+'</li>');
-            $('#detalle ul').append('<li><strong>Espacio (pies/metros):</strong> '+info.total_feet+' pies /'+ info.total_feet +' metros </li>');
-            $('#detalle ul').append('<li><strong>Precio:</strong> USD $'+info.price+'</li>');
-            $('#detalle ul').append('<li><strong>Precio por pies/metros:</strong> USD $'+info.price_feet +' pies / $'+info.price_mts+' metros</li>');
-            $('#detalle ul').append('<li><strong>Broker:</strong> No disponible</li>');
-            //$('#detalle h4').html(res.status);
-            if(info.status==0) {
-                //$('#detalle h4').html('<strong>Estado: </strong> No disponible');
-            } else if(info.status==2) {
-                $('#detalle h4').html('<strong>Estado: </strong> Disponible');
-            } else if(info.status==3) {
-                $('#detalle h4').html('<strong>Estado: </strong> Reservada');
-            } else if(info.status==4) {
-                $('#detalle h4').html('<strong>Estado: </strong> Vendida');
-            } else {
-                $('#detalle h4').html('<strong>Estado: </strong> Disponible');
-                $('#detalle a').attr('href','#').text('Reservar').addClass('btn btn-default');
-                toastr.info('Es posible reservar esta unidad', 'Unidad #'+info.number);
-            }
-            $('#notes, #action').removeAttr('style');
-            $('#notes #note').val('Unidad #'+id+' Propiedad: '+property);
+                $('#detalle p').html('<ul></ul>');
+                $('#detalle ul').append('<li><strong>Tipo:</strong> '+info.type+'</li>');
+                $('#detalle ul').append('<li><strong>Orientación:</strong> '+info.orientation+'</li>');
+                $('#detalle ul').append('<li><strong>Espacio (pies/metros):</strong> '+info.total_feet+' pies /'+ info.total_feet +' metros <br><br></li>');
+                $('#detalle ul').append('<li><strong>Precio:</strong> USD $'+info.price+'</li>');
+                $('#detalle ul').append('<li><strong>Precio por pies/metros:</strong> USD $'+info.price_feet +' pies / $'+info.price_mts+' metros<br><br></li>');
+                $('#detalle ul').append('<li><strong>Broker:</strong> No disponible</li>');
+                //$('#detalle h4').html(res.status);
+                if(info.status==0) {
+                    //$('#detalle h4').html('<strong>Estado: </strong> No disponible');
+                } else if(info.status==2) {
+                    $('#detalle ul').append('<li><strong>Estado: </strong> Disponible</li>');
+                } else if(info.status==3) {
+                    $('#detalle ul').append('<li><strong>Estado: </strong> Reservada</li>');
+                } else if(info.status==4) {
+                    $('#detalle ul').append('<li><strong>Estado: </strong> Vendida</li>');
+                } else {
+                    $('#detalle ul').append('<li><strong>Estado: </strong> Disponible</li>');
+                    //$('#detalle a').attr('href','#').text('Reservar').addClass('btn btn-default');
+                    toastr.info('Es posible reservar esta unidad', 'Unidad #'+info.number);
+                }
+                $('#property_unity #status').val(info.status);
+                $('#notes, #action').removeAttr('style');
+                $('#notes #note').val('Unidad #'+id+' Propiedad: '+property);
+                // populate property_unity_id
+                $('#action #property_unity_id').val(info.property_unity_id);
             }
             //console.log('data', res);
         }).fail(function(err) {
@@ -235,11 +227,9 @@
             console.log('err', err.statusText);
         });
     };
-    window.onload = function(){
-        toastr.info('Cargando disponibilidad, por favor, espere..');
-        console.log('Loaded!');
+    function getData(){
         $.getJSON('<?=site_url() ?>/property/populate/<?=$ID?>', function(response) {
-            console.log('populate!');
+            console.log(new Date());
             var st =  response.unities,
                 none = 0,
                 free = 0,
@@ -278,6 +268,11 @@
                 }
             }
         });
+    }
+    window.onload = function(){
+        toastr.info('Cargando disponibilidad, por favor, espere..');
+        console.log('Loaded!');
+        getData();
         $("#Submit").click(function(event) {
             event.preventDefault();
             var property_id = $("#property_id").val(),
@@ -291,8 +286,36 @@
                 data: { property_id: property_id, broker_id: broker_id, client_id: client_id, note: note },
                 success: function(res) {
                 if(res) {
-                    form[0].reset();
+                    toastr.success('Información actualizada!');
+                    //form[0].reset();
+                    $('.modal form input, .modal form select, .modal form textarea').val('');
+                    $('#basic').modal('hide');
                     }
+                }
+            });
+        });
+        $("#btnStatus").click(function(event) {
+            event.preventDefault();
+            var property_id = $("#property_id").val(),
+                //broker_id = $("#broker_id").val(),
+                status = $("#status").val(),
+                property_unity_id = $("#property_unity_id").val();
+            //console.log('btnStatus', property_id, status, property_unity_id);
+            jQuery.ajax({
+                type: "POST",
+                url: "<?php echo site_url(); ?>/property_unity/change",
+                dataType: 'json',
+                data: { property_id: property_id, property_unity_id: property_unity_id, status: status },
+                success: function(res) {
+                if(res==1) {
+                    toastr.success('Información actualizada!');
+                    console.info('res', res);
+                    getData();
+                    }
+                },
+                fail: function(err){
+                    toastr.error('Error');
+                    console.error('error', err);
                 }
             });
         });

@@ -57,18 +57,18 @@
         }
         public function departamentos($id = FALSE) {
             $sql = "SELECT property_unity.*, property.name FROM property_unity LEFT JOIN property ON property.property_id=property_unity.property_id";
-            if($id){
+            if($id === FALSE){
                 $sql+=" WHERE property.property_id=".$id;
             }
             $query = $this->db->query($sql);//AQUI
             return $query->result_array();
         }
         public function tipos($id = FALSE) {
-            if($id){
-                $sql = "SELECT type FROM property_unity WHERE property_id='.$id.' GROUP BY type";
-            } else {
-                $sql = "SELECT type FROM property_unity  GROUP BY type";
-            }
+            //if($id){
+            //    $sql = "SELECT type FROM property_unity WHERE property_id='".$id."' GROUP BY type";
+            //} else {
+                $sql = "SELECT type FROM property_unity GROUP BY type";
+            //}
             $query = $this->db->query($sql);//AQUI
             return $query->result_array();
         }
@@ -115,5 +115,9 @@
         public function deletear($id){
             $this->db->where('property_id', $id);
             $this->db->delete('property');
+        }
+        public function gps() {
+            $query = $this->db->query("SELECT property_id, name, notes AS location FROM property");
+            return $query->result_array();
         }
 }

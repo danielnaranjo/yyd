@@ -114,7 +114,25 @@
         }
         public function compradores() {
             $sql="SELECT property.property_id, client.* FROM property_client LEFT JOIN property ON property.property_id=property_client.property_id LEFT JOIN client ON property_client.client_id=client.client_id LEFT JOIN client_info ON client.client_id=client_info.client_info_id WHERE client.status=1"; 
-
+            $query = $this->db->query($sql);
+            return $query->result_array();
+        }
+        public function paises(){
+            $sql="
+            SELECT 
+                count(*) AS total, 
+                client.country,
+                countries.lat,
+                countries.lng,
+                countries.code
+            FROM client 
+                LEFT JOIN property_client ON client.client_id=property_client.client_id
+                LEFT JOIN property ON property.property_id=property_client.property_id
+                LEFT JOIN countries ON countries.name=client.country 
+            WHERE property_client.property_id=1
+            GROUP BY client.country 
+            ORDER BY total DESC
+            ";
             $query = $this->db->query($sql);
             return $query->result_array();
         }

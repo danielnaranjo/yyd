@@ -22,6 +22,9 @@
         // sidebar
         $this->load->view('templates/menu');
 
+        $data['visitor'] = $this->Client_model->paises();
+        $data['properties'] = $this->Property_model->gps();
+
         switch ($this->session->userdata('level')) {
             case '0':
                 $data['title']="Dashboard General";
@@ -199,14 +202,11 @@
         $this->Administrator_model->updatear($id, $data);
         redirect('administrator/', 'location');
     }
-    /*
-    public function download(){
-        $this->load->helper('download');
 
-        $data = $this->Client_model->descargar();
-        $name = 'test.csv';
-
-        echo force_download($name, $data);
-    }*/
+    public function getCountries(){
+        $data['visitor'] = $this->Client_model->paises();
+        $data['properties'] = $this->Property_model->gps();
+        echo json_encode($data);
+    }
 
 }

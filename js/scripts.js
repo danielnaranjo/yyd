@@ -6,12 +6,12 @@ function chartManager(){
 	  element: 'visitantes',
 	  data: [
 	    { y: '2006', a: 100, b: 90 },
-	    { y: '2007', a: 75,  b: 65 },
+	    /*{ y: '2007', a: 75,  b: 65 },
 	    { y: '2008', a: 50,  b: 40 },
 	    { y: '2009', a: 75,  b: 65 },
 	    { y: '2010', a: 50,  b: 40 },
 	    { y: '2011', a: 75,  b: 65 },
-	    { y: '2012', a: 100, b: 90 }
+	    { y: '2012', a: 100, b: 90 }*/
 	  ],
 	  xkey: 'y',
 	  ykeys: ['a', 'b'],
@@ -21,12 +21,12 @@ function chartManager(){
 	var option2 = {
 	  element: 'ventas',
 	  data: [
-	    { y: '2006', a: 100, b: 90 },
+	    /*{ y: '2006', a: 100, b: 90 },
 	    { y: '2007', a: 75,  b: 65 },
 	    { y: '2008', a: 50,  b: 40 },
 	    { y: '2009', a: 75,  b: 65 },
 	    { y: '2010', a: 50,  b: 40 },
-	    { y: '2011', a: 75,  b: 65 },
+	    { y: '2011', a: 75,  b: 65 },*/
 	    { y: '2012', a: 100, b: 90 }
 	  ],
 	  xkey: 'y',
@@ -39,7 +39,7 @@ function chartManager(){
 	//new Morris.Area(option1);
 	console.log('chartManager');
 };
-chartManager();
+//chartManager();
 
 function mapadevisitas() {
 	// svg path for target icon
@@ -54,35 +54,20 @@ function mapadevisitas() {
 	    "zoomLongitude": -1.1341,
 	    "zoomLatitude": 49.1712,
 
-	    "lines": [ {
+	    "lines": [{
 	      "latitudes": [ 51.5002, 50.4422 ],
 	      "longitudes": [ -0.1262, 30.5367 ]
 	    }, {
 	      "latitudes": [ 51.5002, 50.8371 ],
 	      "longitudes": [ -0.1262, 4.3676 ]
-	    }, {
-	      "latitudes": [ 51.5002, 59.3328 ],
-	      "longitudes": [ -0.1262, 18.0645 ]
 	    }],
-	    "images": [ {
+	    "images": [{
 	      "id": "london",
 	      "svgPath": targetSVG,
 	      "title": "London 1",
 	      "latitude": 50.4422,
 	      "longitude": 30.5367,
 	      "scale": 1
-	    }, {
-	      "svgPath": targetSVG,
-	      "title": "Brussels 10",
-	      "latitude": 50.8371,
-	      "longitude": 4.3676,
-	      "scale": 0.5
-	    }, {
-	      "svgPath": targetSVG,
-	      "title": "Prague 505",
-	      "latitude":  59.3328,
-	      "longitude": 18.0645,
-	      "scale": 0.5
 	    }]
 	  },
 
@@ -865,3 +850,4 @@ function mapadevisitantes() {
 }
 
 mapadevisitantes();
+

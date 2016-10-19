@@ -44,4 +44,8 @@
             $query = $this->db->get_where('property_unity', array('property_id' => $id));//AQUI
             return $query->result_array();
         }
+        public function cambiarestado($id, $data){
+            $this->db->where('property_unity_id', $id);
+            $this->db->update('property_unity', $data);
+        }
 }
