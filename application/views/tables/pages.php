@@ -77,6 +77,11 @@ if($titulo==''){
                                                 // property
                                                 && !preg_match("/floors/i", $field->name)
                                                 && !preg_match("/unities/i", $field->name)
+                                                && !preg_match("/lobby/i", $field->name)
+                                                // property_unity
+                                                && !preg_match("/_unity_id/i", $field->name)
+                                                && !preg_match("/comission/i", $field->name)
+                                                && !preg_match("/flat/i", $field->name)
 
                                             ) {  // campos con "_id" ?>
                                             <th style="text-transform: capitalize;" id="<? echo $field->name ?>"> 
@@ -111,6 +116,12 @@ if($titulo==''){
                                                 // property
                                                 && !preg_match("/floors/i", $f->name)
                                                 && !preg_match("/unities/i", $f->name)
+                                                && !preg_match("/lobby/i", $f->name)
+                                                // property_unity
+                                                && !preg_match("/_unity_id/i", $f->name)
+                                                && !preg_match("/comission/i", $f->name)
+                                                && !preg_match("/flat/i", $f->name)
+
                                             ) {  // campos con "_id" ?>
                                             <td id="<?php echo $f->name ?>">
                                                 <?php 

@@ -40,4 +40,8 @@
             $query = $this->db->get_where('property_unity', array('property_id' => $id));//AQUI
             return $query->result_array();
         }
+        public function estado($id){
+            $query = $this->db->get_where('property_unity', array('property_id' => $id));//AQUI
+            return $query->result_array();
+        }
 }

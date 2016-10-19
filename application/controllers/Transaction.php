@@ -6,7 +6,7 @@
         parent::__construct();
         $this->load->model('Transaction_model');//AQUI
         $this->load->model('Client_info_model');//AQUI
-        //$this->load->library('session');
+        $this->load->model('Property_unity_model');
     }
 
     public function index()
@@ -83,6 +83,7 @@
     public function brokers() {
         $data['result'] = $this->Transaction_model->vendedores();//AQUI
         $data['titulo'] = 'Brokers';
+        //$data['fields'] = $this->Transaction_model->columnaspersonalizadas();
 
         //seguridad
         $this->load->view('templates/secure');
@@ -91,7 +92,7 @@
         // sidebar
         $this->load->view('templates/menu');
         // main
-        $this->load->view('tables/broker', $data);
+        $this->load->view('tables/broker', $data);//
         // footer
         $this->load->view('templates/footer');
         
@@ -142,4 +143,14 @@
         $name = 'yyigroup_'.$report.'_'.now().'.csv';
         echo force_download($name, $data);
     }
+    public function info($id,$property) {
+        $data['info'] = $this->Transaction_model->informacion($id,$property);
+        $data['broker'] =  $this->Transaction_model->broker();
+        echo json_encode($data);
+    }
+    public function columnaspersonalizadas(){
+            $sql = "SELECT property.property_id, property.name, property_unity.number, property_unity.price, property_unity.comission, broker_comission.date, broker_comission.amount, broker_comission.comission, administrator.firstname, administrator.lastname FROM broker_comission LEFT JOIN property ON property.property_id=broker_comission.property_id LEFT JOIN administrator ON administrator.administrator_id=broker_comission.broker_id LEFT JOIN property_unity ON property_unity.property_unity_id=broker_comission.property_unity_id WHERE 1";
+            $query = $this->db->query($sql);
+            return $query->list_fields();
+        }
 }

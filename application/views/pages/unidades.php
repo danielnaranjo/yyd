@@ -30,6 +30,10 @@
                                 <tr>
                                     <th> Unidad </th>
                                     <th> Total </th>
+                                    <th> Vendidas </th>
+                                    <th> Reservadas </th>
+                                    <th> Disponibles </th>
+                                    <th> No disponibles </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -37,6 +41,10 @@
                                 <tr>
                                     <td> <?php echo $r['type'] ?> </td>
                                     <td> <?php echo $r['total'] ?> </td>
+                                    <td> <?php echo $r['none'] ?> </td>
+                                    <td> <?php echo $r['free'] ?> </td>
+                                    <td> <?php echo $r['reserved'] ?> </td>
+                                    <td> <?php echo $r['sold'] ?> </td>
                                 </tr>
                                 <? } ?>
                             </tbody>

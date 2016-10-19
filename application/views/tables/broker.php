@@ -41,15 +41,15 @@
                         <table class="table table-striped table-hover table-bordered" id="sample_1">
                             <thead>
                                 <tr>
-                                    <td> name </td>
-                                    <td> number </td>
-                                    <td> price </td>
-                                    <td> comission </td>
-                                    <td> date </td>
-                                    <td> amount </td>
-                                    <td> split </td>
-                                    <td> name </td>
-                                    <td> surname </td>
+                                    <th style="text-transform: capitalize;" > <? echo traducir('property') ?> </th>
+                                    <th style="text-transform: capitalize;" > <? echo traducir('number') ?> </th>
+                                    <th style="text-transform: capitalize;" > <? echo traducir('price') ?> </th>
+                                    <!--<th style="text-transform: capitalize;" > <? echo traducir('comission') ?> </th>-->
+                                    <th style="text-transform: capitalize;" > <? echo traducir('date') ?> </th>
+                                    <th style="text-transform: capitalize;" > <? echo traducir('amount') ?> </th>
+                                    <th style="text-transform: capitalize;" > <? echo traducir('split') ?> </th>
+                                    <th style="text-transform: capitalize;" > <? echo traducir('firstname') ?> </th>
+                                    <th style="text-transform: capitalize;" > <? echo traducir('lastname') ?> </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,7 +58,7 @@
                                     <td> <?php echo $r['property'] ?> </td>
                                     <td> <?php echo $r['number'] ?> </td>
                                     <td> <?php echo $r['price'] ?> </td>
-                                    <td> <?php echo $r['comission'] ?> </td>
+                                    <!--<td> <?php echo $r['comission'] ?> </td>-->
                                     <td> <?php echo $r['date'] ?> </td>
                                     <td> <?php echo $r['amount'] ?> </td>
                                     <td> <?php echo $r['split'] ?> </td>

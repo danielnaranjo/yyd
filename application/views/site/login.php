@@ -74,7 +74,7 @@ if (isset($this->session->userdata['logged_in'])) {
                 </div>
                 <div class="create-account">
                     <p>
-                        <a data-toggle="modal" href="#basic" id="register-btn" class="">
+                        <a data-toggle="modal" href="#open" id="register-btn" class="">
                             Olvide mi contraseña
                         </a>
                     </p>
@@ -82,7 +82,7 @@ if (isset($this->session->userdata['logged_in'])) {
             <?php echo form_close(); ?>
             <!-- END LOGIN FORM -->
             
-            <div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true">
+            <div class="modal fade" id="open" tabindex="-1" role="basic" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -105,7 +105,7 @@ if (isset($this->session->userdata['logged_in'])) {
             </div>
 
         </div>
-        <div class="copyright"> 2016 &copy; YYD Group by Inacayal.com</div>
+        <div class="copyright"> 2016 &copy; YYD Group. Powered by Inacayal.com</div>
         <!--[if lt IE 9]>
         <script src="<?php echo base_url()?>assets/global/plugins/respond.min.js"></script>
         <script src="<?php echo base_url()?>assets/global/plugins/excanvas.min.js"></script> 

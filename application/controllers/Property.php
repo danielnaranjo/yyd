@@ -6,7 +6,10 @@
         parent::__construct();
         $this->load->model('Property_model');//AQUI
         $this->load->model('Client_model');//AQUI
+        $this->load->model('Administrator_model');//AQUI
         $this->load->model('Property_amenities_model');
+        $this->load->model('Property_unity_model');
+        $this->load->model('Note_model');
     }
 
     public function index()
@@ -68,10 +71,13 @@
         $this->load->view('templates/footer');
     }
 
-    public function unities($id){
+    public function unities($id = false){
         $data['result'] = $this->Property_model->departamentos($id);
         $data['types'] = $this->Property_model->tipos($id);
         //echo json_encode($data);
+        $data['titulo'] = 'Unidades';
+        $data['fields'] = $this->Property_unity_model->columnas();
+        $data['tables'] = ""; // <-- Linea 79 / formulario.php
 
         //seguridad
         $this->load->view('templates/secure');
@@ -80,43 +86,10 @@
         // sidebar
         $this->load->view('templates/menu');
         // main
-        $this->load->view('pages/disponibles', $data);
+        $this->load->view('tables/pages', $data);
         // footer
         $this->load->view('templates/footer');
     }  
-/*
-    public function people($id){
-        $data['result'] = $this->Property_model->personas($id);
-        $data['fields'] = $this->Client_model->columnas();
-        //seguridad
-        $this->load->view('templates/secure');
-        // header
-        $this->load->view('templates/header');
-        // sidebar
-        $this->load->view('templates/menu');
-        // main
-        $this->load->view('pages/compradores', $data);
-        // footer
-        $this->load->view('templates/footer');
-    } 
-
-    public function visitors($id){
-        $data['visits'] = $this->Property_model->visitas($id);
-        $data['result'] = $this->Property_model->ver($id);
-        $data['fields'] = $this->Client_model->columnas();
-
-        //seguridad
-        $this->load->view('templates/secure');
-        // header
-        $this->load->view('templates/header');
-        // sidebar
-        $this->load->view('templates/menu');
-        // main
-        $this->load->view('tables/compradores', $data);
-        // footer
-        $this->load->view('templates/footer');
-    }  
-*/
 
     public function pictures($id){
         $data = $this->Property_model->fotos($id);
@@ -191,4 +164,29 @@
         $this->Property_model->updatear($id, $data);
         redirect('property/all', 'location');
     }
+
+    public function details($id){
+        $data['result'] = $this->Property_model->ver($id);
+        $data['properties'] = $this->Property_model->listar();
+        $data['brokers'] = $this->Administrator_model->listar();
+        $data['clients'] = $this->Client_model->listar();
+        $data['titulo'] = 'Unidades';
+        $data['ID'] = $id;
+
+        //seguridad
+        $this->load->view('templates/secure');
+        // header
+        $this->load->view('templates/header');
+        // sidebar
+        $this->load->view('templates/menu');
+        // main
+        $this->load->view('pages/torre', $data);
+        // footer
+        $this->load->view('templates/footer');
+    }
+    public function populate($id){
+        $data['unities'] = $this->Property_unity_model->estado($id);
+        echo json_encode($data);
+    }
+
 }

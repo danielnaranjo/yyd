@@ -28,7 +28,7 @@
             <?php if($this->session->userdata('level')==0) { ?>
             <div class="actions pull-right">
                 <div class="btn-group">
-                    <a class="btn green-haze" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                    <a class="btn dark btn-outline" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                         <i class="fa fa-pencil"></i> Agregar nueva 
                         <i class="fa fa-angle-down"></i>
                     </a>
@@ -55,6 +55,24 @@
                         </li>
                     </ul>
                 </div>
+                <div class="btn-group">
+                    <a class="btn dark btn-outline" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                        <i class="fa fa-eye"></i> Ver Unidades
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a href="<?php echo site_url() ?>/property/unities/<?php echo $result['property_id']?>">
+                                <i class="fa fa-building"></i> Estado
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo site_url() ?>/property/details/<?php echo $result['property_id']?>">
+                                <i class="fa fa-user"></i> Detalles
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <? } ?>
 
@@ -71,7 +89,7 @@
                         <div class="blog-single-desc">
                             <p><?php echo $result['description']?></p>
                             <?php if($result['floors']!='') { ?>
-                            <p>Proyecto de <?php echo $result['floors']?> pisos con <?php echo $result['unities']?> unidades.</p>
+                            <p>Proyecto de <?php echo $result['floors']?> pisos y <?php echo $result['unities']?> unidades por piso.</p>
                             <?php } ?>
                         </div>
                     </div>

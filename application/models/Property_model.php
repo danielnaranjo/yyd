@@ -28,6 +28,12 @@
         }
 
         public function dinero(){
+            /*
+            Disponibles = 1
+            reservadas = 2
+            compradas = 3
+            no disponibles = 0
+            */
             $query = $this->db->query("SELECT SUM(price) AS total FROM property_unity WHERE property_id=1 AND status=1");
             return $query->row();
         }
@@ -49,12 +55,21 @@
             $query = $this->db->get_where('property_photo', array('property_id' => $id));//AQUI
             return $query->result_array();
         }
-        public function departamentos($id) {
-            $query = $this->db->query('SELECT property_unity.*, property.name FROM property_unity LEFT JOIN property ON property.property_id=property_unity.property_id WHERE property.property_id='.$id);//AQUI
+        public function departamentos($id = FALSE) {
+            $sql = "SELECT property_unity.*, property.name FROM property_unity LEFT JOIN property ON property.property_id=property_unity.property_id";
+            if($id){
+                $sql+=" WHERE property.property_id=".$id;
+            }
+            $query = $this->db->query($sql);//AQUI
             return $query->result_array();
         }
-        public function tipos($id) {
-            $query = $this->db->query('SELECT type FROM property_unity WHERE property_id='.$id.' GROUP BY type');//AQUI
+        public function tipos($id = FALSE) {
+            if($id){
+                $sql = "SELECT type FROM property_unity WHERE property_id='.$id.' GROUP BY type";
+            } else {
+                $sql = "SELECT type FROM property_unity  GROUP BY type";
+            }
+            $query = $this->db->query($sql);//AQUI
             return $query->result_array();
         }
         public function departamentosdisponibles($id) {

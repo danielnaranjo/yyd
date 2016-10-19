@@ -38,11 +38,60 @@
             WHERE property_id='.$id.'
             */
             if ($id === FALSE){
-                $query = $this->db->query("SELECT COUNT(*) AS total, type FROM property_unity GROUP BY type");
+                $query = $this->db->query("
+                    SELECT 
+                        type,
+                        COUNT(*) AS total,
+                        SUM(CASE 
+                              WHEN status=1 THEN 1
+                              ELSE 0
+                            END) AS none,
+                        SUM(CASE 
+                              WHEN status=1 THEN 1
+                              ELSE 0
+                            END) AS available,
+                        SUM(CASE 
+                              WHEN status=2 THEN 1
+                              ELSE 0
+                            END) AS free,
+                       SUM(CASE 
+                              WHEN status=3 THEN 1
+                              ELSE 0
+                            END) AS reserved,
+                       SUM(CASE 
+                              WHEN status=4 THEN 1
+                              ELSE 0
+                            END) AS sold
+                    FROM property_unity 
+                    GROUP BY type
+                ");
                 return $query->result_array();
             }
 
-            $query = $this->db->query("SELECT COUNT(*) AS total, type FROM property_unity  GROUP BY type");   
+            $query = $this->db->query("
+                    SELECT 
+                        type,
+                        COUNT(*) AS total,
+                        SUM(CASE 
+                              WHEN status=1 THEN 1
+                              ELSE 0
+                            END) AS none,
+                        SUM(CASE 
+                              WHEN status=2 THEN 1
+                              ELSE 0
+                            END) AS free,
+                       SUM(CASE 
+                              WHEN status=3 THEN 1
+                              ELSE 0
+                            END) AS reserved,
+                       SUM(CASE 
+                              WHEN status=4 THEN 1
+                              ELSE 0
+                            END) AS sold
+                    FROM property_unity 
+                    WHERE property_id='$id' 
+                    GROUP BY type
+                ");   
             return $query->result_array();
         }
 
@@ -130,5 +179,19 @@
 
             $sql = $this->db->query($sql);
             return $this->dbutil->csv_from_result($sql, $delimiter, $newline, $enclosure);
+        }
+        public function informacion($id,$property){
+            $query = $this->db->get_where('property_unity', array('number' => $id,'property_id' => $property));//AQUI
+            return $query->row_array();
+        }
+        public function broker(){//$id
+            $query = $this->db->query('SELECT administrator.administrator_id, administrator.firstname, administrator.lastname, property.name, property.property_id FROM property_broker LEFT JOIN administrator ON administrator.administrator_id=property_broker.broker_id LEFT JOIN property ON property.property_id=property_broker.property_id ');//WHERE property_broker.broker_id=$id
+            return $query->result_array();
+        }
+        public function columnaspersonalizadas(){
+            $sql = "SELECT property.property_id, property.name, property_unity.number, property_unity.price, property_unity.comission, broker_comission.date, broker_comission.amount, broker_comission.comission, administrator.firstname, administrator.lastname FROM broker_comission LEFT JOIN property ON property.property_id=broker_comission.property_id LEFT JOIN administrator ON administrator.administrator_id=broker_comission.broker_id LEFT JOIN property_unity ON property_unity.property_unity_id=broker_comission.property_unity_id WHERE 1";
+            $query = $this->db->query($sql);
+            //return $query->list_fields();
+            return $query->field_data();
         }
 }

@@ -18,7 +18,7 @@
     {
         $data = $this->Note_model->listar($slug);//AQUI
     }
-    /* FORMULARIOS */
+    /* FORMULARIOS
     public function action($action = NULL, $id = NULL){
         $data['model'] = "note";
         $data['fields'] = $this->Note_model->columnas();
@@ -45,5 +45,19 @@
         $this->load->view('forms/pagina', $data);
         // footer
         $this->load->view('templates/footer');
+    } */
+    public function add(){
+        $data = array(
+            'note_id' => $this->input->post("note_id"),
+            'property_id' => $this->input->post("property_id"),
+            'broker_id' => $this->input->post("broker_id"),
+            'client_id' => $this->input->post("client_id"),
+            'note' => $this->input->post("note"),
+            'created' => now(),
+        );
+        $data = $this->Note_model->registrar($data);
+        //if($data){
+        //    echo json_encode($data);
+        //}
     }
 }

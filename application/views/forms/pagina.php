@@ -55,13 +55,13 @@ $nivel = $this->session->userdata('level');
                         <div class="col-md-6">
                             <div class="portlet-body form">
                                 <!-- necesario si hay upload files -->
-                                    <?php 
-                                        if (!preg_match("/_photo/i", $model) ) {
-                                            echo form_open($model.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]);
-                                        } else {
-                                            echo form_open_multipart($model.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]);
-                                        }
-                                    ?>
+                                <?php 
+                                    if (!preg_match("/_photo/i", $model) ) {
+                                        echo form_open($model.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]);
+                                    } else {
+                                        echo form_open_multipart($model.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]);
+                                    }
+                                ?>
                                     <?php require_once('formulario.php');// campos ?>
                                     <?php makeaform($fields, $model, $nivel, $action, $btn, $tables) ?>
                                 <?php echo form_close();?>

@@ -6,6 +6,7 @@
         parent::__construct();
         $this->load->model('Client_model');//AQUI
         $this->load->model('Client_info_model');//AQUI
+        $this->load->model('Property_model');//AQUI
     }
 
     public function index()
@@ -36,8 +37,17 @@
     public function all(){
 
         $data['titulo'] = 'Compradores';
-        $data['result'] = $this->Client_model->completo();
-        $data['fields'] = $this->Client_model->columnas();
+        
+        if($this->session->userdata('level')==0){
+            $data['fields'] = $this->Client_model->columnaspersonalizadas();
+            $data['result'] = $this->Client_model->compradores();
+            $data['property'] = $this->Property_model->listar();
+        } else {
+            $data['fields'] = $this->Client_model->columnas();
+            $data['result'] = $this->Client_model->completo();
+        }
+        //$data['fields'] = $this->Client_model->columnaspersonalizadas();
+        //echo json_encode($data);
 
         //seguridad
         $this->load->view('templates/secure');
@@ -137,7 +147,7 @@
         $data = array(
             'firstname' => $this->input->post("firstname"),
             'lastname' => $this->input->post("lastname"),
-            //'registered' => $this->input->post("registered"),
+            'country' => $this->input->post("country"),
             'status' => 0
         );
         $resp = $this->Client_model->registrar($data);
@@ -158,6 +168,7 @@
         $data = array(
             'firstname' => $this->input->post("firstname"),
             'lastname' => $this->input->post("lastname"),
+            'country' => $this->input->post("country"),
         );
         $this->Client_model->updatear($id, $data);
         redirect('client/all', 'location');

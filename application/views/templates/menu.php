@@ -122,7 +122,7 @@ $nivel = $this->session->userdata('level');
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="<?php echo site_url() ?>/property/unities/1" class="nav-link ">
+                        <a href="<?php echo site_url() ?>/property/details/<?php echo $this->session->userdata('property_id') ?>" class="nav-link ">
                             <span class="title">Detalles</span>
                         </a>
                     </li>

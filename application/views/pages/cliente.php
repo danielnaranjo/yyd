@@ -216,14 +216,38 @@ $nivel = $this->session->userdata('level');
                                         <div class="timeline-item">
                                             <div class="timeline-badge">
                                                 <div class="timeline-icon">
+                                                    <?php if($v['activity']==1){ ?>
+                                                    <i class="icon-user-following font-grey-cascade"></i>
+                                                    <?php } else if($v['activity']==2){ ?>
+                                                    <i class="icon-user-following font-green"></i>
+                                                    <?php } else if($v['activity']==3){ ?>
+                                                    <i class="icon-globe font-green-haze"></i>
+                                                    <?php } else if($v['activity']==4){ ?>
+                                                    <i class="icon-docs font-red-intense"></i>
+                                                    <?php } else { ?>
                                                     <i class="icon-user-following font-green-haze"></i>
+                                                    <?php } ?>
                                                 </div>
                                             </div>
                                             <div class="timeline-body">
                                                 <div class="timeline-body-arrow"> </div>
                                                 <div class="timeline-body-head">
                                                     <div class="timeline-body-head-caption">
-                                                        <span class="timeline-body-alerttitle font-green-haze"><?php echo $v['name'] ?></span>
+                                                        <span class="timeline-body-alerttitle font-green-haze">
+                                                           <?php
+                                                                if($v['activity']==1){ 
+                                                                    echo "Nuevo cliente";
+                                                                } else if($v['activity']==2){ 
+                                                                    echo "Propiedad agregada";
+                                                                } else if($v['activity']==3){ 
+                                                                    echo "Visita";
+                                                                } else if($v['activity']==1){ 
+                                                                    echo "Pago registrado";
+                                                                } else {
+                                                                    echo "Consulta a la cuenta";
+                                                                }
+                                                            ?>
+                                                        </span>
                                                         <span class="timeline-body-time font-grey-cascade">
                                                             <?php 
                                                                 //echo $v['timestamp'];
@@ -232,7 +256,6 @@ $nivel = $this->session->userdata('level');
                                                                 $units = 2;
                                                                 echo timespan($fecha, $now, $units);
                                                             ?>
-                                                            
                                                         </span>
                                                     </div>
                                                 </div>

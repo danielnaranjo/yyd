@@ -6,7 +6,7 @@
         <!-- BEGIN FOOTER -->
         <div class="page-footer">
             <div class="page-footer-inner">
-                2016 &copy; YYD Group by Inacayal.com
+                2016 &copy; YYD Group. Powered by Inacayal.com
             </div>
             <div class="scroll-to-top">
                 <i class="icon-arrow-up"></i>

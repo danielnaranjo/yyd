@@ -14,9 +14,10 @@
         echo json_encode($data);
     }
 
-    public function view($slug = NULL)
+    public function view($id,$property_id)
     {
-        $data = $this->Property_unity_model->listar($slug);//AQUI
+        $data = $this->Property_unity_model->listar($id);//AQUI
+        echo json_encode($data);
     }
     /* FORMULARIOS */
     public function action($action = NULL, $id = NULL){
