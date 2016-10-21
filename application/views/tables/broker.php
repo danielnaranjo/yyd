@@ -53,20 +53,37 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php foreach($result as $r) {?>
+                            <?php 
+                                $price=0;
+                                $amount=0;
+                                $split=0;
+                                foreach($result as $r) {
+                            ?>
                                 <tr>
                                     <td> <?php echo $r['property'] ?> </td>
                                     <td> <?php echo $r['number'] ?> </td>
-                                    <td> <?php echo $r['price'] ?> </td>
+                                    <td> USD $<?php echo $r['price']; $price +=$r['price']; ?> </td>
                                     <!--<td> <?php echo $r['comission'] ?> </td>-->
                                     <td> <?php echo $r['date'] ?> </td>
-                                    <td> <?php echo $r['amount'] ?> </td>
-                                    <td> <?php echo $r['split'] ?> </td>
+                                    <td> USD $<?php echo $r['amount']; $amount +=$r['amount']; ?> </td>
+                                    <td> USD $<?php echo $r['split']; $split +=$r['split']; ?> </td>
                                     <td> <?php echo $r['name'] ?> </td>
                                     <td> <?php echo $r['surname'] ?> </td>
                                 </tr>
                                 <? } ?>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>  </td>
+                                    <td>  </td>
+                                    <td> USD $<?=$price ?> </td>
+                                    <td>  </td>
+                                    <td> USD $<?=$amount ?> </td>
+                                    <td> USD $<?=$split ?> </td>
+                                    <td>  </td>
+                                    <td>  </td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

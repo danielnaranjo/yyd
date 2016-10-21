@@ -145,12 +145,29 @@
     }
     public function info($id,$property) {
         $data['info'] = $this->Transaction_model->informacion($id,$property);
-        $data['broker'] =  $this->Transaction_model->broker();
+        $data['owner'] = $this->Property_unity_model->propietario($id);
         echo json_encode($data);
     }
     public function columnaspersonalizadas(){
-            $sql = "SELECT property.property_id, property.name, property_unity.number, property_unity.price, property_unity.comission, broker_comission.date, broker_comission.amount, broker_comission.comission, administrator.firstname, administrator.lastname FROM broker_comission LEFT JOIN property ON property.property_id=broker_comission.property_id LEFT JOIN administrator ON administrator.administrator_id=broker_comission.broker_id LEFT JOIN property_unity ON property_unity.property_unity_id=broker_comission.property_unity_id WHERE 1";
-            $query = $this->db->query($sql);
-            return $query->list_fields();
+        $sql = "SELECT property.property_id, property.name, property_unity.number, property_unity.price, property_unity.comission, broker_comission.date, broker_comission.amount, broker_comission.comission, administrator.firstname, administrator.lastname FROM broker_comission LEFT JOIN property ON property.property_id=broker_comission.property_id LEFT JOIN administrator ON administrator.administrator_id=broker_comission.broker_id LEFT JOIN property_unity ON property_unity.property_unity_id=broker_comission.property_unity_id WHERE 1";
+        $query = $this->db->query($sql);
+        return $query->list_fields();
+    }
+    public function contadores(){
+        $result = $this->Transaction_model->vendedores();
+        $n=0;
+        $af=0;
+        $re=0;
+        $s=0;
+        foreach($result as $r) {
+            $n +=$r['none'];
+            $af +=$r['available']+$r['free'];
+            $re +=$r['reserved'];
+            $s +=$r['sold'];
         }
+        $data['dash_none']=$n;
+        $data['dash_available']=$af;
+        $data['dash_reserved']=$re;
+        $data['dash_sold']=$s;
+    }
 }

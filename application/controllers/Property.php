@@ -188,5 +188,9 @@
         $data['unities'] = $this->Property_unity_model->estado($id);
         echo json_encode($data);
     }
+    public function whois($number){
+        $data['owner'] = $this->Property_unity_model->propietario($number);
+        echo json_encode($data);
+    }
 
 }

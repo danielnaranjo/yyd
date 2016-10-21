@@ -43,7 +43,7 @@
                         type,
                         COUNT(*) AS total,
                         SUM(CASE 
-                              WHEN status=1 THEN 1
+                              WHEN status=0 THEN 1
                               ELSE 0
                             END) AS none,
                         SUM(CASE 
@@ -74,9 +74,13 @@
                         type,
                         COUNT(*) AS total,
                         SUM(CASE 
-                              WHEN status=1 THEN 1
+                              WHEN status=0 THEN 1
                               ELSE 0
                             END) AS none,
+                        SUM(CASE 
+                              WHEN status=1 THEN 1
+                              ELSE 0
+                            END) AS available,
                         SUM(CASE 
                               WHEN status=2 THEN 1
                               ELSE 0
@@ -102,7 +106,7 @@
             return $query->list_fields();
         }*/
         public function vendedores() {
-            $query = $this->db->query("SELECT property.property_id, property.name AS property, property_unity.number, property_unity.price, property_unity.comission, broker_comission.date, broker_comission.amount, broker_comission.comission AS split, administrator.firstname AS name, administrator.lastname AS surname FROM broker_comission LEFT JOIN property ON property.property_id=broker_comission.property_id LEFT JOIN administrator ON administrator.administrator_id=broker_comission.broker_id LEFT JOIN property_unity ON property_unity.property_unity_id=broker_comission.property_unity_id WHERE 1");   
+            $query = $this->db->query("SELECT property.property_id, property.name AS property, property_unity.number, property_unity.price, property_unity.comission, DATE_FORMAT(broker_comission.date,'%d/%m/%Y') AS date, broker_comission.amount, broker_comission.comission AS split, administrator.firstname AS name, administrator.lastname AS surname FROM broker_comission LEFT JOIN property ON property.property_id=broker_comission.property_id LEFT JOIN administrator ON administrator.administrator_id=broker_comission.broker_id LEFT JOIN property_unity ON property_unity.property_unity_id=broker_comission.property_unity_id WHERE 1");   
             return $query->result_array();
         }
 
@@ -184,8 +188,12 @@
             $query = $this->db->get_where('property_unity', array('number' => $id,'property_id' => $property));//AQUI
             return $query->row_array();
         }
-        public function broker(){//$id
-            $query = $this->db->query('SELECT administrator.administrator_id, administrator.firstname, administrator.lastname, property.name, property.property_id FROM property_broker LEFT JOIN administrator ON administrator.administrator_id=property_broker.broker_id LEFT JOIN property ON property.property_id=property_broker.property_id ');//WHERE property_broker.broker_id=$id
+        public function broker($id=FALSE){
+            if ($id === FALSE){
+                $query = $this->db->query('SELECT administrator.administrator_id, administrator.firstname, administrator.lastname, property.name, property.property_id FROM property_broker LEFT JOIN administrator ON administrator.administrator_id=property_broker.broker_id LEFT JOIN property ON property.property_id=property_broker.property_id ');
+                return $query->result_array();
+            }
+            $query = $this->db->query('SELECT administrator.administrator_id, administrator.firstname, administrator.lastname, property.name, property.property_id FROM property_broker LEFT JOIN administrator ON administrator.administrator_id=property_broker.broker_id LEFT JOIN property ON property.property_id=property_broker.property_id WHERE property_broker.broker_id=$id');
             return $query->result_array();
         }
         public function columnaspersonalizadas(){
@@ -193,5 +201,9 @@
             $query = $this->db->query($sql);
             //return $query->list_fields();
             return $query->field_data();
+        }
+        public function ventas(){//$id
+            $query = $this->db->query("SELECT amount, DATE_FORMAT(date,'%Y-%m-%d') as date FROM transaction ");
+            return $query->result_array();
         }
 }

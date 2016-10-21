@@ -108,17 +108,17 @@ $nivel = $this->session->userdata('level');
             <?php } ?>
             <!-- administrador general -->
 
-            <?php  if($nivel==2) { ?>
+            <?php  if($nivel!=0) { ?>
             <li class="nav-item">
                 <a href="javascript:;" class="nav-link nav-toggle">
-                    <i class="fa fa-line-chart"></i>
+                    <i class="fa fa-building"></i>
                     <span class="title">Unidades</span>
                     <span class="arrow"></span>
                 </a>
                 <ul class="sub-menu">
                     <li class="nav-item">
                         <a href="<?php echo site_url() ?>/property/unities/<?php echo $this->session->userdata('property_id') ?>" class="nav-link ">
-                            <span class="title">Estado</span>
+                            <span class="title">Ver <?php if($nivel!=2) { ?> / Agregar <? } ?>Unidades</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -128,13 +128,14 @@ $nivel = $this->session->userdata('level');
                     </li>
                 </ul>
             </li>
+            <?php } ?>
+            <?php  if($nivel==2) { ?>
             <li class="nav-item">
                 <a href="<?php echo site_url() ?>/client/all" class="nav-link">
                     <i class="fa fa-user"></i>
                     <span class="title">Compradores</span>
                 </a>
             </li>
-                
             <?php } ?>
 
             <li class="heading">

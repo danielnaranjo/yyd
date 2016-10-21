@@ -30,24 +30,46 @@
                                 <tr>
                                     <th> Unidad </th>
                                     <th> Total </th>
-                                    <th> Vendidas </th>
-                                    <th> Reservadas </th>
-                                    <th> Disponibles </th>
+
                                     <th> No disponibles </th>
+                                    <th> Disponibles </th>
+                                    <!--<th> free </th>-->
+                                    <th> Reservadas </th>
+                                    <th> Vendidas </th>
                                 </tr>
                             </thead>
                             <tbody>
-                            <?php foreach($result as $r) {?>
+                            <?php 
+                                $t=0;
+                                $n=0;
+                                $af=0;
+                                $re=0;
+                                $s=0;
+                                foreach($result as $r) {
+                            ?>
                                 <tr>
                                     <td> <?php echo $r['type'] ?> </td>
-                                    <td> <?php echo $r['total'] ?> </td>
-                                    <td> <?php echo $r['none'] ?> </td>
-                                    <td> <?php echo $r['free'] ?> </td>
-                                    <td> <?php echo $r['reserved'] ?> </td>
-                                    <td> <?php echo $r['sold'] ?> </td>
+                                    <td> <?php echo $r['total']; $t +=$r['total']; ?> </td>
+
+                                    <td> <?php echo $r['none']; $n +=$r['none']; ?> </td>
+                                    <td> <?php echo $r['available']+$r['free']; $af +=$r['available']+$r['free']; ?> </td>
+                                    <!--<td> <?php echo $r['free'] ?> </td>-->
+                                    <td> <?php echo $r['reserved']; $re +=$r['reserved']; ?> </td>
+                                    <td> <?php echo $r['sold']; $s +=$r['sold']; ?> </td>
                                 </tr>
                                 <? } ?>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>  </td>
+                                    <td> <?php echo $t ?> </td>
+                                    <td> <?php echo $n ?> </td>
+                                    <td> <?php echo $af ?> </td>
+                                    <!--<td> <?php echo $r['free'] ?> </td>-->
+                                    <td> <?php echo $re ?> </td>
+                                    <td> <?php echo $s ?> </td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

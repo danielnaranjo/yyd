@@ -7,12 +7,15 @@ $action = $this->uri->segment(3);
 $nivel = $this->session->userdata('level');
 
     if($action=='edit'){
+        $titulo="Modificar";
         $btn = "Actualizar";
         $ejecutar ="update"; //"update/".$this->uri->segment(4);
     } else if($action=='upload'){
+        $titulo="Cargar imagen";
         $btn = "Subir imagen";
         $ejecutar ="upload"; //"update/".$this->uri->segment(4);
     } else {
+        $titulo="Nuevo";
         $btn = "Agregar nuevo";
         $ejecutar = "add";
     }
@@ -36,7 +39,7 @@ $nivel = $this->session->userdata('level');
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
-                    <span>Configuración</span>
+                    <span><?=$titulo?></span>
                 </li>
             </ul>
         </div>
@@ -48,7 +51,7 @@ $nivel = $this->session->userdata('level');
                     <div class="portlet-title">
                         <div class="caption">
                             <i class="icon-settings font-dark"></i>
-                            <span class="caption-subject font-dark sbold uppercase">Configuración</span>
+                            <span class="caption-subject font-dark sbold uppercase"><?=$titulo?></span>
                         </div>
                     </div>
                     <div class="row">

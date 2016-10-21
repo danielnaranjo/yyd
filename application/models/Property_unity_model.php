@@ -42,10 +42,43 @@
         }
         public function estado($id){
             $query = $this->db->get_where('property_unity', array('property_id' => $id));//AQUI
+            /*$sql="SELECT 
+                    property_unity.*,
+                    client.*
+                FROM property_client 
+                    LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id 
+                    LEFT JOIN client ON property_client.client_id =client.client_id
+                WHERE property.property_id=".$id;
+            $query = $this->db->query($sql);
+            */
             return $query->result_array();
         }
         public function cambiarestado($id, $data){
             $this->db->where('property_unity_id', $id);
             $this->db->update('property_unity', $data);
+        }
+        public function asignar($data){
+            
+            $this->db->where('property_unity_id', $data['property_unity_id']);
+            $this->db->update('property_unity', array('status'=>4) );
+
+            $query = $this->db->insert('property_client', $data);
+            //$broker = $data['broker'];
+            //$query = $this->db->insert('property_broker', $broker);
+            return $query;
+        }
+        public function propietario($number){
+            $sql="SELECT 
+                administrator.firstname AS brokerName,
+                administrator.lastname AS brokerSurname,
+                client.firstname AS name,
+                client.lastname AS surname
+            FROM property_unity 
+                LEFT JOIN property_client ON property_client.property_unity_id = property_unity.property_unity_id
+                LEFT JOIN client ON client.client_id=property_client.client_id
+                LEFT JOIN administrator ON administrator.administrator_id=property_client.broker_id 
+            WHERE property_unity.number='".$number."'";
+            $query = $this->db->query($sql);
+            return $query->row_array();
         }
 }

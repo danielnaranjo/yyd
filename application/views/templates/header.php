@@ -72,9 +72,9 @@ $titulo=$options[$nivel];
                 <!-- END LOGO -->
                 
                 <!-- BEGIN HEADER SEARCH BOX -->
-                <? echo form_open('site/results', ['class'=>"search-form", 'role'=>"form"]); ?>
+                <? echo form_open('client/results', ['class'=>"search-form", 'role'=>"form"]); ?>
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar cliente" name="q" autocomplete="off">
+                        <input type="text" class="form-control" placeholder="Buscar cliente" name="q" id="q" autocomplete="off">
                         <span class="input-group-btn">
                             <a href="javascript:;" class="btn submit">
                                 <i class="icon-magnifier"></i>

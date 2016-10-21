@@ -58,7 +58,7 @@ $nivel = $this->session->userdata('level');
                                 <div class="uppercase profile-stat-text"> Unidad </div>
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-4">
-                                <div class="uppercase profile-stat-title"> <?php echo $unity[0]['square'] ?> </div>
+                                <div class="uppercase profile-stat-title"> <?php echo $unity[0]['total_feet'] ?> </div>
                                 <div class="uppercase profile-stat-text"> Pies </div>
                             </div>
                             <div class="col-md-4 col-sm-4 col-xs-4">
@@ -105,6 +105,7 @@ $nivel = $this->session->userdata('level');
                                 <div class="portlet-title">
                                     <div class="caption caption-md">
                                         <span class="caption-subject font-blue-madison bold uppercase">Transacciones</span>
+                                        <a data-toggle="modal" href="#transactions" ><i class="fa fa-pencil"></i></a>
                                     </div>
                                 </div>
                                 <div class="portlet-body">
@@ -147,7 +148,7 @@ $nivel = $this->session->userdata('level');
                                     <div class="caption caption-md">
                                         <i class="icon-globe theme-font hide"></i>
                                         <span class="caption-subject font-blue-madison bold uppercase">ACTIVIDAD</span>
-                                        <a href="<?php echo site_url() ?>/client/note/1"><i class="fa fa-pencil"></i></a>
+                                        <a  data-toggle="modal" href="#note" ><i class="fa fa-pencil"></i></a>
                                     </div>
                                 </div>
                                 <div class="portlet-body">
@@ -174,7 +175,7 @@ $nivel = $this->session->userdata('level');
                                                         <div class="date"> 
                                                         <!-- convertir a moment() -->
                                                         <?php 
-                                                            $fecha = mysql_to_unix($n['created']);
+                                                            $fecha = mysql_to_unix($n['updated']);
                                                             $now = time();
                                                             $units = 2;
                                                             echo timespan($fecha, $now, $units) . ' ago';
@@ -439,15 +440,128 @@ $nivel = $this->session->userdata('level');
     </div>
 </div>
 
+
+<div class="modal fade" id="note" tabindex="-1" role="note" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Actividad</h4>
+            </div>
+            <div class="modal-body">
+            <?php echo form_open_multipart('', ['id'=>"addnote", 'class'=>"form-horizontal", 'role'=>"form"]); ?>
+                    <?=form_input(array('type'=>'hidden','name'=>'property_id','id'=>'property_id','value'=> 1))?>
+                    <?=form_input(array('type'=>'hidden','name'=>'broker_id','id'=>'broker_id','value'=> $this->session->userdata('aID')))?>
+                    <?=form_input(array('type'=>'hidden','name'=>'client_id','id'=>'client_id','value'=> $result[0]['client_id']))?>
+                    <div class="form-group">
+                        <?=form_label('Comentarios','Comentarios', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?=form_textarea(array('name'=>'note','id'=>'note','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Comentarios',))?>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <?=form_submit('Submit', 'Agregar nota', ['class'=>'btn blue','id'=>'Submit'])?>
+                            </div>
+                        </div>
+                    </div>
+                <?php echo form_close();?>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="transactions" tabindex="-1" role="note" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Transacciones</h4>
+            </div>
+            <div class="modal-body">
+                <?php echo form_open_multipart('', ['id'=>"addmoney", 'class'=>"form-horizontal", 'role'=>"form"]); ?>
+                    <?=form_input(array('type'=>'hidden','name'=>'property_id','id'=>'property_id','value'=> 1))?>
+                    <?=form_input(array('type'=>'hidden','name'=>'broker_id','id'=>'broker_id','value'=> $this->session->userdata('aID')))?>
+                    <?=form_input(array('type'=>'hidden','name'=>'client_id','id'=>'client_id','value'=> $result[0]['client_id']))?>
+                    
+                    <div class="form-group">
+                        <?=form_label('Monto','Monto', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <? $options = array('0'=>'Efectivo','1'=>'Transferencia','2'=>'Cheque','3'=>'Tarjeta de Credito','4'=>'Otros'); ?>
+                        <?= form_dropdown(array('name'=>'amount','id'=>'amount','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Monto'),$options)?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?=form_label('Monto','Monto', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?= form_input(array('name'=>'amount','id'=>'amount','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Monto'))?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?=form_label('Numero','Numero', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?= form_input(array('name'=>'number','id'=>'number','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Numero'))?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?=form_label('Fecha','Fecha', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?= form_input(array('name'=>'date','id'=>'date','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Fecha'))?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?=form_label('Comentarios','Comentarios', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?=form_textarea(array('name'=>'note','id'=>'note','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Comentarios'))?>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <?=form_submit('Submit', 'Agregar pago', ['class'=>'btn blue','id'=>'Submit'])?>
+                            </div>
+                        </div>
+                    </div>
+                <?php echo form_close();?>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-function visit(c,p){
-    $.ajax({
-        url: "<? echo site_url() ?>/client/visited",
-        method: "POST",
-        data: { client_id: c, property_id: p }
-    }).done(function(data) {
-        console.log('data', data);
-        toastr.success('Visita registrada!');
+window.onload = function(){
+    function visit(c,p){
+        $.ajax({
+            url: "<? echo site_url() ?>/client/visited",
+            method: "POST",
+            data: { client_id: c, property_id: p }
+        }).done(function(data) {
+            console.log('data', data);
+            toastr.success('Visita registrada!');
+        });
+    }
+    $("#Submit").click(function(event) {
+        event.preventDefault();
+        var property_id = $("#property_id").val(),
+            broker_id = $("#broker_id").val(),
+            client_id = $("#client_id").val(),
+            note = $("#note").val();
+        jQuery.ajax({
+            type: "POST",
+            url: "<?php echo site_url(); ?>/note/add",
+            dataType: 'json',
+            data: { property_id: property_id, broker_id: broker_id, client_id: client_id, note: note },
+            success: function(res) {
+            if(res) {
+                toastr.success('Información actualizada!');
+                //form[0].reset();
+                $('.modal form input, .modal form select, .modal form textarea').val('');
+                $('#basic').modal('hide');
+                }
+            }
+        });
     });
 }
 </script>

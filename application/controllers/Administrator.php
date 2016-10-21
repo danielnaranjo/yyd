@@ -5,12 +5,10 @@
 
     public function __construct(){
         parent::__construct();
-        //$this->load->library('session');
         $this->load->model('Administrator_model');
         $this->load->model('Property_model');
         $this->load->model('Client_model');
-        //$this->load->helper('url_helper');
-        //$this->load->helper('url');
+        $this->load->model('Transaction_model');
     }
 
     public function index(){
@@ -23,7 +21,24 @@
         $this->load->view('templates/menu');
 
         $data['visitor'] = $this->Client_model->paises();
+        $data['visits'] = $this->Client_model->cantidaddevistas();
         $data['properties'] = $this->Property_model->gps();
+        $data['sales'] = $this->Transaction_model->ventas();
+        /* CONTADORES */
+        /*$result = $this->Transaction_model->unidades();
+        $n=0; $af=0; $re=0; $s=0; $t=0;
+        foreach($result as $r) {
+            $n +=$r['none'];
+            $af +=$r['available']+$r['free'];
+            $re +=$r['reserved'];
+            $s +=$r['sold'];
+            $t +=$r['total'];
+        }
+        $data['dash_none']=$n;
+        $data['dash_available']=$af;
+        $data['dash_reserved']=$re;
+        $data['dash_sold']=$s;
+        $data['dash_total']=$t;*/
 
         switch ($this->session->userdata('level')) {
             case '0':

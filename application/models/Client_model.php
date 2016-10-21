@@ -20,7 +20,17 @@
 
         public function completo() {
 
-            $sql="SELECT property.*, client.*, client_info.* FROM property_client LEFT JOIN property ON property.property_id=property_client.property_id LEFT JOIN client ON property_client.client_id=client.client_id LEFT JOIN client_info ON client.client_id=client_info.client_info_id WHERE client.status=1 ";
+            $sql="
+            SELECT 
+                property.*, 
+                client.*, 
+                client_info.* 
+            FROM property_client 
+                LEFT JOIN property ON property.property_id=property_client.property_id 
+                LEFT JOIN client ON property_client.client_id=client.client_id 
+                LEFT JOIN client_data ON client_data.client_id=client.client_id
+                LEFT JOIN client_info ON client_info.client_info_id =client_data.client_info_id
+            ";
            
             if ($this->session->userdata('level')!=0) {
                 $sql.=" AND property_client.property_id=".$this->session->userdata('property_id');
@@ -31,7 +41,7 @@
         } 
 
         public function visitantes() {
-            $sql="SELECT client.*, client_info.city, client_info.country, client_info.phone FROM client LEFT JOIN client_info ON client.client_id=client_info.client_info_id LEFT JOIN client_visits ON client_visits.client_id=client.client_id WHERE client.status=0";
+            $sql="SELECT client.*, client_info.city, client_info.country, client_info.phone FROM client LEFT JOIN client_info ON client.client_id=client_info.client_info_id LEFT JOIN client_visits ON client_visits.client_id=client.client_id";
 
             if ($this->session->userdata('level')!=0) {
                 $sql.=" AND client_visits.property_id=".$this->session->userdata('property_id');
@@ -102,7 +112,6 @@
                     LEFT JOIN property ON property.property_id=property_client.property_id 
                     LEFT JOIN client_info ON client.client_id=client_info.client_info_id 
                     LEFT JOIN property_unity ON property_unity.property_unity_id=property_client.property_unity_id
-                WHERE client.status=1
                 ");
             return $this->dbutil->csv_from_result($sql, $delimiter, $newline, $enclosure);
         }
@@ -135,6 +144,40 @@
             ";
             $query = $this->db->query($sql);
             return $query->result_array();
+        }
+        public function cantidaddevistas(){
+            $sql="SELECT DATE_FORMAT(timestamp,'%Y-%m-%d') AS date, count(*) AS value FROM client_visits GROUP BY date ORDER BY date ASC";
+            $query = $this->db->query($sql);
+            return $query->result_array();
+        }
+        public function resultados($q) {
+            $sql="
+                SELECT 
+                    client.*, 
+                    client_info.* 
+                FROM client_info 
+                    LEFT JOIN clienT ON client.client_id=client_info.client_info_id 
+                WHERE client.firstname LIKE '%$q%' 
+                    OR client.lastname LIKE '%$q%' 
+                    OR client_info.email LIKE '%$q%'
+            ";
+            $query = $this->db->query($sql);
+            return $query->result_array();
+        } 
+        public function columnasCreate(){
+            $sql = "SELECT 
+                    client.firstname,
+                    client.lastname,
+                    client_info.email,
+                    client_info.address,
+                    client_info.city,
+                    client_info.country,
+                    client_info.phone
+                FROM client_data
+                    LEFT JOIN client_info ON client_info.client_info_id=client_data.client_info_id
+                    LEFT JOIN client ON client.client_id=client_data.client_id";
+            $query = $this->db->query($sql);
+            return $query->field_data();
         }
         
     }

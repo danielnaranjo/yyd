@@ -110,4 +110,20 @@
         $this->Property_unity_model->cambiarestado($id, $data);
         echo true;
     }
+    public function markassold(){
+        $propietario = array(
+            'property_id' => $this->input->post("property_id"),
+            'client_id' => $this->input->post("client_id"),
+            'property_unity_id' => $this->input->post("property_unity_id")
+        );
+        $data = $this->Property_unity_model->asignar($propietario);
+/*
+        $comision = array(
+            'property_id' => $this->input->post("property_id"),
+            'broker_id' => $this->input->post("broker_id"),
+        );
+        */
+        //$data['broker'] = $this->Property_unity_model->asignar($comision);
+        echo true;
+    }
 }

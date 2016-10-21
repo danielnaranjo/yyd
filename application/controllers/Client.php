@@ -183,4 +183,40 @@
         echo json_encode($data);
     }
 
+    public function results(){
+
+        $q = $this->input->post("q");
+
+        $data['titulo'] = 'Resultados: "'.strtoupper($this->input->post("q")).'" ';
+        $data['result'] = $this->Client_model->resultados($q);
+        $data['fields'] = $this->Client_model->columnas();
+        //seguridad
+        $this->load->view('templates/secure');
+        // header
+        $this->load->view('templates/header');
+        // sidebar
+        $this->load->view('templates/menu');
+        // main
+        $this->load->view('tables/pages', $data);
+        // footer
+        $this->load->view('templates/footer');
+    }
+
+
+    public function create(){
+        $data['fields'] = $this->Client_model->columnasCreate();
+        $data['tables'] = ""; // <-- Linea 79 / formulario.php
+        $data['result'] = "";
+        //seguridad
+        $this->load->view('templates/secure');
+        // header
+        $this->load->view('templates/header');
+        // sidebar
+        $this->load->view('templates/menu');
+        // main
+        $this->load->view('forms/clientes', $data);
+        // footer
+        $this->load->view('templates/footer');
+    }
+
 }

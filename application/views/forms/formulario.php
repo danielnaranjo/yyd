@@ -20,7 +20,7 @@ function makeaform($fields, $model, $nivel, $action, $btn, $tables) {
 	foreach ($fields as $field){
 		
 		// campo clave
-		if($field->name==$model."_id") { 
+		if($field->name==$model."_id" || $field->name=="status") { 
 			$atribute = array(
 			    'type'          => 	'hidden',
 			    'name'          => 	$field->name,
@@ -33,7 +33,7 @@ function makeaform($fields, $model, $nivel, $action, $btn, $tables) {
 			echo '<div class="form-group">';
 
 			// label
-			if($field->name!=$model."_id") {
+			if(	$field->name!=$model."_id" || $field->name=="status") {
 				if (!preg_match("/_id/i", $field->name)) {
 					echo form_label(traducir($field->name), $field->name, ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;']);
 				} else {

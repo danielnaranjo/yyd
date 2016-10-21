@@ -48,6 +48,10 @@ if($titulo==''){
                                         <a href="<? echo site_url()?>/<?php echo $model ?>/action/upload" id="" class="btn green"> Cargar imagen
                                             <i class="fa fa-upload"></i>
                                         </a>
+                                        <?php } else if($model=='client') { ?>
+                                        <a href="<? echo site_url()?>/<?php echo $model ?>/action/create" id="" class="btn green"> Nuevo comprador
+                                            <i class="fa fa-plus"></i>
+                                        </a>
                                         <?php } else { ?>
                                         <a href="<? echo site_url()?>/<?php echo $model ?>/action/new" id="" class="btn green"> Agregar nuevo
                                             <i class="fa fa-plus"></i>
@@ -59,8 +63,6 @@ if($titulo==''){
                                 </div>
                             </div>
                         </div>
-                        <?php //echo json_encode($fields) ?>
-                        <?php //echo json_encode($result) ?>
                         <table class="table table-striped table-hover table-bordered" id="sample_1">
                             <thead>
                                 <tr>
