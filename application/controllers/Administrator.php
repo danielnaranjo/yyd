@@ -25,7 +25,9 @@
         $data['properties'] = $this->Property_model->gps();
         $data['sales'] = $this->Transaction_model->ventas();
         /* CONTADORES */
-        /*$result = $this->Transaction_model->unidades();
+        /*
+        $data['unidades'] = $this->Transaction_model->unidades();
+        $result = $this->Transaction_model->unidades();
         $n=0; $af=0; $re=0; $s=0; $t=0;
         foreach($result as $r) {
             $n +=$r['none'];

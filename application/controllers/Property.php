@@ -75,7 +75,7 @@
         $data['result'] = $this->Property_model->departamentos($id);
         $data['types'] = $this->Property_model->tipos($id);
         //echo json_encode($data);
-        $data['titulo'] = 'Unidades';
+        $data['titulo'] = 'Lista de unidades de '.$this->session->userdata('project');
         $data['fields'] = $this->Property_unity_model->columnas();
         $data['tables'] = ""; // <-- Linea 79 / formulario.php
 
@@ -170,7 +170,7 @@
         $data['properties'] = $this->Property_model->listar();
         $data['brokers'] = $this->Administrator_model->listar();
         $data['clients'] = $this->Client_model->listar();
-        $data['titulo'] = 'Unidades';
+        $data['titulo'] = 'Vista general de '.$this->session->userdata('project');;
         $data['ID'] = $id;
 
         //seguridad

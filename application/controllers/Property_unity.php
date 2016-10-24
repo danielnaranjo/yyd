@@ -100,7 +100,7 @@
         // footer
         $this->load->view('templates/footer');
     }
-
+    /*
     public function change(){
         $id = $this->input->post("property_unity_id");
         $data = array(
@@ -109,21 +109,17 @@
         );
         $this->Property_unity_model->cambiarestado($id, $data);
         echo true;
-    }
+    }*/
     public function markassold(){
-        $propietario = array(
-            'property_id' => $this->input->post("property_id"),
-            'client_id' => $this->input->post("client_id"),
-            'property_unity_id' => $this->input->post("property_unity_id")
-        );
-        $data = $this->Property_unity_model->asignar($propietario);
-/*
-        $comision = array(
+        $persona = array(
             'property_id' => $this->input->post("property_id"),
             'broker_id' => $this->input->post("broker_id"),
+            'client_id' => $this->input->post("client_id"),
+            'property_unity_id' => $this->input->post("property_unity_id"),
+            'status' => $this->input->post("status"),
         );
-        */
-        //$data['broker'] = $this->Property_unity_model->asignar($comision);
+        $data = $this->Property_unity_model->marcar($persona);
         echo true;
+        //echo json_encode($data);
     }
 }

@@ -60,4 +60,9 @@
         //    echo json_encode($data);
         //}
     }
+
+    public function unity($id) {        
+        $data = $this->Note_model->unidad($id);//AQUI
+        echo json_encode($data);
+    }
 }

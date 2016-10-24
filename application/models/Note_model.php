@@ -29,4 +29,8 @@
             $this->db->where('note_id', $id);
             $this->db->delete('note');
         }
+        public function unidad($id)  {
+            $query = $this->db->get_where('note', array('property_unity_id' => $id));//AQUI
+            return $query->result_array();
+        }
 }

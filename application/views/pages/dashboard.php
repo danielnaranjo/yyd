@@ -21,7 +21,7 @@
         <!-- END PAGE TITLE-->
         <!-- END PAGE HEADER-->
         
-        <!-- BEGIN DASHBOARD STATS 1-->
+        <!-- BEGIN DASHBOARD STATS 1
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <a class="dashboard-stat dashboard-stat-v2 blue" href="#">
@@ -74,7 +74,7 @@
                     </div>
                 </a>
             </div>
-        </div>
+        </div>-->
         <div class="clearfix"></div>
         <!-- END DASHBOARD STATS 1-->
 

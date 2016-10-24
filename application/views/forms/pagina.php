@@ -8,7 +8,7 @@ $nivel = $this->session->userdata('level');
 
     if($action=='edit'){
         $titulo="Modificar";
-        $btn = "Actualizar";
+        $btn = "Guardar";
         $ejecutar ="update"; //"update/".$this->uri->segment(4);
     } else if($action=='upload'){
         $titulo="Cargar imagen";
@@ -16,7 +16,7 @@ $nivel = $this->session->userdata('level');
         $ejecutar ="upload"; //"update/".$this->uri->segment(4);
     } else {
         $titulo="Nuevo";
-        $btn = "Agregar nuevo";
+        $btn = "Guardar";
         $ejecutar = "add";
     }
 ?>

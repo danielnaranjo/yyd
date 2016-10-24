@@ -28,7 +28,7 @@
                         <table class="table table-striped table-hover table-bordered" id="sample_1">
                             <thead>
                                 <tr>
-                                    <th> Unidad </th>
+                                    <th> Tipo de Unidad </th>
                                     <th> Total </th>
 
                                     <th> No disponibles </th>

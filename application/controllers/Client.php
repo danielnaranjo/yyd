@@ -204,9 +204,7 @@
 
 
     public function create(){
-        $data['fields'] = $this->Client_model->columnasCreate();
-        $data['tables'] = ""; // <-- Linea 79 / formulario.php
-        $data['result'] = "";
+        $data['paises'] = $this->Client_model->listadepaises();
         //seguridad
         $this->load->view('templates/secure');
         // header
@@ -217,6 +215,42 @@
         $this->load->view('forms/clientes', $data);
         // footer
         $this->load->view('templates/footer');
+        
+    }
+
+    public function created(){
+        $data = array(
+            'firstname' => $this->input->post("firstname"),
+            'lastname' => $this->input->post("lastname"),
+            'country' => $this->input->post("country")        );
+        $resp = $this->Client_model->nuevo($data);
+        //echo json_encode($resp);
+
+        if($resp){
+            /* marca la visita */
+            $data = array(
+                'client_id' => $resp,
+                'property_id' => $this->session->userdata('property_id'),
+            );
+            $passed = $this->Client_model->enlazar($data);
+
+            /* client_info y cliente */
+            $resp_info = $this->Client_info_model->populateforms($resp);
+            $id = $resp_info['client_info_id'];
+            $datainfo = array(
+                'email' => $this->input->post("email"),
+                'address' => $this->input->post("address"),
+                'city' => $this->input->post("city"),
+                'country' => $this->input->post("country"),
+                'phone' => $this->input->post("phone"),
+            );
+            $resp_update = $this->Client_info_model->updatear($id, $datainfo);
+
+            redirect('client/all', 'location');
+            /*echo json_encode($resp);
+            echo json_encode($resp_info);
+            echo json_encode($resp_update);*/
+        }
     }
 
 }

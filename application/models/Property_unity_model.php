@@ -60,9 +60,9 @@
         public function asignar($data){
             
             $this->db->where('property_unity_id', $data['property_unity_id']);
-            $this->db->update('property_unity', array('status'=>4) );
-
+            $this->db->update('property_unity', array('status'=>$data['status']) );
             $query = $this->db->insert('property_client', $data);
+            
             //$broker = $data['broker'];
             //$query = $this->db->insert('property_broker', $broker);
             return $query;
@@ -80,5 +80,22 @@
             WHERE property_unity.number='".$number."'";
             $query = $this->db->query($sql);
             return $query->row_array();
+        }
+
+
+
+
+        public function marcar($data){
+            $this->db->where('property_unity_id', $data['property_unity_id']);
+            $this->db->update('property_unity', $data['status']);
+
+            $venta = array(
+                'property_id' => $data['property_id'],
+                'client_id' => $data['client_id'],
+                'property_unity_id' => $data['property_unity_id'],
+                'broker_id' => $data['broker_id'],
+            );
+            $query = $this->db->insert('property_client', $venta);
+            return $query;
         }
 }

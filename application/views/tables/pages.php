@@ -49,7 +49,7 @@ if($titulo==''){
                                             <i class="fa fa-upload"></i>
                                         </a>
                                         <?php } else if($model=='client') { ?>
-                                        <a href="<? echo site_url()?>/<?php echo $model ?>/action/create" id="" class="btn green"> Nuevo comprador
+                                        <a href="<? echo site_url()?>/<?php echo $model ?>/create" id="" class="btn green"> Nuevo comprador
                                             <i class="fa fa-plus"></i>
                                         </a>
                                         <?php } else { ?>

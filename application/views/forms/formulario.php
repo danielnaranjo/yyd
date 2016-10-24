@@ -20,7 +20,7 @@ function makeaform($fields, $model, $nivel, $action, $btn, $tables) {
 	foreach ($fields as $field){
 		
 		// campo clave
-		if($field->name==$model."_id" || $field->name=="status") { 
+		if($field->name==$model."_id" || $field->name=="status" || $field->name=="registered") { 
 			$atribute = array(
 			    'type'          => 	'hidden',
 			    'name'          => 	$field->name,
@@ -126,18 +126,28 @@ function makeaform($fields, $model, $nivel, $action, $btn, $tables) {
 							}
 						}
 						echo form_input($atributes);
+						if($field->name=="coordinates") { 
+							echo '<span id="helpBlock" class="help-block">Nota: Puede ubicar las coordenadas con <a target="_blank" href="https://www.google.com/maps">Google Maps</a> o servicios como <a target="_blank" href="http://www.gps-coordinates.net/">gps-coordinates.net</a></span>';
+						}
+						if($field->name=="floors") { 
+							echo '<span id="helpBlock" class="help-block">Nota: Cantidad de pisos</span>';
+						}
+						if($field->name=="unities") { 
+							echo '<span id="helpBlock" class="help-block">Nota: Cantidad de unidades por piso</span>';
+						}
 					}
 					break;
 				case 'timestamp':
 					$datestring = '%Y-%m-%d %h:%i:%s';
 					$time = time();
-					if($nivel==2){
-						$atributes['disabled'] = 'disabled';
-					}
-					if($action=='new'){
+					//if($nivel==2){
+					//	$atributes['disabled'] = 'disabled';
+					//}
+					//if($action=='new'){
 						// si es fecha, deshabilito
-						$atributes['readonly'] = 'true';
-					}
+					//	$atributes['readonly'] = 'true';
+					//}
+					$atributes['type'] = 'hidden';
 					echo form_input($atributes, mdate($datestring, $time));
 					break;
 				case 'decimal':

@@ -35,7 +35,13 @@
 				'price_feet'	=>	'precio por pies',
 				'total_mts'		=>	'total mts',
 				'total_feet'	=>	'total pies',
+
 				'orientation'	=>	'orientación',
+				'floors'		=>	'pisos',
+				'lobby'			=>	'Lobby',
+				'unities'		=>	'Unidades',
+				'coordinates'	=> 	'Coordenadas GPS',
+				'date'			=> 	'Fecha',
 			);
 			return strtr( $arg, $originales );
 	    }

@@ -107,6 +107,12 @@ $nivel = $this->session->userdata('level');
             </li>
             <?php } ?>
             <!-- administrador general -->
+            <? 
+                if($nivel!=0 && $this->session->userdata('property_id')=='') {
+                    echo '<meta http-equiv="refresh" content="0" >';
+                    echo '<script>console.log("Fix it",'.now().')</script>';
+                }
+            ?>
 
             <?php  if($nivel!=0) { ?>
             <li class="nav-item">

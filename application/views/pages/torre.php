@@ -101,7 +101,7 @@
                 <h4></h4>
                 <a></a>
 
-                <div class="col-md-9 col-sm-9 col-xs-12" id="action" style="display: none;">
+                <!--<div class="col-md-9 col-sm-9 col-xs-12" id="action" style="display: none;">
                     <div class="panel panel-default" style="margin-left:-15px !important;" id="boxStatus">
                         <div class="panel-body">
                         <?php echo form_open_multipart('', ['class'=>"form-horizontal", 'role'=>"form", 'id'=>'property_unity']); ?>
@@ -133,15 +133,21 @@
                         <?php echo form_close();?>
                         </div>
                     </div>
-                    <div class="panel panel-default" style="margin-left:-15px !important;">
-                        <div class="panel-body" style="margin-left:-15px !important;">
-                            <div class="col-sm-6">
-                                <a data-toggle="modal" href="#basic" class="btn btn-block dark">Agregar nota</a>
-                            </div>
-                            <div class="col-sm-6" id="btnBuyer">
-                                <a data-toggle="modal" href="#comprador" class="btn btn-block dark">Asignar comprador</a>
-                            </div>
+                    
+                </div>-->
+                <div class="panel panel-default" id="action" style="display: none;">
+                    <div class="panel-body">
+                        <div class="col-sm-6">
+                            <a data-toggle="modal" href="#basic" class="btn btn-block dark">Agregar nota</a>
                         </div>
+                        <div class="col-sm-6" id="btnBuyer">
+                            <a data-toggle="modal" href="#comprador" class="btn btn-block dark">Asignar comprador</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default" id="notas">
+                    <div class="panel-body" style="height: 500px;overflow-y: scroll;">
+                        <p>No hay notas disponibles para esta unidad</p>
                     </div>
                 </div>
             </div>
@@ -208,6 +214,12 @@
                     <?=form_input(array('type'=>'hidden','name'=>'property_id','id'=>'property_id','value'=>$ID))?>
                     <?=form_input(array('type'=>'hidden','name'=>'broker_id','id'=>'broker_id','value'=> $this->session->userdata('aID')))?>
                     <div class="form-group">
+                        <?=form_label('Unidad','Unidad', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?=form_input(array('name'=>'unidad','id'=>'unidad','class'=>'form-control','placeholder'=>'Unidad','autocomplete'=>'off','readonly'=>'readonly'))?>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <?=form_label('Broker','Broker', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
                         <? 
@@ -233,10 +245,25 @@
                         <?=form_dropdown(array('name'=>'client_id','id'=>'client_id','class'=> 'form-control','placeholder'=>'Clientes','autocomplete'=>'off'),$options)?>
                         </div>
                     </div>
+                    <div class="form-group">
+                            <?=form_label('cambiar','cambiar', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                            <div class="col-md-9">
+                            <?php 
+                            $options = array(
+                                //'-1' => 'Estado', 
+                                '4' => 'Vendida', 
+                                '3' => 'Reservada', 
+                                '2' => 'Disponible',
+                                //'1' => 'Disponible'
+                            ); 
+                            ?>
+                            <?=form_dropdown(array('name'=>'status','id'=>'status','class'=> 'form-control','autocomplete'=>'off'), $options)?>
+                            </div>
+                        </div>
                     <div class="form-actions">
                         <div class="row">
-                            <div class="col-md-offset-3 col-md-9">
-                                <?=form_submit('Submit', 'Asignar unidad', ['class'=>'btn blue','id'=>'SubmitBuyer'])?>
+                            <div class="col-md-offset-9 col-md-3">
+                                <?=form_submit('Submit', 'Guardar', ['class'=>'btn blue btn-block','id'=>'SubmitBuyer'])?>
                             </div>
                         </div>
                     </div>
@@ -258,7 +285,8 @@
         $.getJSON('<?=site_url() ?>/transaction/info/'+id+'/'+property, function(res) {
 
             var info = res.info,
-                broker = res.broker;
+                broker = res.broker,
+                notes = res.notes;
             $('#detalle p').html('').removeClass('alert').removeClass('alert-info');
 
             <?php if($nivel==2) {  // se muestra solo en Project manager / administrador ?>
@@ -268,47 +296,54 @@
                 $('#detalle p').html('<ul></ul>');
                 $('#detalle ul').append('<li><strong>Tipo:</strong> '+info.type+'</li>');
                 $('#detalle ul').append('<li><strong>Orientación:</strong> '+info.orientation+'</li>');
-                $('#detalle ul').append('<li><strong>Espacio (pies/metros):</strong> '+info.total_feet+' pies /'+ info.total_feet +' metros <br><br></li>');
+                $('#detalle ul').append('<li><strong>Superficie (pies/metros):</strong> '+info.total_feet+' pies / '+ info.total_feet +' metros <br><br></li>');
                 $('#detalle ul').append('<li><strong>Precio:</strong> USD $'+info.price+'</li>');
-                $('#detalle ul').append('<li><strong>Precio por pies/metros:</strong> USD $'+info.price_feet +' pies / $'+info.price_mts+' metros<br><br></li>');
+                $('#detalle ul').append('<li><strong>Precio (pies/metros):</strong> USD $'+info.price_feet +' pies / USD $'+info.price_mts+' metros<br><br></li>');
 
-                if(info.status==4){ 
-                    $('#detalle ul').append('<li><strong>Broker / Vendida por:</strong> <span id="brokerInfo">No disponible</span></li>');
-                    $('#detalle ul').append('<li><strong>Comprador/Reservada por:</strong> <span id="buyerInfo">No disponible</span></li>');
-                }
+                
                 //$('#detalle h4').html(res.status);
                 $('#boxStatus').attr('style','display:block');
 
                 if(info.status==0) {
                     //$('#detalle h4').html('<strong>Estado: </strong> No disponible');
                 } else if(info.status==2) {
-                    $('#detalle ul').append('<li><strong>Estado: </strong> Disponible</li>');
-                     $('#btnBuyer').attr('style','display:block');
+                    $('#detalle ul').append('<li><strong>Estado: </strong> DISPONIBLE</li>');
+                    $('#btnBuyer').attr('style','display:block');
                 } else if(info.status==3) {
-                    $('#detalle ul').append('<li><strong>Estado: </strong> Reservada</li>');
+                    $('#detalle ul').append('<li><strong>Estado: </strong> RESERVADA</li>');
+                    $('#btnBuyer').attr('style','display:block');
                 } else if(info.status==4) {
-                    $('#detalle ul').append('<li><strong>Estado: </strong> Vendida</li>');
+                    $('#detalle ul').append('<li><strong>Estado: </strong> VENDIDA</li>');
                     $('#btnBuyer').attr('style','display:none');
                     $('#boxStatus').attr('style','display:none');
                     
-                    if(res.owner){
-                        $('#buyerInfo').html(res.owner.name +' '+res.owner.surname);
-                        $('#brokerInfo').html(res.owner.brokerName +' '+res.owner.brokerSurname);
-                        //console.info('buyerInfo',res.owner);
-                    } else {
-                        console.error('Unidad sin asignar',res.owner);
-                    }
                 } else {
-                    $('#detalle ul').append('<li><strong>Estado: </strong> Disponible</li>');
+                    $('#detalle ul').append('<li><strong>Estado: </strong> DISPONIBLE</li>');
                     //$('#detalle a').attr('href','#').text('Reservar').addClass('btn btn-default');
                     toastr.info('Es posible reservar esta unidad', 'Unidad #'+info.number);
                 }
+
+                if(info.status>2){ 
+                    $('#detalle ul').append('<li><strong>Broker:</strong> <span id="brokerInfo">No disponible</span></li>');
+                    $('#detalle ul').append('<li><strong>Comprador:</strong> <span id="buyerInfo">No disponible</span></li>');
+                }
+
+                if(res.owner && res.owner.name!=null){
+                    $('#buyerInfo').html(res.owner.name +' '+res.owner.surname);
+                    $('#brokerInfo').html(res.owner.brokerName +' '+res.owner.brokerSurname);
+                    console.info('buyerInfo',res.owner.name);
+                } /*else {
+                    $('#buyerInfo').html('(Error al cargar)');
+                    $('#brokerInfo').html('(Error al cargar)');
+                    console.error('Unidad sin asignar');
+                }*/
 
                 $('#property_unity #status').val(info.status);
                 $('#notes, #action').removeAttr('style');
                 $('#notes #note').val('Unidad #'+id+' Propiedad: '+property);
                 // populate property_unity_id
                 $('#action #property_unity_id').val(info.property_unity_id);
+                $('#unidad').val(info.number);
             <?php if($nivel==2) { ?>
             } // se muestra solo en Project manager / administrador
             <?php } ?>
@@ -316,6 +351,14 @@
 
             // agrega info de compra
             $('#addsell #property_unity_id').val(info.property_unity_id);
+
+            if(notes.length>0){
+            $('#notas .panel-body').html(notes);
+                console.log('notes', notes);
+                for(var i=0; i<notes.length; i++){
+                    $('#notas .panel-body').append('<p>'+ notes[i].note+'</p>')
+                }
+            }
 
         }).fail(function(err) {
             toastr.error('Ha ocurrido un error en la consulta, intenta nuevamente');
@@ -397,7 +440,7 @@
                 }
             });
         });
-        $("#btnStatus").click(function() {
+        /*$("#btnStatus").click(function() {
             //event.preventDefault();
             var property_id = $("#property_id").val(),
                 //broker_id = $("#broker_id").val(),
@@ -419,14 +462,15 @@
                     console.error('error', err);
                 }
             });
-        });
+        });*/
 
         $("#SubmitBuyer").click(function(){
             var params = {
                 property_id: $("#property_id").val(),
-                //broker_id: $("#broker_id").val(),
+                broker_id: $("#broker_id").val(),
                 client_id: $("#client_id").val(),
-                property_unity_id: $("#property_unity_id").val()
+                property_unity_id: $("#property_unity_id").val(),
+                status: $("#status").val()
             }
             console.debug('params',params)
             jQuery.ajax({
@@ -436,8 +480,9 @@
                 data: params,
                 success: function(res) {
                     toastr.success('Información actualizada!');
-                    //console.info('SubmitBuyer', res);
+                    console.info('SubmitBuyer', res);
                     getData();
+                    //getInfo($("#unidad").val(), $("#property_id").val());
                 },
                 fail: function(err){
                     toastr.error('Error');

@@ -14,7 +14,7 @@
                 $query = $this->db->query('SELECT property.name, client.* FROM property_client LEFT JOIN property ON property.property_id=property_client.property_id LEFT JOIN client ON property_client.client_id=client.client_id WHERE property_client.property_id');//AQUI
                 return $query->result_array();
             }
-            $query = $this->db->query('SELECT property.name, client.firstname FROM property_client LEFT JOIN property ON property.property_id=property_client.property_id LEFT JOIN client ON property_client.client_id=client.client_id WHERE property_client.property_id='.$id);//AQUI
+            $query = $this->db->query('SELECT property.name, client.* FROM property_client LEFT JOIN property ON property.property_id=property_client.property_id LEFT JOIN client ON property_client.client_id=client.client_id WHERE property_client.property_id='.$id);//AQUI
             return $query->row_array();
         }
 
@@ -178,6 +178,16 @@
                     LEFT JOIN client ON client.client_id=client_data.client_id";
             $query = $this->db->query($sql);
             return $query->field_data();
+        }
+
+        public function listadepaises(){
+            $query = $this->db->query("SELECT name FROM countries ORDER BY name ASC");
+            return $query->result_array();
+        }
+
+        public function nuevo($data){
+            $query = $this->db->insert('client', $data);
+            return $this->db->insert_id();
         }
         
     }
