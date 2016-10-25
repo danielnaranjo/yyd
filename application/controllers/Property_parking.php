@@ -80,6 +80,7 @@
         $data['titulo'] = 'Parking';
         $data['result'] = $this->Property_parking_model->lista($id);
         $data['fields'] = $this->Property_parking_model->columnas();
+        $data['property'] = $this->Property_model->listar();
 
         //seguridad
         $this->load->view('templates/secure');

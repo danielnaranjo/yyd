@@ -106,7 +106,7 @@
             return $query->list_fields();
         }*/
         public function vendedores() {
-            $query = $this->db->query("SELECT property.property_id, property.name AS property, property_unity.number, property_unity.price, property_unity.comission, DATE_FORMAT(broker_comission.date,'%d/%m/%Y') AS date, broker_comission.amount, broker_comission.comission AS split, administrator.firstname AS name, administrator.lastname AS surname FROM broker_comission LEFT JOIN property ON property.property_id=broker_comission.property_id LEFT JOIN administrator ON administrator.administrator_id=broker_comission.broker_id LEFT JOIN property_unity ON property_unity.property_unity_id=broker_comission.property_unity_id WHERE 1");   
+            $query = $this->db->query("SELECT property.property_id, property.name AS property, property_unity.number, property_unity.price, DATE_FORMAT(broker_comission.date,'%d/%m/%Y') AS date, broker_comission.amount, broker_comission.comission AS split, administrator.firstname AS name, administrator.lastname AS surname FROM broker_comission LEFT JOIN property ON property.property_id=broker_comission.property_id LEFT JOIN administrator ON administrator.administrator_id=broker_comission.broker_id LEFT JOIN property_unity ON property_unity.property_unity_id=broker_comission.property_unity_id WHERE 1");   
             return $query->result_array();
         }
 

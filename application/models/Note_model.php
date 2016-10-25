@@ -30,7 +30,17 @@
             $this->db->delete('note');
         }
         public function unidad($id)  {
-            $query = $this->db->get_where('note', array('property_unity_id' => $id));//AQUI
+            $query = $this->db->query("
+                SELECT 
+                    note.note,
+                    DATE_FORMAT(note.updated,'%d/%m/%Y %H:%i') AS updated,
+                    administrator.firstname,
+                    administrator.lastname
+                FROM note
+                    LEFT JOIN administrator ON administrator.administrator_id=note.broker_id
+                WHERE property_unity_id='".$id."'
+                ORDER BY note.updated DESC
+            ");//AQUI
             return $query->result_array();
         }
 }

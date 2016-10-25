@@ -98,43 +98,7 @@
                 <p class="alert alert-info" role="alert">
                     Selecciona una unidad para ver mas información
                 </p>
-                <h4></h4>
-                <a></a>
 
-                <!--<div class="col-md-9 col-sm-9 col-xs-12" id="action" style="display: none;">
-                    <div class="panel panel-default" style="margin-left:-15px !important;" id="boxStatus">
-                        <div class="panel-body">
-                        <?php echo form_open_multipart('', ['class'=>"form-horizontal", 'role'=>"form", 'id'=>'property_unity']); ?>
-                        <?=form_input(array('type'=>'hidden','name'=>'property_id','id'=>'property_id','value'=>$ID))?>
-                        <?//=form_input(array('type'=>'hidden','name'=>'broker_id','id'=>'broker_id','value'=> $this->session->userdata('aID')))?>
-                        <?=form_input(array('type'=>'hidden','name'=>'property_unity_id','id'=>'property_unity_id'))?>
-                        <div class="form-group">
-                            <?=form_label('cambiar','cambiar', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
-                            <div class="col-md-9">
-                            <?php 
-                            $options = array(
-                                //'-1' => 'Estado', 
-                                //'4' => 'Vendida', 
-                                '3' => 'Reservada', 
-                                '2' => 'Disponible',
-                                //'1' => 'Disponible'
-                            ); 
-                            ?>
-                            <?=form_dropdown(array('name'=>'status','id'=>'status','class'=> 'form-control','autocomplete'=>'off'), $options)?>
-                            </div>
-                        </div>
-                        <div class="form-actions">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <?=form_submit('Submit', 'Cambiar estado', ['class'=>'btn btn-block dark','id'=>'btnStatus'])?>
-                                </div>
-                            </div>
-                        </div>
-                        <?php echo form_close();?>
-                        </div>
-                    </div>
-                    
-                </div>-->
                 <div class="panel panel-default" id="action" style="display: none;">
                     <div class="panel-body">
                         <div class="col-sm-6">
@@ -143,10 +107,13 @@
                         <div class="col-sm-6" id="btnBuyer">
                             <a data-toggle="modal" href="#comprador" class="btn btn-block dark">Asignar comprador</a>
                         </div>
+                        <div class="col-sm-6" id="btnChange" style="display: none;">
+                            <a data-toggle="modal" href="#comprador" class="btn btn-block dark">Modificar</a>
+                        </div>
                     </div>
                 </div>
                 <div class="panel panel-default" id="notas">
-                    <div class="panel-body" style="height: 500px;overflow-y: scroll;">
+                    <div class="panel-body" style="height: 500px;overflow-y:scroll;border:none;">
                         <p>No hay notas disponibles para esta unidad</p>
                     </div>
                 </div>
@@ -168,29 +135,30 @@
             <?php echo form_open_multipart('', ['id'=>"addnote", 'class'=>"form-horizontal", 'role'=>"form"]); ?>
                     <?=form_input(array('type'=>'hidden','name'=>'property_id','id'=>'property_id','value'=>$ID))?>
                     <?=form_input(array('type'=>'hidden','name'=>'broker_id','id'=>'broker_id','value'=> $this->session->userdata('aID')))?>
-                    <div class="form-group">
-                        <?=form_label('Cliente','Cliente', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
-                        <div class="col-md-9">
-                        <? 
-                            $options=[];
-                            $options['0']='- Seleccione - ';
-                            foreach($clients as $client) {
-                                $options[$client['client_id']]=$client['firstname'].' '.$client['lastname']. ' ('.$client['country'].')';
-                            }   
-                        ?>
-                        <?=form_dropdown(array('name'=>'client_id','id'=>'client_id','class'=> 'form-control','placeholder'=>'Clientes','autocomplete'=>'off'),$options)?>
-                        </div>
-                    </div>
+                    <?=form_input(array('type'=>'hidden','name'=>'property_unity_id','id'=>'property_unity_id'))?>
                     <div class="form-group">
                         <?=form_label('Comentarios','Comentarios', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
                         <?=form_textarea(array('name'=>'note','id'=>'note','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Comentarios',))?>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <?=form_label('Comprador (Opcional)','Comprador', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <? 
+                            $options=[];
+                            $options['0']='Sin asignar';
+                            foreach($clients as $client) {
+                                $options[$client['client_id']]=$client['firstname'].' '.$client['lastname']. ' ('.$client['country'].')';
+                            }   
+                        ?>
+                        <?=form_dropdown(array('name'=>'client_id','id'=>'client_id','class'=> 'form-control','placeholder'=>'Clientes','autocomplete'=>'off'),$options,0)?>
+                        </div>
+                    </div>
                     <div class="form-actions">
                         <div class="row">
-                            <div class="col-md-offset-3 col-md-9">
-                                <?=form_submit('Submit', 'Agregar nota', ['class'=>'btn blue','id'=>'Submit'])?>
+                            <div class="col-md-offset-9 col-md-3">
+                                <?=form_submit('Submit', 'Guardar', ['class'=>'btn blue btn-block','id'=>'Submit'])?>
                             </div>
                         </div>
                     </div>
@@ -212,7 +180,6 @@
                 <?php echo form_open_multipart('', ['id'=>"addsell", 'class'=>"form-horizontal", 'role'=>"form"]); ?>
                     <?=form_input(array('type'=>'hidden','name'=>'property_unity_id','id'=>'property_unity_id'))?>
                     <?=form_input(array('type'=>'hidden','name'=>'property_id','id'=>'property_id','value'=>$ID))?>
-                    <?=form_input(array('type'=>'hidden','name'=>'broker_id','id'=>'broker_id','value'=> $this->session->userdata('aID')))?>
                     <div class="form-group">
                         <?=form_label('Unidad','Unidad', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
@@ -220,46 +187,46 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <?=form_label('Estado','Estado', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?php 
+                        $optionsStatus = array(
+                            //'-1' => 'Estado', 
+                            '4' => 'Vendida', 
+                            '3' => 'Reservada', 
+                            '2' => 'Disponible',
+                            '0' => 'No Disponible'
+                        ); 
+                        ?>
+                        <?=form_dropdown(array('name'=>'status','id'=>'status','class'=> 'form-control','autocomplete'=>'off'), $optionsStatus)?>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <?=form_label('Broker','Broker', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
                         <? 
-                            $options=[];
-                            $options['0']='- Seleccione - ';
+                            $optionsBroker=[];
+                            $optionsBroker['0']='- Seleccione - ';
                             foreach($brokers as $broker) {
-                                $options[$broker['administrator_id']]=$broker['firstname'].' '.$broker['lastname'];
+                                $optionsBroker[$broker['administrator_id']]=$broker['firstname'].' '.$broker['lastname'];
                             }   
                         ?>
-                        <?=form_dropdown(array('name'=>'broker_id','id'=>'broker_id','class'=> 'form-control','placeholder'=>'Clientes','autocomplete'=>'off'),$options)?>
+                        <?=form_dropdown(array('name'=>'broker_id','id'=>'broker_id','class'=> 'form-control','placeholder'=>'Clientes','autocomplete'=>'off'),$optionsBroker)?>
                         </div>
                     </div>
                     <div class="form-group">
                         <?=form_label('Cliente','Cliente', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
                         <? 
-                            $options=[];
-                            $options['0']='- Seleccione - ';
+                            $optionsClient=[];
+                            $optionsClient['0']='- Seleccione - ';
                             foreach($clients as $client) {
-                                $options[$client['client_id']]=$client['firstname'].' '.$client['lastname']. ' ('.$client['country'].')';
+                                $optionsClient[$client['client_id']]=$client['firstname'].' '.$client['lastname']. ' ('.$client['country'].')';
                             }   
                         ?>
-                        <?=form_dropdown(array('name'=>'client_id','id'=>'client_id','class'=> 'form-control','placeholder'=>'Clientes','autocomplete'=>'off'),$options)?>
+                        <?=form_dropdown(array('name'=>'client_id','id'=>'client_id','class'=> 'form-control','placeholder'=>'Clientes','autocomplete'=>'off'),$optionsClient)?>
                         </div>
                     </div>
-                    <div class="form-group">
-                            <?=form_label('cambiar','cambiar', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
-                            <div class="col-md-9">
-                            <?php 
-                            $options = array(
-                                //'-1' => 'Estado', 
-                                '4' => 'Vendida', 
-                                '3' => 'Reservada', 
-                                '2' => 'Disponible',
-                                //'1' => 'Disponible'
-                            ); 
-                            ?>
-                            <?=form_dropdown(array('name'=>'status','id'=>'status','class'=> 'form-control','autocomplete'=>'off'), $options)?>
-                            </div>
-                        </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-offset-9 col-md-3">
@@ -277,6 +244,7 @@
 
 <script>
     function getInfo(id, property){
+        //console.info('getInfo', new Date());
         $('#detalle h3').html('Unidad '+id);
         $('#detalle h4').html(' ');
         //$('#detalle a').remove();
@@ -309,18 +277,22 @@
                 } else if(info.status==2) {
                     $('#detalle ul').append('<li><strong>Estado: </strong> DISPONIBLE</li>');
                     $('#btnBuyer').attr('style','display:block');
+                    $('#btnChange').attr('style','display:none;');
                 } else if(info.status==3) {
                     $('#detalle ul').append('<li><strong>Estado: </strong> RESERVADA</li>');
-                    $('#btnBuyer').attr('style','display:block');
+                    $('#btnBuyer').attr('style','display:none');
+                    $('#btnChange').attr('style','display:block;');
                 } else if(info.status==4) {
                     $('#detalle ul').append('<li><strong>Estado: </strong> VENDIDA</li>');
                     $('#btnBuyer').attr('style','display:none');
+                    $('#btnChange').attr('style','display:inline');
                     $('#boxStatus').attr('style','display:none');
                     
                 } else {
                     $('#detalle ul').append('<li><strong>Estado: </strong> DISPONIBLE</li>');
                     //$('#detalle a').attr('href','#').text('Reservar').addClass('btn btn-default');
                     toastr.info('Es posible reservar esta unidad', 'Unidad #'+info.number);
+                    $('#btnChange').attr('style','display:none;');
                 }
 
                 if(info.status>2){ 
@@ -331,45 +303,41 @@
                 if(res.owner && res.owner.name!=null){
                     $('#buyerInfo').html(res.owner.name +' '+res.owner.surname);
                     $('#brokerInfo').html(res.owner.brokerName +' '+res.owner.brokerSurname);
-                    console.info('buyerInfo',res.owner.name);
-                } /*else {
-                    $('#buyerInfo').html('(Error al cargar)');
-                    $('#brokerInfo').html('(Error al cargar)');
-                    console.error('Unidad sin asignar');
-                }*/
+                    //console.info('buyerInfo',res.owner.name);
+                }
 
                 $('#property_unity #status').val(info.status);
                 $('#notes, #action').removeAttr('style');
                 $('#notes #note').val('Unidad #'+id+' Propiedad: '+property);
                 // populate property_unity_id
-                $('#action #property_unity_id').val(info.property_unity_id);
+                $('#action #property_unity_id, #basic #addnote #property_unity_id').val(info.property_unity_id);
                 $('#unidad').val(info.number);
+
             <?php if($nivel==2) { ?>
             } // se muestra solo en Project manager / administrador
             <?php } ?>
             //console.log('data', res);
 
-            // agrega info de compra
-            $('#addsell #property_unity_id').val(info.property_unity_id);
+            // agrega info de compra 
+            $('#comprador #addsell #property_unity_id').val(info.property_unity_id);
 
+            $('#notas .panel-body').html('No hay notas disponibles para esta unidad');
             if(notes.length>0){
-            $('#notas .panel-body').html(notes);
-                console.log('notes', notes);
+                //console.log('notes', notes);
+                var content = "";
                 for(var i=0; i<notes.length; i++){
-                    $('#notas .panel-body').append('<p>'+ notes[i].note+'</p>')
+                    content +='<p><strong>'+ notes[i].note+'</strong><br>por '+ notes[i].firstname +' '+ notes[i].lastname+', el '+ notes[i].updated+'</p>';
                 }
+                $('#notas .panel-body').html(content);
             }
 
-        }).fail(function(err) {
-            toastr.error('Ha ocurrido un error en la consulta, intenta nuevamente');
-            console.log('err', err.statusText);
         });
     };
     function getData(){
         toastr.info('Cargando disponibilidad, por favor, espere..');
         $.getJSON(
             '<?=site_url() ?>/property/populate/<?=$ID?>', function(response) {
-            console.log(new Date());
+            console.log('actualizado:',new Date());
             var st =  response.unities,
                 none = 0,
                 available = 0,
@@ -398,97 +366,80 @@
                 } else if(st[i].status==3) {
                     $('#'+st[i].number).removeAttr('class').addClass('bg-warning');
                     $('#bagde-reserved').text(reserved);
+                    $('#btnBuyer').attr('style','display:none;');
                     reserved+=1;
                 } else if(st[i].status==4) {
                     $('#'+st[i].number).removeAttr('class').addClass('bg-danger');
                     $('#bagde-sold').text(sold);
                     $('#btnBuyer').attr('style','display:none;');
+                    $('#btnChange').attr('style','display:inline;');
                     sold+=1;
                 } else {
                     //$('#bagde-free').text(st.length - none - sold -free - reserved);
                 }
             }
                 //console.log('!',response, st.length, none, free, sold, reserved, available);
-        })
-        .fail(function(err) { 
-            toastr.error('Ha ocurrido un error cargando la información');
-            console.error(err.statusText);
         });
     }
     window.onload = function(){
         console.log('Loaded!');
         getData();
         $("#Submit").click(function() {
+            var formId = "#basic #addnote";
             //event.preventDefault();
-            var property_id = $("#property_id").val(),
-                broker_id = $("#broker_id").val(),
-                client_id = $("#client_id").val(),
-                note = $("#note").val();
+            var params = {
+                property_id : $(formId +" #property_id").val(),
+                property_unity_id : $(formId+" #property_unity_id").val(),
+                broker_id : $(formId +" #broker_id").val(),
+                client_id : $(formId +" #client_id").val(),
+                note : $(formId +" #note").val(),
+            }
             jQuery.ajax({
                 type: "POST",
                 url: "<?php echo site_url(); ?>/note/add",
                 dataType: 'json',
-                data: { property_id: property_id, broker_id: broker_id, client_id: client_id, note: note },
-                success: function(res) {
-                    toastr.success('Información actualizada!');
-                    $('.modal form input, .modal form select, .modal form textarea').val('');
-                    $('.modal').modal('hide');
-                },
-                fail: function(err){
-                    toastr.error('Error');
-                    console.error('error', err);
-                }
+                data: params, //{ property_id: property_id, broker_id: broker_id, client_id: client_id, note: note },               
+            })
+            .success(function(res) {
+                toastr.success('Información actualizada!');
+                $('.modal form input, .modal form select, .modal form textarea').val('');
+                $('.modal').modal('hide');
             });
         });
-        /*$("#btnStatus").click(function() {
-            //event.preventDefault();
-            var property_id = $("#property_id").val(),
-                //broker_id = $("#broker_id").val(),
-                status = $("#status").val(),
-                property_unity_id = $("#property_unity_id").val();
-            //console.log('btnStatus', property_id, status, property_unity_id);
-            jQuery.ajax({
-                type: "POST",
-                url: "<?php echo site_url(); ?>/property_unity/change",
-                dataType: 'json',
-                data: { property_id: property_id, property_unity_id: property_unity_id, status: status },
-                success: function(res) {
-                    toastr.success('Información actualizada!');
-                    console.info('res', res);
-                    getData();
-                },
-                fail: function(err){
-                    toastr.error('Error');
-                    console.error('error', err);
-                }
-            });
-        });*/
 
         $("#SubmitBuyer").click(function(){
+            var formId = "#comprador #addsell";
             var params = {
-                property_id: $("#property_id").val(),
-                broker_id: $("#broker_id").val(),
-                client_id: $("#client_id").val(),
-                property_unity_id: $("#property_unity_id").val(),
-                status: $("#status").val()
+                property_id: $(formId+" #property_id").val(),
+                broker_id: $(formId+" #broker_id").val(),
+                client_id: $(formId+" #client_id").val(),
+                property_unity_id: $(formId+" #property_unity_id").val(),
+                status: $(formId+" #status").val(),
+                unidad: $(formId+" #unidad").val()
             }
-            console.debug('params',params)
+            //console.debug('params',params)
             jQuery.ajax({
                 type: "POST",
                 url: "<?php echo site_url(); ?>/property_unity/markassold",
                 dataType: 'json',
                 data: params,
-                success: function(res) {
-                    toastr.success('Información actualizada!');
-                    console.info('SubmitBuyer', res);
-                    getData();
-                    //getInfo($("#unidad").val(), $("#property_id").val());
-                },
-                fail: function(err){
-                    toastr.error('Error');
-                    console.error('error', err);
-                }
+            })
+            .success(function(res) {
+                toastr.success('Información actualizada!');
+                //console.info('SubmitBuyer', res);
+                getData();
+                getInfo(res.unidad,res.property_id);
             });
         });
+        $('#comprador #addsell #status').on('change', function(){
+            var status = $(this).val();
+            var formId = "#addsell";
+            //console.log('#comprador #addsell #status', status);
+            if(status==2){
+               $(formId+" #property_id").attr('readonly','readonly').val(0);
+               $(formId+" #broker_id").attr('readonly','readonly').val(0);
+               $(formId+" #client_id").attr('readonly','readonly').val(0);
+            }
+        })
     }
 </script>

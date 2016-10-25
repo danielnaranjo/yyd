@@ -75,7 +75,7 @@
         $data['result'] = $this->Property_model->departamentos($id);
         $data['types'] = $this->Property_model->tipos($id);
         //echo json_encode($data);
-        $data['titulo'] = 'Lista de unidades de '.$this->session->userdata('project');
+        $data['titulo'] = 'Lista de unidades '.$this->session->userdata('project');
         $data['fields'] = $this->Property_unity_model->columnas();
         $data['tables'] = ""; // <-- Linea 79 / formulario.php
 
@@ -137,7 +137,7 @@
             'country' => $this->input->post("country"),
             'address' => $this->input->post("address"),
             'phone' => $this->input->post("phone"),
-            'notes' => $this->input->post("notes"),
+            'coordinates' => $this->input->post("coordinates"),
             'floors' => $this->input->post("floors"),
             'unities' => $this->input->post("unities"),
         );
@@ -157,7 +157,7 @@
             'country' => $this->input->post("country"),
             'address' => $this->input->post("address"),
             'phone' => $this->input->post("phone"),
-            'notes' => $this->input->post("notes"),
+            'coordinates' => $this->input->post("coordinates"),
             'floors' => $this->input->post("floors"),
             'unities' => $this->input->post("unities"),
         );
@@ -170,7 +170,7 @@
         $data['properties'] = $this->Property_model->listar();
         $data['brokers'] = $this->Administrator_model->listar();
         $data['clients'] = $this->Client_model->listar();
-        $data['titulo'] = 'Vista general de '.$this->session->userdata('project');;
+        $data['titulo'] = 'Vista general '.$this->session->userdata('project');;
         $data['ID'] = $id;
 
         //seguridad

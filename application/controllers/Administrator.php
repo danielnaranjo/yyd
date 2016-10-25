@@ -178,6 +178,11 @@
         $data['visitors'] = $this->Client_model->contar();
         $data['property'] = $this->Property_model->portada($id);
 
+        $data['visitor'] = $this->Client_model->paises();
+        $data['visits'] = $this->Client_model->cantidaddevistas();
+        $data['properties'] = $this->Property_model->gps();
+        $data['sales'] = $this->Transaction_model->ventas();
+
         $data['title']=@$data['property'][0]['name'];
         // main
         $this->load->view('pages/dashboard', $data);

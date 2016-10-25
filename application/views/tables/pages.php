@@ -40,6 +40,7 @@ if($titulo==''){
                 <!-- BEGIN EXAMPLE TABLE PORTLET-->
                 <div class="portlet light portlet-fit bordered">
                     <div class="portlet-body">
+                        <?php if($nivel==0) { ?>
                         <div class="table-toolbar">
                             <div class="row">
                                 <div class="col-md-6">
@@ -63,6 +64,7 @@ if($titulo==''){
                                 </div>
                             </div>
                         </div>
+                        <? } ?>
                         <table class="table table-striped table-hover table-bordered" id="sample_1">
                             <thead>
                                 <tr>
@@ -80,6 +82,7 @@ if($titulo==''){
                                                 && !preg_match("/floors/i", $field->name)
                                                 && !preg_match("/unities/i", $field->name)
                                                 && !preg_match("/lobby/i", $field->name)
+                                                && !preg_match("/coordinates/i", $field->name)
                                                 // property_unity
                                                 && !preg_match("/_unity_id/i", $field->name)
                                                 && !preg_match("/comission/i", $field->name)
@@ -120,6 +123,7 @@ if($titulo==''){
                                                 && !preg_match("/floors/i", $f->name)
                                                 && !preg_match("/unities/i", $f->name)
                                                 && !preg_match("/lobby/i", $f->name)
+                                                && !preg_match("/coordinates/i", $f->name)
                                                 // property_unity
                                                 && !preg_match("/_unity_id/i", $f->name)
                                                 && !preg_match("/comission/i", $f->name)

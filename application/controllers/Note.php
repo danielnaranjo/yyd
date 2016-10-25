@@ -53,6 +53,7 @@
             'broker_id' => $this->input->post("broker_id"),
             'client_id' => $this->input->post("client_id"),
             'note' => $this->input->post("note"),
+            'property_unity_id' => $this->input->post("property_unity_id"),
             'created' => now(),
         );
         $data = $this->Note_model->registrar($data);

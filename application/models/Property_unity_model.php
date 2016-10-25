@@ -82,11 +82,8 @@
             return $query->row_array();
         }
 
-
-
-
         public function marcar($data){
-            $this->db->where('property_unity_id', $data['property_unity_id']);
+            /*$this->db->where('property_unity_id', $data['property_unity_id']);
             $this->db->update('property_unity', $data['status']);
 
             $venta = array(
@@ -96,6 +93,6 @@
                 'broker_id' => $data['broker_id'],
             );
             $query = $this->db->insert('property_client', $venta);
-            return $query;
+            return $query;*/
         }
 }

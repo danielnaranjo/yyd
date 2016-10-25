@@ -117,7 +117,7 @@
             $this->db->delete('property');
         }
         public function gps() {
-            $query = $this->db->query("SELECT property_id, name, notes AS location FROM property");
+            $query = $this->db->query("SELECT property_id, name, coordinates AS location FROM property");
             return $query->result_array();
         }
 }

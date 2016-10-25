@@ -56,10 +56,11 @@
             'property_id' => $this->input->post("property_id"),
             'number' => $this->input->post("number"),
             'type' => $this->input->post("type"),
-            //'square' => $this->input->post("square"),
-            'price' => $this->input->post("price"),
-            //'comission' => $this->input->post("comission"),
-            //'flat' => $this->input->post("flat"),
+            'orientation' => $this->input->post("orientation"),
+            'price_mts' => $this->input->post("price_mts"),
+            'price_feet' => $this->input->post("price_feet"),
+            'total_mts' => $this->input->post("total_mts"),
+            'total_feet' => $this->input->post("total_feet"),
             'status' => 0,
         );
         $data = $this->Property_unity_model->registrar($data);
@@ -74,10 +75,11 @@
             'property_id' => $this->input->post("property_id"),
             'number' => $this->input->post("number"),
             'type' => $this->input->post("type"),
-            //'square' => $this->input->post("square"),
-            'price' => $this->input->post("price"),
-            //'comission' => $this->input->post("comission"),
-            //'flat' => $this->input->post("flat"),
+            'orientation' => $this->input->post("orientation"),
+            'price_mts' => $this->input->post("price_mts"),
+            'price_feet' => $this->input->post("price_feet"),
+            'total_mts' => $this->input->post("total_mts"),
+            'total_feet' => $this->input->post("total_feet"),
             //'status' => $this->input->post("status"),
         );
         $this->Property_unity_model->updatear($id, $data);
@@ -100,7 +102,7 @@
         // footer
         $this->load->view('templates/footer');
     }
-    /*
+
     public function change(){
         $id = $this->input->post("property_unity_id");
         $data = array(
@@ -109,17 +111,64 @@
         );
         $this->Property_unity_model->cambiarestado($id, $data);
         echo true;
-    }*/
+    }
     public function markassold(){
-        $persona = array(
+        
+        /*$persona = array(
             'property_id' => $this->input->post("property_id"),
             'broker_id' => $this->input->post("broker_id"),
             'client_id' => $this->input->post("client_id"),
             'property_unity_id' => $this->input->post("property_unity_id"),
-            'status' => $this->input->post("status"),
+            'status' => $this->input->post("status")
         );
-        $data = $this->Property_unity_model->marcar($persona);
-        echo true;
+        $data = $this->Property_unity_model->marcar($persona);*/
+        //echo $data;
         //echo json_encode($data);
+
+        $status = $this->input->post("status");
+        $property_id = $this->input->post("property_id");
+        $client_id = $this->input->post("client_id");
+        $property_unity_id = $this->input->post("property_unity_id");
+        $broker_id = $this->input->post("broker_id");
+        $unidad = $this->input->post("unidad");
+
+        switch ($status) {
+            case 0:
+                // Se habilita nuevamente y se blanquea la unidad para la venta
+                $sql="DELETE FROM property_client WHERE property_unity_id=".$property_unity_id;
+                break;
+            case 2:
+                // Se habilita nuevamente y se blanquea la unidad para la venta
+                $sql="DELETE FROM property_client WHERE property_unity_id=".$property_unity_id;
+                break;
+            case 3:
+                // Solo en Reserva o Compra
+                $query = $this->db->query('SELECT * FROM property_client WHERE property_unity_id='.$property_unity_id);
+                $check = $query->num_rows();
+                if($check>0){
+                    $sql="UPDATE property_client SET client_id=$client_id WHERE property_unity_id=".$property_unity_id;
+                } else {
+                    $sql="INSERT INTO property_client (property_id,client_id,property_unity_id,broker_id) VALUES (".$property_id.", ".$client_id.", ".$property_unity_id.", ".$broker_id.")";
+                }
+                break;
+            case 4:
+                // Solo en Reserva o Compra
+                $query = $this->db->query('SELECT * FROM property_client WHERE property_unity_id='.$property_unity_id);
+                $check = $query->num_rows();
+                if($check>0){
+                    $sql="UPDATE property_client SET client_id=$client_id WHERE property_unity_id=".$property_unity_id;
+                } else {
+                    $sql="INSERT INTO property_client (property_id,client_id,property_unity_id,broker_id) VALUES (".$property_id.", ".$client_id.", ".$property_unity_id.", ".$broker_id.")";
+                }
+                break;
+            default:
+                //
+                break;
+        }
+        $this->db->query($sql);
+        $this->db->query("UPDATE property_unity SET status='".$status."' WHERE property_unity_id='".$property_unity_id."'");
+        $data['unidad'] = $unidad;
+        $data['property_id'] = $property_id;
+        echo json_encode($data);
     }
 }
