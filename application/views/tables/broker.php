@@ -56,8 +56,8 @@
                                     <td> USD $<?php echo $r['price']; $price +=$r['price']; ?> </td>
                                     <!--<td> <?php echo $r['comission'] ?> </td>-->
                                     <td> <?php echo $r['date'] ?> </td>
-                                    <td> USD $<?php echo $r['amount']; $amount +=$r['amount']; ?> </td>
-                                    <td> USD $<?php echo $r['split']; $split +=$r['split']; ?> </td>
+                                    <td> USD $<?php echo number_format($r['amount'],2); $amount +=$r['amount']; ?> </td>
+                                    <td> USD $<?php echo number_format($r['split'],2); $split +=$r['split']; ?> </td>
                                     
                                 </tr>
                                 <? } ?>
@@ -66,10 +66,10 @@
                                 <tr>
                                     <td>  </td>
                                     <td>  </td>
-                                    <td> USD $<?=$price ?> </td>
+                                    <td> USD $<?=number_format($price,2) ?> </td>
                                     <td>  </td>
-                                    <td> USD $<?=$amount ?> </td>
-                                    <td> USD $<?=$split ?> </td>
+                                    <td> USD $<?=number_format($amount,2) ?> </td>
+                                    <td> USD $<?=number_format($split,2) ?> </td>
                                     <td>  </td>
                                     <td>  </td>
                                 </tr>

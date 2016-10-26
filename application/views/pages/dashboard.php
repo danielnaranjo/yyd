@@ -1,3 +1,9 @@
+<?php
+    $Id = $this->uri->segment(3);
+    if($Id==''){
+        $this->session->userdata('property_id');
+    }
+?>
 <div class="page-content-wrapper">
     <!-- BEGIN CONTENT BODY -->
     <div class="page-content">
@@ -17,11 +23,33 @@
         </div>
         <!-- END PAGE BAR -->
         <!-- BEGIN PAGE TITLE-->
-        <h3 class="page-title"> <? echo $title; ?></h3>
+        <h3 class="page-title">
+            <? echo $title; ?>
+            <div class="actions pull-right">
+                <div class="btn-group">
+                    <a class="btn dark btn-outline" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                        <i class="fa fa-eye"></i> Ver Unidades
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a href="<?php echo site_url() ?>/property/unities/<?php echo $Id ?>">
+                                <i class="fa fa-building"></i> Estado
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo site_url() ?>/property/details/<?php echo $Id ?>">
+                                <i class="fa fa-user"></i> Detalles
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </h3>
         <!-- END PAGE TITLE-->
         <!-- END PAGE HEADER-->
         
-        <!-- BEGIN DASHBOARD STATS 1-->
+        <!-- BEGIN DASHBOARD STATS 1
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                 <a class="dashboard-stat dashboard-stat-v2 blue" href="#">
@@ -74,7 +102,7 @@
                     </div>
                 </a>
             </div>
-        </div>
+        </div>-->
         <div class="clearfix"></div>
         <!-- END DASHBOARD STATS 1-->
 

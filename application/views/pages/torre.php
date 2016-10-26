@@ -283,7 +283,7 @@
                     $('#btnBuyer').attr('style','display:none');
                     $('#btnChange').attr('style','display:block;');
                 } else if(info.status==4) {
-                    $('#detalle ul').append('<li><strong>Estado: </strong> VENDIDA</li>');
+                    $('#detalle ul').append('<li><strong>Estado: </strong> <strong>VENDIDA</strong></li>');
                     $('#btnBuyer').attr('style','display:none');
                     $('#btnChange').attr('style','display:inline');
                     $('#boxStatus').attr('style','display:none');
@@ -301,8 +301,8 @@
                 }
 
                 if(res.owner && res.owner.name!=null){
-                    $('#buyerInfo').html(res.owner.name +' '+res.owner.surname);
-                    $('#brokerInfo').html(res.owner.brokerName +' '+res.owner.brokerSurname);
+                    $('#buyerInfo').html('<a href="<?php echo site_url() ?>/client/profile/'+res.owner.Id+'">'+res.owner.name +' '+res.owner.surname+'</a>');
+                    $('#brokerInfo').html('<a href="mailto:'+res.owner.brokerEmail+'">'+res.owner.brokerName +' '+res.owner.brokerSurname+'</a>');
                     //console.info('buyerInfo',res.owner.name);
                 }
 

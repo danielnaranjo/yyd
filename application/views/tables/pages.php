@@ -65,7 +65,7 @@ if($titulo==''){
                             </div>
                         </div>
                         <? } ?>
-                        <table class="table table-striped table-hover table-bordered" id="sample_1">
+                        <table class="table table-striped table-hover table-bordered" id="sample_2">
                             <thead>
                                 <tr>
                                     <?php foreach ($fields as $field){ //campos ?>
@@ -98,9 +98,7 @@ if($titulo==''){
                                         <? } ?>
                                     <? } ?>
                                     <th>
-                                    <?php //if($this->session->userdata('level')==1) { ?> 
                                         Opciones 
-                                    <? //} ?>
                                     </th>
                                 </tr>
                             </thead>
@@ -163,6 +161,10 @@ if($titulo==''){
                                                         );
                                                         echo img($imagen);
 
+                                                    } else if(preg_match("/price/i", $f->name) ) {
+
+                                                        echo 'USD $'.number_format($r[$f->name],2);
+
                                                     } else if (preg_match("/property_id/i", $f->name) ) {
                                                         /**/
                                                         if($r[$f->name]!=0){
@@ -193,12 +195,12 @@ if($titulo==''){
                                             Ver perfil
                                         </a>
 
-                                        <?php if($nivel!=0) { ?>
+                                        <?php /*if($nivel!=0) { ?>
                                         <i class="fa fa-calendar-check-o" aria-hidden="true"></i> 
                                         <a class="view" href="javascript:;" onclick="javascript:visit(<? echo $r[$model.'_id']?>,1)">
                                             Visita
                                         </a>
-                                        <? } ?>
+                                        <? } */?>
                                         <? } ?>
 
                                         <?php if($model=="property") { ?>

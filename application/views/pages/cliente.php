@@ -122,7 +122,7 @@ $nivel = $this->session->userdata('level');
                                             <?php foreach($transactions as $m) {?>
                                             <tr>
                                                 <td> <?php echo $m['lastname'] ?> </td>
-                                                <td> <?php echo $m['amount'] ?> </td>
+                                                <td> $<?php echo number_format($m['amount'],2) ?> </td>
                                                 <td> <a data-toggle="modal" href="#basic" class="primary-link"><?php echo $m['number'] ?></a> </td>
                                                 <td> <?php echo $m['date'] ?> </td>
                                             </tr>
@@ -210,7 +210,7 @@ $nivel = $this->session->userdata('level');
                                         </a>
                                     </div>
                                 </div>
-                                <div class="portlet-body">
+                                <div class="portlet-body" style="overflow-y: scroll;height: 500px;">
                                     <div class="timeline">
                                         <!-- TIMELINE ITEM -->
                                         <?php foreach($visits as $v) {?>
@@ -306,141 +306,6 @@ $nivel = $this->session->userdata('level');
     <!-- END CONTENT BODY -->
 </div>
 
-
-<div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Transacción</h4>
-            </div>
-            <div class="modal-body">
-                <!-- BEGIN CONTENT  -->
-                <div class="page-content">
-                    <!-- BEGIN PAGE HEADER-->
-
-                    <!-- END PAGE HEADER-->
-                    <div class="invoice">
-                        <div class="row invoice-logo">
-                            <div class="col-xs-6 col-xs-offset-6">
-                                <p> #5652256 / 28 Feb 2013
-                                    <span class="muted"> Consectetuer adipiscing elit </span>
-                                </p>
-                            </div>
-                        </div>
-                        <hr/>
-                        <div class="row">
-                            <div class="col-xs-4">
-                                <h3>Client:</h3>
-                                <ul class="list-unstyled">
-                                    <li> John Doe </li>
-                                    <li> Mr Nilson Otto </li>
-                                    <li> FoodMaster Ltd </li>
-                                    <li> Madrid </li>
-                                    <li> Spain </li>
-                                    <li> 1982 OOP </li>
-                                </ul>
-                            </div>
-                            <div class="col-xs-4">
-                                <h3>About:</h3>
-                                <ul class="list-unstyled">
-                                    <li> Drem psum dolor sit amet </li>
-                                    <li> Laoreet dolore magna </li>
-                                    <li> Consectetuer adipiscing elit </li>
-                                    <li> Magna aliquam tincidunt erat volutpat </li>
-                                    <li> Olor sit amet adipiscing eli </li>
-                                    <li> Laoreet dolore magna </li>
-                                </ul>
-                            </div>
-                            <div class="col-xs-4 invoice-payment">
-                                <h3>Payment Details:</h3>
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <strong>V.A.T Reg #:</strong> 542554(DEMO)78 </li>
-                                    <li>
-                                        <strong>Account Name:</strong> FoodMaster Ltd </li>
-                                    <li>
-                                        <strong>SWIFT code:</strong> 45454DEMO545DEMO </li>
-                                    <li>
-                                        <strong>Account Name:</strong> FoodMaster Ltd </li>
-                                    <li>
-                                        <strong>SWIFT code:</strong> 45454DEMO545DEMO </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <table class="table table-striped table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th> # </th>
-                                            <th> Item </th>
-                                            <th class="hidden-xs"> Description </th>
-                                            <th class="hidden-xs"> Quantity </th>
-                                            <th class="hidden-xs"> Unit Cost </th>
-                                            <th> Total </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td> 1 </td>
-                                            <td> Hardware </td>
-                                            <td class="hidden-xs"> Server hardware purchase </td>
-                                            <td class="hidden-xs"> 32 </td>
-                                            <td class="hidden-xs"> $75 </td>
-                                            <td> $2152 </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-xs-4">
-                                <div class="well">
-                                    <address>
-                                        <strong>Loop, Inc.</strong>
-                                        <br/> 795 Park Ave, Suite 120
-                                        <br/> San Francisco, CA 94107
-                                        <br/>
-                                        <abbr title="Phone">P:</abbr> (234) 145-1810 </address>
-                                    <address>
-                                        <strong>Full Name</strong>
-                                        <br/>
-                                        <a href="mailto:#"> first.last@email.com </a>
-                                    </address>
-                                </div>
-                            </div>
-                            <div class="col-xs-8 invoice-block">
-                                <ul class="list-unstyled amounts">
-                                    <li>
-                                        <strong>Sub - Total amount:</strong> $9265 </li>
-                                    <li>
-                                        <strong>Discount:</strong> 12.9% </li>
-                                    <li>
-                                        <strong>VAT:</strong> ----- </li>
-                                    <li>
-                                        <strong>Grand Total:</strong> $12489 </li>
-                                </ul>
-                                <br/>
-                                <a class="btn btn-lg blue hidden-print margin-bottom-5" onclick="javascript:window.print();"> Imprimir
-                                    <i class="fa fa-print"></i>
-                                </a>
-                                <a class="btn btn-lg green hidden-print margin-bottom-5"> Enviar
-                                    <i class="fa fa-check"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <div class="modal fade" id="note" tabindex="-1" role="note" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -525,6 +390,121 @@ $nivel = $this->session->userdata('level');
                         </div>
                     </div>
                 <?php echo form_close();?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Resumen del Cliente</h4>
+            </div>
+            <div class="modal-body">
+                <!-- BEGIN CONTENT  -->
+                <div class="page-content">
+                    <!-- BEGIN PAGE HEADER-->
+
+                    <!-- END PAGE HEADER-->
+                    <div class="invoice">
+                        <div class="row invoice-logo">
+                            <div class="col-xs-6 col-xs-offset-6">
+                                <p> 
+                                    <?=date('d/m/Y')?>
+                                </p>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <h3>Cliente:</h3>
+                                <ul class="list-unstyled">
+                                    <li> <?php echo $result[0]['firstname'].' '. $result[0]['lastname'] ?> </li>
+                                    <li> <?php echo $info[0]['address'] ?>.  </li>
+                                    <li> <?php echo $info[0]['city'] ?> </li>
+                                    <li> <?php echo @$info[0]['phone'] ?> </li>
+                                    <li> <?php echo @$info[0]['country'] ?> </li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-4 col-xs-offset-4 invoice-payment">
+                                <h3>Detalle:</h3>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <?php echo @$property[0]['name'] ?>
+                                    </li>
+                                    <li>
+                                        Unidad: #<?php echo $unity[0]['number'] ?>
+                                    </li>
+                                    <li>
+                                        Superficie: <?php echo $unity[0]['total_feet'] ?> pies
+                                    </li>
+                                    <li>
+                                        Parking: <?php echo $parking ?></strong> 
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr class="uppercase">
+                                            <th> MONTO </th>
+                                            <th> TRANSACCION </th>
+                                            <th> FECHA </th>
+                                        </tr>
+                                    </thead>
+                                    <?php $total=0; foreach($transactions as $m) {?>
+                                    <tr>
+                                        <td> USD $<?php echo number_format($m['amount'],2); $total += $m['amount']; ?> </td>
+                                        <td> <?php echo $m['number'] ?> </td>
+                                        <td> <?php echo $m['date'] ?> </td>
+                                    </tr>
+                                    <?php } ?>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--<div class="col-xs-4">
+                                <div class="well">
+                                    <address>
+                                        <strong>Loop, Inc.</strong>
+                                        <br/> 795 Park Ave, Suite 120
+                                        <br/> San Francisco, CA 94107
+                                        <br/>
+                                        <abbr title="Phone">P:</abbr> (234) 145-1810 </address>
+                                    <address>
+                                        <strong>Full Name</strong>
+                                        <br/>
+                                        <a href="mailto:#"> first.last@email.com </a>
+                                    </address>
+                                </div>
+                            </div>-->
+                            <div class="col-xs-8 col-xs-offset-4 invoice-block">
+                                <ul class="list-unstyled amounts">
+                                    <li>
+                                        <strong>Sub - Total amount:</strong> USD $0.00 
+                                    </li>
+                                    <li>
+                                        <strong>Total:</strong> USD $<?=number_format($total,2) ?>
+                                    </li>
+                                </ul>
+                                <br/><br/><br/>
+                                <a class="btn blue hidden-print margin-bottom-5" onclick="javascript:window.print();"> Imprimir
+                                    <i class="fa fa-print"></i>
+                                </a>
+                                <a class="btn green hidden-print margin-bottom-5"> Enviar
+                                    <i class="fa fa-check"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>

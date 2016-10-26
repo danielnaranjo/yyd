@@ -64,7 +64,7 @@
         <script src="<?php echo base_url()?>assets/global/scripts/datatable.js" type="text/javascript"></script>
         <script src="<?php echo base_url()?>assets/global/plugins/datatables/datatables.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url()?>assets/global/plugins/datatables/plugins/bootstrap/datatables.bootstrap.js" type="text/javascript"></script>
-        <script src="<?php echo base_url()?>assets/pages/scripts/table-datatables-managed.js" type="text/javascript"></script>
+        <script src="<?php echo base_url()?>assets/global/scripts/tablas.js" type="text/javascript"></script>
         <script src="<?php echo base_url()?>assets/pages/scripts/profile.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url()?>assets/global/plugins/cubeportfolio/js/jquery.cubeportfolio.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url()?>assets/pages/scripts/portfolio-1.min.js" type="text/javascript"></script>

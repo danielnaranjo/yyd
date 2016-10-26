@@ -71,8 +71,10 @@
             $sql="SELECT 
                 administrator.firstname AS brokerName,
                 administrator.lastname AS brokerSurname,
+                administrator.email AS brokerEmail,
                 client.firstname AS name,
-                client.lastname AS surname
+                client.lastname AS surname,
+                client.client_id AS Id
             FROM property_unity 
                 LEFT JOIN property_client ON property_client.property_unity_id = property_unity.property_unity_id
                 LEFT JOIN client ON client.client_id=property_client.client_id
