@@ -25,8 +25,9 @@
         <h3 class="page-title">
             <?php echo $result['name']?> 
 
-            <?php if($this->session->userdata('level')==0) { ?>
+            
             <div class="actions pull-right">
+                <?php if($this->session->userdata('level')==0) { ?>
                 <div class="btn-group">
                     <a class="btn dark btn-outline" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                         <i class="fa fa-pencil"></i> Agregar nueva 
@@ -55,6 +56,7 @@
                         </li>
                     </ul>
                 </div>
+                <? } ?>
                 <div class="btn-group">
                     <a class="btn dark btn-outline" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                         <i class="fa fa-eye"></i> Ver Unidades
@@ -74,7 +76,7 @@
                     </ul>
                 </div>
             </div>
-            <? } ?>
+            
 
         </h3>
         <!-- END PAGE TITLE-->

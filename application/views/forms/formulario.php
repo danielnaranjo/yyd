@@ -112,13 +112,13 @@ function makeaform($fields, $model, $nivel, $action, $btn, $tables) {
 							$atributes['disabled'] = 'disabled';
 						}
 						echo form_password($atributes);
-						echo '<span id="helpBlock" class="help-block">Nota: Por cuestiones de seguridad no se muestra el password</span>';
+						echo '<span id="helpBlock" class="help-block">Por cuestiones de seguridad no se muestra el password</span>';
 					} else if($field->name=="file") {
 						if($action=='edit'){
 							$atributes['disabled'] = 'disabled';
 						}
 						echo form_upload($atributes);
-						echo '<span id="helpBlock" class="help-block">Nota: Formatos soportados JPG, PNG, GIF</span>';
+						echo '<span id="helpBlock" class="help-block">Formatos soportados JPG, PNG, GIF</span>';
 					} else {
 						if($field->name=="email" && $action!="new") {
 							if($nivel==2){
@@ -127,13 +127,16 @@ function makeaform($fields, $model, $nivel, $action, $btn, $tables) {
 						}
 						echo form_input($atributes);
 						if($field->name=="coordinates") { 
-							echo '<span id="helpBlock" class="help-block">Nota: Puede ubicar las coordenadas con <a target="_blank" href="https://www.google.com/maps">Google Maps</a> o servicios como <a target="_blank" href="http://www.gps-coordinates.net/">gps-coordinates.net</a></span>';
+							echo '<span id="helpBlock" class="help-block">Puede ubicar las coordenadas con <a target="_blank" href="https://www.google.com/maps">Google Maps</a> o servicios como <a target="_blank" href="http://www.gps-coordinates.net/">gps-coordinates.net</a></span>';
 						}
 						if($field->name=="floors") { 
-							echo '<span id="helpBlock" class="help-block">Nota: Cantidad de pisos</span>';
+							echo '<span id="helpBlock" class="help-block">Cantidad de pisos</span>';
 						}
 						if($field->name=="unities") { 
-							echo '<span id="helpBlock" class="help-block">Nota: Cantidad de unidades por piso</span>';
+							echo '<span id="helpBlock" class="help-block">Cantidad de unidades por piso</span>';
+						}
+						if($field->name=="lobby") { 
+							echo '<span id="helpBlock" class="help-block">Sirve para indicar desde el piso que se comercializan unidades</span>';
 						}
 					}
 					break;

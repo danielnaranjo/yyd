@@ -75,7 +75,12 @@
         $data['result'] = $this->Property_model->departamentos($id);
         $data['types'] = $this->Property_model->tipos($id);
         //echo json_encode($data);
-        $data['titulo'] = 'Lista de unidades '.$this->session->userdata('project');
+        if($this->session->userdata('project')==''){
+            $nombreamostrar=$data['result'][0]['name'];
+        } else {
+            $nombreamostrar=$this->session->userdata('project');
+        }
+        $data['titulo'] = 'Lista de unidades '.$nombreamostrar;
         $data['fields'] = $this->Property_unity_model->columnas();
         $data['tables'] = ""; // <-- Linea 79 / formulario.php
 
@@ -170,8 +175,18 @@
         $data['properties'] = $this->Property_model->listar();
         $data['brokers'] = $this->Administrator_model->listar();
         $data['clients'] = $this->Client_model->listar();
-        $data['titulo'] = 'Vista general '.$this->session->userdata('project');;
+
+        if($this->session->userdata('project')==''){
+            $nombreamostrar=$data['result']['name'];
+        } else {
+            $nombreamostrar=$this->session->userdata('project');
+        }
+
+
+        $data['titulo'] = 'Vista general '.$nombreamostrar;
         $data['ID'] = $id;
+
+
 
         //seguridad
         $this->load->view('templates/secure');

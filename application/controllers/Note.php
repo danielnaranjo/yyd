@@ -66,4 +66,9 @@
         $data = $this->Note_model->unidad($id);//AQUI
         echo json_encode($data);
     }
+
+    public function delete($id){
+        $data = $this->Note_model->deletear($id);
+        echo json_encode($data);
+    }
 }

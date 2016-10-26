@@ -83,7 +83,11 @@
                                         <div class="col-md-9">
                                             <select name="country"  id="country" placeholder="país" class="form-control" >
                                                 <?php foreach ($paises as $pais) {
-                                                    echo '<option value="'.$pais['name'].'">'.$pais['name'].'</option>';
+                                                    echo '<option value="'.$pais['name'].'"';
+                                                    if($pais['name']=='Argentina'){ 
+                                                        echo "selected"; 
+                                                    }
+                                                    echo ' >'.$pais['name'].'</option>';
                                                 } ?>
                                             </select>
                                         </div>

@@ -12,6 +12,12 @@ if($titulo==''){
 } else {
     $title=$titulo;
 }
+
+    if($this->uri->segment(3)==''){
+        $Id = $this->session->userdata('property_id');
+    } else {
+        $Id = $this->uri->segment(3);
+    }
 ?>
 <!-- BEGIN CONTENT -->
 <div class="page-content-wrapper">
@@ -32,7 +38,35 @@ if($titulo==''){
         </div>
         <!-- END PAGE BAR -->
         <!-- BEGIN PAGE TITLE-->
-        <h3 class="page-title" style="text-transform: capitalize;"> <?php echo $title ?></h3>
+        <h3 class="page-title" style="text-transform: capitalize;"> 
+            <?php echo $title ?>
+            <?php if($model!='bank' && $model!='administrator' && $model!='client') { ?>
+            <div class="actions pull-right">
+                <div class="btn-group">
+                    <a class="btn dark btn-outline" href="<?php echo site_url() ?>/property/see/<?php echo $Id ?>">
+                        <i class="fa fa-chevron-left"></i>
+                        Volver atras
+                    </a>
+                    <a class="btn dark btn-outline" href="javascript:;" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                        <i class="fa fa-eye"></i> Ver Unidades
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu pull-right">
+                        <li>
+                            <a href="<?php echo site_url() ?>/property/unities/<?php echo $Id ?>">
+                                <i class="fa fa-building"></i> Estado
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo site_url() ?>/property/details/<?php echo $Id ?>">
+                                <i class="fa fa-user"></i> Detalles
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <? } ?>
+        </h3>
         <!-- END PAGE TITLE-->
         <!-- END PAGE HEADER-->
         <div class="row">
@@ -40,20 +74,22 @@ if($titulo==''){
                 <!-- BEGIN EXAMPLE TABLE PORTLET-->
                 <div class="portlet light portlet-fit bordered">
                     <div class="portlet-body">
-                        <?php if($nivel==0) { ?>
+                        <?php //if($nivel==0) { ?>
                         <div class="table-toolbar">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="btn-group">
-                                        <?php if($model=='property_photo') { ?>
+                                        <?php if($model=='property_photo' && $nivel!=2) { ?>
                                         <a href="<? echo site_url()?>/<?php echo $model ?>/action/upload" id="" class="btn green"> Cargar imagen
                                             <i class="fa fa-upload"></i>
                                         </a>
-                                        <?php } else if($model=='client') { ?>
+                                        <?php } ?>
+                                        <?php if($model=='client') { ?>
                                         <a href="<? echo site_url()?>/<?php echo $model ?>/create" id="" class="btn green"> Nuevo comprador
                                             <i class="fa fa-plus"></i>
                                         </a>
-                                        <?php } else { ?>
+                                        <?php } ?>
+                                        <?php if($model!='client') { ?>
                                         <a href="<? echo site_url()?>/<?php echo $model ?>/action/new" id="" class="btn green"> Agregar nuevo
                                             <i class="fa fa-plus"></i>
                                         </a>
@@ -64,7 +100,7 @@ if($titulo==''){
                                 </div>
                             </div>
                         </div>
-                        <? } ?>
+                        <? //} ?>
                         <table class="table table-striped table-hover table-bordered" id="sample_2">
                             <thead>
                                 <tr>

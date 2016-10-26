@@ -38,9 +38,9 @@
 
 				'orientation'	=>	'orientación',
 				'floors'		=>	'pisos',
-				'lobby'			=>	'Lobby',
-				'unities'		=>	'Unidades',
-				'coordinates'	=> 	'Coordenadas GPS',
+				'lobby'			=>	'lobby',
+				'unities'		=>	'unidades',
+				'coordinates'	=> 	'coordenadas GPS',
 				'date'			=> 	'Fecha',
 			);
 			return strtr( $arg, $originales );

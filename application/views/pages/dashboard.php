@@ -1,7 +1,9 @@
 <?php
-    $Id = $this->uri->segment(3);
-    if($Id==''){
-        $this->session->userdata('property_id');
+    
+    if($this->uri->segment(3)==''){
+        $Id = $this->session->userdata('property_id');
+    } else {
+        $Id = $this->uri->segment(3);
     }
 ?>
 <div class="page-content-wrapper">
@@ -179,7 +181,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <?php if($this->session->userdata('level')==1) { ?>
+                            <?php //if($this->session->userdata('level')==1) { ?>
                             <div class="col-md-8" style="height: 390px">
                                 <h3><?php echo $p['name'] ?></h3>
                                 <p>
@@ -198,7 +200,7 @@
                                     </a>
                                 </p>
                             </div>
-                            <? } ?>
+                            <? //} ?>
                         <? } ?>
                         </div>
                     </div>

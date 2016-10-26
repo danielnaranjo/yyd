@@ -67,7 +67,7 @@
 
     public function unities($id = NULL) {
         $data['result'] = $this->Transaction_model->unidades($id);//AQUI
-        $data['titulo'] = $this->session->userdata('project');//Unidades
+        $data['titulo'] = "Reporte por Unidades ".$this->session->userdata('project');//
 
         //seguridad
         $this->load->view('templates/secure');
@@ -83,7 +83,7 @@
 
     public function brokers() {
         $data['result'] = $this->Transaction_model->vendedores();//AQUI
-        $data['titulo'] = $this->session->userdata('project');//'Brokers';
+        $data['titulo'] = 'Reporte por Brokers '.$this->session->userdata('project');//;
         //$data['fields'] = $this->Transaction_model->columnaspersonalizadas();
 
         //seguridad
@@ -147,7 +147,7 @@
     public function info($id,$property) {
         $data['info'] = $this->Transaction_model->informacion($id,$property);
         $data['owner'] = $this->Property_unity_model->propietario($id);
-        $data['notes'] = $this->Note_model->unidad($data['info']['property_unity_id']);
+        //$data['notes'] = $this->Note_model->unidad($data['info']['property_unity_id']);
         echo json_encode($data);
     }
     public function columnaspersonalizadas(){

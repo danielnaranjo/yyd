@@ -26,12 +26,17 @@
             $this->db->update('note', $data);
         }
         public function deletear($id){
+            $query = $this->db->select('property_unity_id,property_id')->get_where('note', array('note_id' => $id));
+
             $this->db->where('note_id', $id);
             $this->db->delete('note');
+            
+            return $query->row_array();
         }
         public function unidad($id)  {
             $query = $this->db->query("
                 SELECT 
+                    note.note_id,
                     note.note,
                     DATE_FORMAT(note.updated,'%d/%m/%Y %H:%i') AS updated,
                     administrator.firstname,

@@ -146,7 +146,7 @@
                 $query = $this->db->query('SELECT * FROM property_client WHERE property_unity_id='.$property_unity_id);
                 $check = $query->num_rows();
                 if($check>0){
-                    $sql="UPDATE property_client SET client_id=$client_id WHERE property_unity_id=".$property_unity_id;
+                    $sql="UPDATE property_client SET client_id='".$client_id."', broker_id='".$broker_id."' WHERE property_unity_id=".$property_unity_id;
                 } else {
                     $sql="INSERT INTO property_client (property_id,client_id,property_unity_id,broker_id) VALUES (".$property_id.", ".$client_id.", ".$property_unity_id.", ".$broker_id.")";
                 }
@@ -156,7 +156,7 @@
                 $query = $this->db->query('SELECT * FROM property_client WHERE property_unity_id='.$property_unity_id);
                 $check = $query->num_rows();
                 if($check>0){
-                    $sql="UPDATE property_client SET client_id=$client_id WHERE property_unity_id=".$property_unity_id;
+                    $sql="UPDATE property_client SET client_id='".$client_id."', broker_id='".$broker_id."' WHERE property_unity_id=".$property_unity_id;
                 } else {
                     $sql="INSERT INTO property_client (property_id,client_id,property_unity_id,broker_id) VALUES (".$property_id.", ".$client_id.", ".$property_unity_id.", ".$broker_id.")";
                 }

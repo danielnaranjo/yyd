@@ -69,6 +69,7 @@
         }
         public function propietario($number){
             $sql="SELECT 
+                administrator.administrator_id AS brokerID,
                 administrator.firstname AS brokerName,
                 administrator.lastname AS brokerSurname,
                 administrator.email AS brokerEmail,

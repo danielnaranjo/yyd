@@ -38,7 +38,7 @@
                                 </div>
                             </div>
                         </div>
-                        <table class="table table-striped table-hover table-bordered" id="sample_1">
+                        <table class="table table-striped table-hover table-bordered" id="sample_2">
                             <thead>
                                 <tr>
                                     <th> Nombre </th>
