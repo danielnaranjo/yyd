@@ -15,7 +15,7 @@
 */	
 	//echo form_open($model.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]);
 	//echo form_label($ejecutar.$this->uri->segment(3));
-function makeaform($fields, $model, $nivel, $action, $btn, $tables) {
+function makeaform($fields, $model, $nivel, $action, $btn, $tables, $property_id) {
 	//$fields = $campos;
 	foreach ($fields as $field){
 		
@@ -68,12 +68,19 @@ function makeaform($fields, $model, $nivel, $action, $btn, $tables) {
 						if (!preg_match("/_id/i", $field->name)) {
 							echo form_input($atributes);
 						} else {
+							$selected = "";
 							$options = array( '0' => 'Seleccionar' );
 							//Recibe el nombre de la tabla
 							foreach ($tables as $table) { // <- PENDIENTE CON ESTO!!!
 								$options[$table['property_id']]=$table['name'];
 							}
-							echo form_dropdown($atributes, $options);//, $options[0]
+							if($nivel!=0){ // REVISAR
+								$atributes['disabled'] = 'disabled';
+							}
+							if($property_id!=''){ // REVISAR
+								$selected = $property_id;
+							}
+							echo form_dropdown($atributes, $options, $selected);
 						}
 					}
 					break;
@@ -112,7 +119,7 @@ function makeaform($fields, $model, $nivel, $action, $btn, $tables) {
 							$atributes['disabled'] = 'disabled';
 						}
 						echo form_password($atributes);
-						echo '<span id="helpBlock" class="help-block">Por cuestiones de seguridad no se muestra el password</span>';
+						echo '<span id="helpBlock" class="help-block">Dejar en blanco si no se va a actualizar</span>';
 					} else if($field->name=="file") {
 						if($action=='edit'){
 							$atributes['disabled'] = 'disabled';

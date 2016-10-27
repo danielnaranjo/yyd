@@ -112,7 +112,7 @@
         $this->Property_unity_model->cambiarestado($id, $data);
         echo true;
     }
-    public function markassold(){
+    public function marked(){
         
         /*$persona = array(
             'property_id' => $this->input->post("property_id"),
@@ -167,8 +167,8 @@
         }
         $this->db->query($sql);
         $this->db->query("UPDATE property_unity SET status='".$status."' WHERE property_unity_id='".$property_unity_id."'");
-        $data['unidad'] = $unidad;
-        $data['property_id'] = $property_id;
+        $data['n'] = $unidad;
+        $data['p'] = $property_id;
         echo json_encode($data);
     }
 }

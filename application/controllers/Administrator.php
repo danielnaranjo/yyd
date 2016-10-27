@@ -106,6 +106,7 @@
         //$data['news'] = $this->Administrator_model->get_news();
         //echo json_encode($data);
 
+        $data['property_id'] = $this->session->userdata('property_id');
         $data['result'] = $this->Administrator_model->filtrar($id);
         $data['fields'] = $this->Administrator_model->columnas();
         $data['property'] = $this->Property_model->listar();
@@ -200,9 +201,11 @@
             'firstname' => $this->input->post("firstname"),
             'lastname' => $this->input->post("lastname"),
             'email' => $this->input->post("email"),
-            'city' => $this->input->post("city"),
+            'password' => md5($this->input->post("password")),
+            'city' =>$this->input->post("city"),
             'country' => $this->input->post("country"),
             'level' => $this->input->post("level"),
+            'property_id' => $this->input->post("property_id"),
             'status' => 1
         );
         $data = $this->Administrator_model->registrar($data);
@@ -220,9 +223,17 @@
             'city' => $this->input->post("city"),
             'country' => $this->input->post("country"),
             'level' => $this->input->post("level"),
+            'property_id' => $this->input->post("property_id"),
         );
+        if($this->input->post("password")!=''){
+            $data['password'] = md5($this->input->post("password"));
+        }
         $this->Administrator_model->updatear($id, $data);
-        redirect('administrator/', 'location');
+        if($this->input->post("property_id")==2){
+            redirect('site/logout', 'location');
+        } else {
+            redirect('administrator/', 'location');
+        }
     }
 
     public function getCountries(){

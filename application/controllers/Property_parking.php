@@ -53,10 +53,10 @@
     public function add(){
         $data = array(
             'property_id' => $this->input->post("property_id"),
-            'property_unity_id' => $this->input->post("property_unity_id"),
-            'total' => $this->input->post("total"),
-            'type' => $this->input->post("type"),
-            'notes' => $this->input->post("notes"),
+            //'property_unity_id' => $this->input->post("property_unity_id"),
+            'amount' => $this->input->post("amount"),
+            //'type' => $this->input->post("type"),
+            //'notes' => $this->input->post("notes"),
         );
         $data = $this->Property_parking_model->registrar($data);
         //echo json_encode($data);
@@ -68,10 +68,10 @@
         $id = $this->input->post("property_parking_id");
         $data = array(
             'property_id' => $this->input->post("property_id"),
-            'property_unity_id' => $this->input->post("property_unity_id"),
-            'total' => $this->input->post("total"),
-            'type' => $this->input->post("type"),
-            'notes' => $this->input->post("notes"),
+            //'property_unity_id' => $this->input->post("property_unity_id"),
+            'amount' => $this->input->post("amount"),
+            //'type' => $this->input->post("type"),
+            //'notes' => $this->input->post("notes"),
         );
         $this->Property_parking_model->updatear($id, $data);
         redirect('property/all', 'location');

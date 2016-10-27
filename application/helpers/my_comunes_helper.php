@@ -42,6 +42,15 @@
 				'unities'		=>	'unidades',
 				'coordinates'	=> 	'coordenadas GPS',
 				'date'			=> 	'Fecha',
+
+				'client'		=> 	'Compradores',
+				'bank'			=>	'Formas de pago',
+				'property_amenities'	=> 'Amenities',
+				'administrator'	=> 'Usuarios',
+
+				'property_photo'	=> 'Fotografias',
+				'caption'		=>	'descripción',
+				'property_parking' => 'Parking',
 			);
 			return strtr( $arg, $originales );
 	    }

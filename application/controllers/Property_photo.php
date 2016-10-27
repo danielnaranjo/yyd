@@ -35,9 +35,16 @@
         $this->load->view('templates/footer');
     }
     public function by($id) {        
-        $data['titulo'] = 'Fotografias';
+        
         $data['result'] = $this->Property_photo_model->lista($id);
         $data['fields'] = $this->Property_photo_model->columnas();
+        $data['property'] = $this->Property_model->listar($id);
+        if($this->session->userdata('project')==''){
+            $nombreamostrar=$data['property'][0]['name'];
+        } else {
+            $nombreamostrar=$this->session->userdata('project');
+        }
+        $data['titulo'] = $nombreamostrar.' > Fotografias';
 
         //seguridad
         $this->load->view('templates/secure');
@@ -50,7 +57,7 @@
         // footer
         $this->load->view('templates/footer');
     }
-    public function upload() {
+    public function upload($id) {
         $config['upload_path']          = './upload/';
         $config['allowed_types']        = 'gif|jpg|png';
         $config['max_size']             = 1000;
@@ -58,17 +65,19 @@
         $config['max_height']           = 2048;
         $this->load->library('upload', $config);
 
-        $id = $this->input->post("property_id");
+
+        $data['property'] = $this->Property_model->listar();
 
         if ( ! $this->upload->do_upload('file')) {
             $error = array('error' => $this->upload->display_errors());
             redirect('property_photo/action/upload/?msg='.$error, 'resfresh', 302);
             //echo json_encode($error);
         } else  {
+            $id = $this->input->post("property_id")||$this->session->userdata('property_id');
             $added = array(
                 'file' => $this->upload->data('file_name'),
-                'property_id' => $this->input->post("property_id"),
-                'notes' => $this->input->post("notes"),
+                'property_id' => $id,
+                'caption' => $this->input->post("caption"),
             );
             $data = $this->Property_photo_model->subir_y_agregar($added);
             //echo json_encode($data);

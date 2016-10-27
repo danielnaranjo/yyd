@@ -81,13 +81,13 @@ $nivel = $this->session->userdata('level');
                                 <!-- descripcion -->
                             </span>
                             <div class="margin-top-20 profile-desc-text">
-                                <?php echo $info[0]['address'] ?>. <?php echo $info[0]['city'].', '.$info[0]['country'] ?>
+                                Dirección: <?php echo $info[0]['address'] ?>. <?php echo $info[0]['city'].', '.$info[0]['country'] ?>
                             </div>
                             <div class="margin-top-20 profile-desc-text">
-                                <?php echo auto_link($info[0]['phone']) ?>
+                                Teléfono: <?php echo auto_link($info[0]['phone']) ?>
                             </div>
                             <div class="margin-top-20 profile-desc-text">
-                                <?php echo mailto($info[0]['email'], 'Contactar') ?>
+                                E-mail: <?php echo mailto($info[0]['email'], $info[0]['email']) ?>
                             </div>
                         </div>
                         <? } ?>

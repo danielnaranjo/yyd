@@ -48,4 +48,8 @@
             ");//AQUI
             return $query->result_array();
         }
+        public function ver($id)  {
+            $query = $this->db->get_where('note', array('note_id' => $id));
+            return $query->row_array();
+        }
 }

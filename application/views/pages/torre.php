@@ -52,7 +52,7 @@
                     <ul class="dropdown-menu pull-right">
                         <li>
                             <a href="<?php echo site_url() ?>/property/unities/<?php echo $Id ?>">
-                                <i class="fa fa-building"></i> Estado
+                                <i class="fa fa-building"></i> Ver <?php if($nivel!=2) { ?>/ Agregar<?php } else { echo "Unidades"; } ?> 
                             </a>
                         </li>
                         <li>
@@ -125,7 +125,6 @@
                     <span class="label label-success">Disponible <span class="badge" id="bagde-free">0</span></span>
                     <span class="label label-warning">Reservada <span class="badge" id="bagde-reserved">0</span></span>
                     <span class="label label-danger">Vendida <span class="badge" id="bagde-sold">0</span></span>
-                    <a href="javascript:getData()"><i class="fa fa-refresh"></i></a>
                 </div>
                 <h3></h3>
                 <p id="infoUnity">
@@ -134,14 +133,23 @@
 
                 <div class="panel panel-default" id="action" style="display: none;">
                     <div class="panel-body">
-                        <div class="col-sm-6">
-                            <a data-toggle="modal" href="#basic" class="btn btn-block dark">Agregar nota</a>
-                        </div>
                         <div class="col-sm-6" id="btnBuyer">
-                            <a data-toggle="modal" href="#comprador" class="btn btn-block dark">Asignar comprador</a>
+                            <a data-toggle="modal" href="#comprador" class="btn btn-block btn-success">
+                                <i class="fa fa-user"></i>
+                                Modificar
+                            </a>
                         </div>
-                        <div class="col-sm-6" id="btnChange" style="display: none;">
-                            <a data-toggle="modal" href="#comprador" class="btn btn-block dark">Modificar</a>
+                        <!--<div class="col-sm-6" id="btnChange" style="display: none;">
+                            <a data-toggle="modal" href="#comprador" class="btn btn-block btn-info">
+                                <i class="fa fa-pencil-o"></i>
+                                Modificar
+                            </a>
+                        </div>-->
+                        <div class="col-sm-6">
+                            <a data-toggle="modal" href="#basic" class="btn btn-block dark">
+                                <i class="fa fa-pencil-o"></i>
+                                Agregar nota
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -264,7 +272,7 @@
 
 
 <script>
-    function getInfo(id, property){
+    var getInfo = function(id, property){
         //console.info('getInfo', new Date());
         $('#detalle h3').html('Unidad '+id);
         $('#detalle h4').html(' ');
@@ -297,23 +305,23 @@
                     //$('#detalle h4').html('<strong>Estado: </strong> No disponible');
                 } else if(info.status==2) {
                     $('#detalle ul').append('<li><strong>Estado: </strong> DISPONIBLE</li>');
-                    $('#btnBuyer').attr('style','display:block');
-                    $('#btnChange').attr('style','display:none;');
+                    //$('#btnBuyer').attr('style','display:block');
+                    //$('#btnChange').attr('style','display:none;');
                 } else if(info.status==3) {
                     $('#detalle ul').append('<li><strong>Estado: </strong> RESERVADA</li>');
-                    $('#btnBuyer').attr('style','display:none');
-                    $('#btnChange').attr('style','display:block;');
+                    //$('#btnBuyer').attr('style','display:none');
+                    //$('#btnChange').attr('style','display:block;');
                 } else if(info.status==4) {
                     $('#detalle ul').append('<li><strong>Estado: </strong> <strong>VENDIDA</strong></li>');
-                    $('#btnBuyer').attr('style','display:none');
-                    $('#btnChange').attr('style','display:inline');
+                    //$('#btnBuyer').attr('style','display:none');
+                    //$('#btnChange').attr('style','display:inline');
                     $('#boxStatus').attr('style','display:none');
                     
                 } else {
                     $('#detalle ul').append('<li><strong>Estado: </strong> DISPONIBLE</li>');
                     //$('#detalle a').attr('href','#').text('Reservar').addClass('btn btn-default');
                     toastr.info('Es posible reservar esta unidad', 'Unidad #'+info.number);
-                    $('#btnChange').attr('style','display:none;');
+                    //$('#btnChange').attr('style','display:none;');
                 }
 
                 if(info.status>2){ 
@@ -347,7 +355,7 @@
             getNotes(info.property_unity_id,id);
         });
     };
-    function getData(){
+    var getData = function(){
         toastr.info('Cargando disponibilidad, por favor, espere..');
         $.getJSON('<?=site_url() ?>/property/populate/<?=$ID?>', function(response) {
             console.log('actualizado:',new Date());
@@ -394,10 +402,10 @@
                 //console.log('!',response, st.length, none, free, sold, reserved, available);
         });
     }
-    function remove(note_id){
+    var remove = function(note_id){
         console.log('remove', note_id);
 
-        if (confirm('Desea eliminar este registro?')) {
+        if (confirm('Desea eliminar este registro?','Acción requerida')) {
             jQuery.ajax({
                 type: "GET",
                 url: "<?php echo site_url(); ?>/note/delete/"+note_id,
@@ -413,7 +421,7 @@
             return false;
         }
     }
-    function getNotes(property_unity_id){
+    var getNotes = function(property_unity_id){
         $('#notas .panel-body').html('<img src="<?=base_url() ?>/assets/global/img/input-spinner.gif" />');
         $.getJSON('<?=site_url() ?>/note/unity/'+property_unity_id, function(response) {
             //console.log('notes',response);
@@ -423,7 +431,7 @@
                 //console.log('notes', notes);
                 var content = "";
                 for(var i=0; i<notes.length; i++){
-                    content +='<p><strong>'+ notes[i].note+'</strong>  <a href="javascript:remove('+ notes[i].note_id+');"><i class="fa fa-times" style="color:red;"></i></a><br>por '+ notes[i].firstname +' '+ notes[i].lastname+', el '+ notes[i].updated+'</p>';
+                    content +='<p><strong>'+ notes[i].note+'</strong> <a href="javascript:edit('+ notes[i].note_id+');"><i class="fa fa-pencil" style="color:green;"></i></a> <a href="javascript:remove('+ notes[i].note_id+');"><i class="fa fa-times" style="color:red;"></i></a><br>por '+ notes[i].firstname +' '+ notes[i].lastname+', el '+ notes[i].updated+'</p>';
                 }
                 $('#notas .panel-body').html(content);
                 if(i>10){
@@ -434,6 +442,33 @@
             }
         });
     }
+    var edit = function(note_id){
+        console.log('edit', note_id);
+        
+        $.getJSON('<?=site_url() ?>/note/view/'+note_id, function(response) {
+            console.log('response', response);
+            $('#basic').modal('show');
+            $('#addnote #note').val(response.note);
+        });
+        $('#Submit').on('click', function(){
+            var formId = "#basic #addnote";
+            var params = {
+                note : $(formId +" #note").val(),
+            }
+            jQuery.ajax({
+                type: "POST",
+                url: "<?php echo site_url(); ?>/note/update",
+                dataType: 'json',
+                data: params, 
+            })
+            .success(function(res) {
+                toastr.success('Información actualizada!');
+                $('.modal form input, .modal form select, .modal form textarea').val('');
+                $('.modal').modal('hide');
+            });
+        })
+    }
+    
     window.onload = function(){
         console.log('Loaded!');
         getData();
@@ -460,7 +495,8 @@
             });
         });
 
-        $("#SubmitBuyer").click(function(){
+        $("#SubmitBuyer").click(function(event){
+            event.preventDefault()
             var formId = "#comprador #addsell";
             var params = {
                 property_id: $(formId+" #property_id").val(),
@@ -473,15 +509,16 @@
             //console.debug('params',params)
             jQuery.ajax({
                 type: "POST",
-                url: "<?php echo site_url(); ?>/property_unity/markassold",
+                url: "<?php echo site_url(); ?>/property_unity/marked",
                 dataType: 'json',
                 data: params,
             })
-            .success(function(res) {
+            .success(function(data) {
                 toastr.success('Información actualizada!');
-                //console.info('SubmitBuyer', res);
+                console.info('SubmitBuyer', data);
+                getInfo(data.n,data.p);
                 getData();
-                getInfo(res.unidad,res.property_id);
+                $('#comprador').modal('hide');
             });
         });
         $('#comprador #addsell #status').on('change', function(){

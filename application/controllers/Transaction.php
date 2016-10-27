@@ -51,7 +51,13 @@
 
     public function countries($id = NULL) {
         $data['result'] = $this->Transaction_model->paises($id);//AQUI
-        $data['titulo'] = 'Nacionalidades';//.$this->session->userdata('project');
+        //$data['titulo'] = $this->session->userdata('project').' > Nacionalidades';;
+        if($this->session->userdata('project')==''){
+            $nombreamostrar='Visión general';
+        } else {
+            $nombreamostrar=$this->session->userdata('project');
+        }
+        $data['titulo'] = $nombreamostrar.' > Nacionalidades';
 
         //seguridad
         $this->load->view('templates/secure');
@@ -67,7 +73,14 @@
 
     public function unities($id = NULL) {
         $data['result'] = $this->Transaction_model->unidades($id);//AQUI
-        $data['titulo'] = "Reporte por Unidades ".$this->session->userdata('project');//
+        //$data['titulo'] = $this->session->userdata('project')." > Reporte por Unidades ";//
+
+        if($this->session->userdata('project')==''){
+            $nombreamostrar='Visión general';
+        } else {
+            $nombreamostrar=$this->session->userdata('project');
+        }
+        $data['titulo'] = $nombreamostrar.' >  Reporte por Unidades';
 
         //seguridad
         $this->load->view('templates/secure');
@@ -83,8 +96,15 @@
 
     public function brokers() {
         $data['result'] = $this->Transaction_model->vendedores();//AQUI
-        $data['titulo'] = 'Reporte por Brokers '.$this->session->userdata('project');//;
+        //$data['titulo'] = $this->session->userdata('project').' > Reporte por Brokers';//;
         //$data['fields'] = $this->Transaction_model->columnaspersonalizadas();
+        if($this->session->userdata('project')==''){
+            $nombreamostrar='Visión general';
+        } else {
+            $nombreamostrar=$this->session->userdata('project');
+        }
+        $data['titulo'] = $nombreamostrar.' >  Reporte por Brokers';
+
 
         //seguridad
         $this->load->view('templates/secure');
@@ -138,9 +158,9 @@
         $this->Transaction_model->updatear($id, $data);
         redirect('property/all', 'location');
     }
-    public function download($report){
+    public function download($report,$id){
         $this->load->helper('download');
-        $data = $this->Transaction_model->descargar($report);
+        $data = $this->Transaction_model->descargar($report,$id);
         $name = 'yyigroup_'.$report.'_'.now().'.csv';
         echo force_download($name, $data);
     }

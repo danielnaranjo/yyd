@@ -32,7 +32,7 @@ if($titulo==''){
                     <i class="fa fa-circle"></i>
                 </li>
                 <li>
-                    <span style="text-transform: capitalize;"><?php echo $title ?></span>
+                    <span style="text-transform: capitalize;"><?php echo traducir($title) ?></span>
                 </li>
             </ul>
         </div>
@@ -54,7 +54,7 @@ if($titulo==''){
                     <ul class="dropdown-menu pull-right">
                         <li>
                             <a href="<?php echo site_url() ?>/property/unities/<?php echo $Id ?>">
-                                <i class="fa fa-building"></i> Estado
+                                <i class="fa fa-building"></i> Ver <?php if($nivel!=2) { ?>/ Agregar<?php } else { echo "Unidades"; } ?> 
                             </a>
                         </li>
                         <li>
@@ -80,7 +80,7 @@ if($titulo==''){
                                 <div class="col-md-6">
                                     <div class="btn-group">
                                         <?php if($model=='property_photo' && $nivel!=2) { ?>
-                                        <a href="<? echo site_url()?>/<?php echo $model ?>/action/upload" id="" class="btn green"> Cargar imagen
+                                        <a href="<? echo site_url()?>/<?php echo $model ?>/action/upload/<?=$Id?>" id="" class="btn green"> Cargar imagen
                                             <i class="fa fa-upload"></i>
                                         </a>
                                         <?php } ?>
@@ -89,8 +89,8 @@ if($titulo==''){
                                             <i class="fa fa-plus"></i>
                                         </a>
                                         <?php } ?>
-                                        <?php if($model!='client') { ?>
-                                        <a href="<? echo site_url()?>/<?php echo $model ?>/action/new" id="" class="btn green"> Agregar nuevo
+                                        <?php if($model!='client' && $nivel!=2 && $model!='property_photo') { ?>
+                                        <a href="<? echo site_url()?>/<?php echo $model ?>/action/new/<?php echo $Id ?>" id="" class="btn green"> Agregar nuevo
                                             <i class="fa fa-plus"></i>
                                         </a>
                                         <?php } ?>
@@ -124,6 +124,8 @@ if($titulo==''){
                                                 && !preg_match("/comission/i", $field->name)
                                                 && !preg_match("/flat/i", $field->name)
                                                 && !preg_match("/square/i", $field->name)
+                                                // photos
+                                                && !preg_match("/caption/i", $field->name)
 
                                             ) {  // campos con "_id" ?>
                                             <th style="text-transform: capitalize;" id="<? echo $field->name ?>"> 
@@ -163,6 +165,8 @@ if($titulo==''){
                                                 && !preg_match("/comission/i", $f->name)
                                                 && !preg_match("/flat/i", $f->name)
                                                 && !preg_match("/square/i", $f->name)
+                                                // photos
+                                                && !preg_match("/caption/i", $f->name)
 
                                             ) {  // campos con "_id" ?>
                                             <td id="<?php echo $f->name ?>">
@@ -242,11 +246,11 @@ if($titulo==''){
                                         <?php if($model=="property") { ?>
                                         <i class="fa fa-eye"></i> 
                                         <a class="view" href="<? echo site_url()?>/<?php echo $model ?>/see/<? echo $r[$model.'_id']?>">
-                                            Ver proyecto
+                                            Ver <? if($nivel==2) { ?>proyecto<? } else { ?>/ Editar<? } ?>
                                         </a>
                                         <? } ?>
 
-                                        <?php if($nivel!=2) { ?>
+                                        <?php if($nivel!=2 && $model!='property') { ?>
                                         <i class="fa fa-pencil"></i> 
                                         <a class="edit" href="<? echo site_url()?>/<?php echo $model ?>/action/edit/<? echo $r[$model.'_id']?>">
                                             Editar
@@ -277,7 +281,7 @@ if($titulo==''){
 <script>
 function check(id){
     // confirm delete or not
-    if (confirm('Desea eliminar este registro?')) {
+    if (confirm('Desea eliminar este registro?','Acción requerida')) {
         window.location.href="<? echo site_url()?>/<?php echo $model ?>/delete/"+id;
         toastr.success('Acción ejecutada con exito!');
     } else {

@@ -14,9 +14,9 @@
         echo json_encode($data);
     }
 
-    public function view($slug = NULL)
-    {
-        $data = $this->Note_model->listar($slug);//AQUI
+    public function view($slug = NULL){
+        $data = $this->Note_model->ver($slug);
+        echo json_encode($data);
     }
     /* FORMULARIOS
     public function action($action = NULL, $id = NULL){
@@ -70,5 +70,15 @@
     public function delete($id){
         $data = $this->Note_model->deletear($id);
         echo json_encode($data);
+    }
+    public function update(){
+        $id = $this->input->post("note_id");
+        $data = array(
+            'note' => $this->input->post("note"),
+            'broker_id' => $this->input->post("broker_id"),
+            'property_unity_id' => $this->input->post("property_unity_id"),
+        );
+        $resp = $this->Note_model->updatear($id, $data);
+        echo json_encode($resp);
     }
 }

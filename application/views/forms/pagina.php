@@ -5,6 +5,7 @@ $title ="";
 $model = $this->uri->segment(1);
 $action = $this->uri->segment(3);
 $nivel = $this->session->userdata('level');
+$property_id = $this->session->userdata('property_id');
 
     if($action=='edit'){
         $titulo="Modificar";
@@ -19,6 +20,8 @@ $nivel = $this->session->userdata('level');
         $btn = "Guardar";
         $ejecutar = "add";
     }
+
+//$Id=1;
 ?>
 <div class="page-content-wrapper">
     <!-- BEGIN CONTENT BODY -->
@@ -33,7 +36,7 @@ $nivel = $this->session->userdata('level');
                 <li>
                     <a href="<?php echo site_url() ?>/<?php echo $model ?>/all">
                         <span style="text-transform: capitalize;">
-                            <?php echo $model ?>
+                            <?php echo traducir($model); ?>
                         </span>
                     </a>
                     <i class="fa fa-circle"></i>
@@ -46,7 +49,18 @@ $nivel = $this->session->userdata('level');
         <!-- END PAGE BAR -->
         <div class="row">
             <div class="col-md-12">
-                <h3> </h3>
+                <h3> 
+
+                </h3>
+                <div class="actions pull-right">
+                    <div class="btn-group">
+                        <a class="btn dark btn-outline" href="javascript:history.back();">
+                            <i class="fa fa-chevron-left"></i>
+                            Volver atras
+                        </a>
+                    </div>
+                </div>
+
                 <div class="portlet light bordered">
                     <div class="portlet-title">
                         <div class="caption">
@@ -62,15 +76,15 @@ $nivel = $this->session->userdata('level');
                                     if (!preg_match("/_photo/i", $model) ) {
                                         echo form_open($model.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]);
                                     } else {
-                                        echo form_open_multipart($model.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]);
+                                        echo form_open_multipart($model.'/'.$ejecutar.'/'.$property_id, ['class'=>"form-horizontal", 'role'=>"form"]);
                                     }
                                 ?>
                                     <?php require_once('formulario.php');// campos ?>
-                                    <?php makeaform($fields, $model, $nivel, $action, $btn, $tables) ?>
+                                    <?php makeaform($fields, $model, $nivel, $action, $btn, $tables, $property_id) ?>
                                 <?php echo form_close();?>
                             </div>
                         </div>
-                        <?php if($model=='client') { ?>
+                        <?php /*if($model=='client') { ?>
                         <div class="col-md-6">
                             <div class="portlet-body form">
                                 <?php echo form_open($model.'_info'.'/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]); ?>
@@ -87,7 +101,7 @@ $nivel = $this->session->userdata('level');
                                     })
                                 }, 300);
                         </script>
-                        <? } ?>
+                        <? }*/ ?>
                     </div>
                 </div>
             </div>
@@ -95,11 +109,22 @@ $nivel = $this->session->userdata('level');
     </div>
 </div>
 <script>
-var data = <? echo json_encode($result) ?>;
-setTimeout(function(){
+window.onload = function(){
+    <?php if($action=='edit') {?>
+    var data = <? echo json_encode($result) ?>;
     console.log('fire', data);
     $.each(data, function (index, value) {
         $('#'+index).val(value);
-        })
-    }, 300);
+    });
+    $('#password').val('');
+    <?php } ?>
+    <?php 
+        if($this->uri->segment(4)!='') {
+            $property_id=$this->uri->segment(4);
+    ?>
+        console.log(<?=$property_id ?>);
+        $('#property_id').attr('readonly',true);
+        $('#property_id option[value="<?=$property_id ?>"]').attr('selected',true);
+        <?php } ?>
+};
 </script>

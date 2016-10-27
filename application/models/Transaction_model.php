@@ -40,61 +40,65 @@
             if ($id === FALSE){
                 $query = $this->db->query("
                     SELECT 
-                        type,
+                        property.name,
+                        property_unity.type,
                         COUNT(*) AS total,
                         SUM(CASE 
-                              WHEN status=0 THEN 1
-                              ELSE 0
+                            WHEN property_unity.status=0 THEN 1
+                            ELSE 0
                             END) AS none,
                         SUM(CASE 
-                              WHEN status=1 THEN 1
-                              ELSE 0
+                            WHEN property_unity.status=1 THEN 1
+                            ELSE 0
                             END) AS available,
                         SUM(CASE 
-                              WHEN status=2 THEN 1
-                              ELSE 0
+                            WHEN property_unity.status=2 THEN 1
+                            ELSE 0
                             END) AS free,
-                       SUM(CASE 
-                              WHEN status=3 THEN 1
-                              ELSE 0
-                            END) AS reserved,
-                       SUM(CASE 
-                              WHEN status=4 THEN 1
-                              ELSE 0
+                        SUM(CASE 
+                            WHEN property_unity.status=3 THEN 1
+                            ELSE 0
+                           END) AS reserved,
+                        SUM(CASE 
+                            WHEN property_unity.status=4 THEN 1
+                            ELSE 0
                             END) AS sold
-                    FROM property_unity 
-                    WHERE property_id='$id' 
-                    GROUP BY type
+                        FROM property_unity
+                            LEFT JOIN property ON property.property_id=property_unity.property_id
+                        WHERE property_unity.property_id='$id' 
+                        GROUP BY property_unity.type
                 ");
                 return $query->result_array();
             }
 
             $query = $this->db->query("
                     SELECT 
-                        type,
+                        property.name,
+                        property_unity.type,
                         COUNT(*) AS total,
                         SUM(CASE 
-                              WHEN status=0 THEN 1
-                              ELSE 0
+                            WHEN property_unity.status=0 THEN 1
+                            ELSE 0
                             END) AS none,
                         SUM(CASE 
-                              WHEN status=1 THEN 1
-                              ELSE 0
+                            WHEN property_unity.status=1 THEN 1
+                            ELSE 0
                             END) AS available,
                         SUM(CASE 
-                              WHEN status=2 THEN 1
-                              ELSE 0
+                            WHEN property_unity.status=2 THEN 1
+                            ELSE 0
                             END) AS free,
-                       SUM(CASE 
-                              WHEN status=3 THEN 1
-                              ELSE 0
-                            END) AS reserved,
-                       SUM(CASE 
-                              WHEN status=4 THEN 1
-                              ELSE 0
+                        SUM(CASE 
+                            WHEN property_unity.status=3 THEN 1
+                            ELSE 0
+                           END) AS reserved,
+                        SUM(CASE 
+                            WHEN property_unity.status=4 THEN 1
+                            ELSE 0
                             END) AS sold
-                    FROM property_unity 
-                    GROUP BY type
+                        FROM property_unity
+                            LEFT JOIN property ON property.property_id=property_unity.property_id
+                        GROUP BY property_unity.type
                 ");   
             return $query->result_array();
         }
@@ -129,24 +133,88 @@
         }
 
         // descarga todas la info en csv
-        public function descargar($report){
+        public function descargar($report,$id){
             $this->load->dbutil();
             $delimiter = ";";
             $newline = "\r\n";
             $enclosure = '"';
 
             if($report=='countries'){
-                $sql="SELECT COUNT(*) AS total, country FROM client_info GROUP BY country ORDER BY total DESC";
-            } else if($report=='unities'){
-                $sql="SELECT COUNT(*) AS total, type FROM property_unity GROUP BY type";
+                $sql="
+                    SELECT 
+                        COUNT(*) AS total, 
+                        country 
+                    FROM client_info 
+                    GROUP BY country 
+                    ORDER BY total DESC
+                ";
+            } else if($report=='unities' && $id!=''){
+                $sql="
+                    SELECT 
+                        property.name,
+                        property_unity.type,
+                        COUNT(*) AS total,
+                        SUM(CASE 
+                            WHEN property_unity.status=0 THEN 1
+                            ELSE 0
+                            END) AS none,
+                        SUM(CASE 
+                            WHEN property_unity.status=1 THEN 1
+                            ELSE 0
+                            END) AS available,
+                        SUM(CASE 
+                            WHEN property_unity.status=2 THEN 1
+                            ELSE 0
+                            END) AS free,
+                        SUM(CASE 
+                            WHEN property_unity.status=3 THEN 1
+                            ELSE 0
+                           END) AS reserved,
+                        SUM(CASE 
+                            WHEN property_unity.status=4 THEN 1
+                            ELSE 0
+                            END) AS sold
+                        FROM property_unity
+                            LEFT JOIN property ON property.property_id=property_unity.property_id
+                        WHERE property_unity.property_id='$id' 
+                        GROUP BY property_unity.type
+                ";
+            } else if($report=='unities' && $id==''){
+                $sql="
+                    SELECT 
+                        property.name,
+                        property_unity.type,
+                        COUNT(*) AS total,
+                        SUM(CASE 
+                            WHEN property_unity.status=0 THEN 1
+                            ELSE 0
+                            END) AS none,
+                        SUM(CASE 
+                            WHEN property_unity.status=1 THEN 1
+                            ELSE 0
+                            END) AS available,
+                        SUM(CASE 
+                            WHEN property_unity.status=2 THEN 1
+                            ELSE 0
+                            END) AS free,
+                        SUM(CASE 
+                            WHEN property_unity.status=3 THEN 1
+                            ELSE 0
+                           END) AS reserved,
+                        SUM(CASE 
+                            WHEN property_unity.status=4 THEN 1
+                            ELSE 0
+                            END) AS sold
+                        FROM property_unity
+                            LEFT JOIN property ON property.property_id=property_unity.property_id
+                        GROUP BY property_unity.type
+                ";
             } else if($report=='brokers'){
                 $sql="
                 SELECT 
-                    #property.property_id,
                     property.name AS property,
                     property_unity.number,
                     property_unity.price, 
-                    property_unity.comission,
                     broker_comission.date,
                     broker_comission.amount,
                     broker_comission.comission AS split,

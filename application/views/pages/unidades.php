@@ -1,3 +1,7 @@
+<?
+$nivel = $this->session->userdata('level');
+$property_id=$this->session->userdata('property_id');
+?>
 <!-- BEGIN CONTENT -->
 <div class="page-content-wrapper">
     <!-- BEGIN CONTENT BODY -->
@@ -25,15 +29,15 @@
                 <!-- BEGIN EXAMPLE TABLE PORTLET-->
                 <div class="portlet light portlet-fit bordered">
                     <div class="portlet-body">
-                        <table class="table table-striped table-hover table-bordered" id="sample_1">
+                        <table class="table table-striped table-hover table-bordered" id="sample_2">
                             <thead>
                                 <tr>
+                                    <? if($nivel==0) { ?><th> Proyecto </th><? } ?>
                                     <th> Tipo de Unidad </th>
                                     <th> Total </th>
 
                                     <th> No disponibles </th>
                                     <th> Disponibles </th>
-                                    <!--<th> free </th>-->
                                     <th> Reservadas </th>
                                     <th> Vendidas </th>
                                 </tr>
@@ -48,12 +52,11 @@
                                 foreach($result as $r) {
                             ?>
                                 <tr>
+                                    <? if($nivel==0) { ?><td> <?php echo $r['name'] ?> </td><? } ?>
                                     <td> <?php echo $r['type'] ?> </td>
                                     <td> <?php echo $r['total']; $t +=$r['total']; ?> </td>
-
                                     <td> <?php echo $r['none']; $n +=$r['none']; ?> </td>
                                     <td> <?php echo $r['available']+$r['free']; $af +=$r['available']+$r['free']; ?> </td>
-                                    <!--<td> <?php echo $r['free'] ?> </td>-->
                                     <td> <?php echo $r['reserved']; $re +=$r['reserved']; ?> </td>
                                     <td> <?php echo $r['sold']; $s +=$r['sold']; ?> </td>
                                 </tr>
@@ -65,9 +68,9 @@
                                     <td> <?php echo $t ?> </td>
                                     <td> <?php echo $n ?> </td>
                                     <td> <?php echo $af ?> </td>
-                                    <!--<td> <?php echo $r['free'] ?> </td>-->
                                     <td> <?php echo $re ?> </td>
                                     <td> <?php echo $s ?> </td>
+                                    <td>  </td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -76,7 +79,7 @@
                 <!-- END EXAMPLE TABLE PORTLET-->
             </div>
             <div class="col-md-3">
-                <a href="<?php echo site_url() ?>/transaction/download/unities">
+                <a href="<?php echo site_url() ?>/transaction/download/unities/<?=$property_id?>">
                     <i class="fa fa-download"></i>
                      Descargar CSV
                 </a>

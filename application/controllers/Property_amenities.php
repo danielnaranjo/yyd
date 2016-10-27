@@ -25,7 +25,7 @@
         $data['model'] = "property_amenities";
         $data['fields'] = $this->Property_amenities_model->columnas();
         $data['tables'] = $this->Property_model->listar();//<-- Linea 79 / formulario.php
-        
+        $data['id'] = $id;
         if($action){
             $data['action']="edit";// acction
             $data['btn']="Editar registro";// Texto boton

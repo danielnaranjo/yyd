@@ -57,7 +57,12 @@
                     $query = $this->db->get('administrator');
                     return $query->result_array();
             }
-            $query = $this->db->get_where('administrator', array('level' => $id));
+            $property_id = $this->session->userdata('property_id');
+            $busqueda = array('level' => $id);
+            if($property_id!=0){
+                $busqueda['property_id'] = $property_id;
+            }
+            $query = $this->db->get_where('administrator',  $busqueda);
             return $query->result_array();
         }
 

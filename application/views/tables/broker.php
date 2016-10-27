@@ -28,17 +28,15 @@
                         <table class="table table-striped table-hover table-bordered" id="sample_2">
                             <thead>
                                 <tr>
+                                    <th style="text-transform: capitalize;" > <? echo traducir('property') ?> </th>
                                     <th style="text-transform: capitalize;" > <? echo traducir('firstname') ?> </th>
                                     <th style="text-transform: capitalize;" > <? echo traducir('lastname') ?> </th>
-                                    <th style="text-transform: capitalize;" > <? echo traducir('property') ?> </th>
-                                    
                                     <th style="text-transform: capitalize;" > <? echo traducir('number') ?> </th>
                                     <th style="text-transform: capitalize;" > <? echo traducir('price') ?> </th>
                                     <!--<th style="text-transform: capitalize;" > <? echo traducir('comission') ?> </th>-->
-                                    <th style="text-transform: capitalize;" > <? echo traducir('date') ?> </th>
                                     <th style="text-transform: capitalize;" > <? echo traducir('amount') ?> </th>
                                     <th style="text-transform: capitalize;" > <? echo traducir('split') ?> </th>
-                                    
+                                    <th style="text-transform: capitalize;" > <? echo traducir('date') ?> </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,15 +47,15 @@
                                 foreach($result as $r) {
                             ?>
                                 <tr>
+                                    <td> <?php echo $r['property'] ?> </td>
                                     <td> <?php echo $r['name'] ?> </td>
                                     <td> <?php echo $r['surname'] ?> </td>
-                                    <td> <?php echo $r['property'] ?> </td>
                                     <td> <?php echo $r['number'] ?> </td>
                                     <td> USD $<?php echo $r['price']; $price +=$r['price']; ?> </td>
                                     <!--<td> <?php echo $r['comission'] ?> </td>-->
-                                    <td> <?php echo $r['date'] ?> </td>
                                     <td> USD $<?php echo number_format($r['amount'],2); $amount +=$r['amount']; ?> </td>
                                     <td> USD $<?php echo number_format($r['split'],2); $split +=$r['split']; ?> </td>
+                                    <td> <?php echo $r['date'] ?> </td>
                                     
                                 </tr>
                                 <? } ?>
@@ -66,12 +64,13 @@
                                 <tr>
                                     <td>  </td>
                                     <td>  </td>
-                                    <td> USD $<?=number_format($price,2) ?> </td>
                                     <td>  </td>
+                                    <td>  </td>
+                                    <td> USD $<?=number_format($price,2) ?> </td>
                                     <td> USD $<?=number_format($amount,2) ?> </td>
                                     <td> USD $<?=number_format($split,2) ?> </td>
                                     <td>  </td>
-                                    <td>  </td>
+
                                 </tr>
                             </tfoot>
                         </table>

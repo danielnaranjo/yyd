@@ -35,8 +35,6 @@
     }
 
     public function all(){
-
-        $data['titulo'] = 'Compradores';
         
         if($this->session->userdata('level')==0){
             $data['fields'] = $this->Client_model->columnaspersonalizadas();
@@ -45,7 +43,15 @@
         } else {
             $data['fields'] = $this->Client_model->columnas();
             $data['result'] = $this->Client_model->completo();
+            $nombreamostrar="";
         }
+        if($this->session->userdata('project')==''){
+            $nombreamostrar="Vista general";
+        } else {
+            $nombreamostrar=$this->session->userdata('project');
+        }
+        $data['titulo'] = $nombreamostrar.' > Compradores';
+
         //$data['fields'] = $this->Client_model->columnaspersonalizadas();
         //echo json_encode($data);
 

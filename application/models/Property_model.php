@@ -8,9 +8,14 @@
             $this->load->database();
         }
 
-        public function listar() {
+        public function listar($id = FALSE) {
+            if($id){
+                $property_id = " AND property.property_id=".$id;
+            } else {
+                $property_id = " ";
+            }
             if($this->session->userdata('level')==2) {
-                $query = $this->db->query("SELECT property.*, administrator.firstname FROM property LEFT JOIN property_broker ON property.property_id=property_broker.property_id LEFT JOIN administrator ON administrator.administrator_id=property_broker.broker_id WHERE administrator.administrator_id=".$this->session->userdata('aID'));
+                $query = $this->db->query("SELECT property.*, administrator.firstname FROM property LEFT JOIN property_broker ON property.property_id=property_broker.property_id LEFT JOIN administrator ON administrator.administrator_id=property_broker.broker_id WHERE administrator.administrator_id=".$this->session->userdata('aID'). $property_id);
             } else {
                 $query = $this->db->get('property');//AQUI
             }

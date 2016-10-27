@@ -23,7 +23,7 @@
                 <li>
                     <a href="<?php echo site_url() ?>/<?php echo $model ?>/all">
                         <span style="text-transform: capitalize;">
-                            <?php echo $model ?>
+                            <?php echo traducir($model) ?>
                         </span>
                     </a>
                     <i class="fa fa-circle"></i>

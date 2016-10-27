@@ -66,7 +66,7 @@ $nivel = $this->session->userdata('level');
                     <?php } ?>
                     <li class="nav-item">
                         <a href="<?php echo site_url() ?>/administrator/all/1" class="nav-link ">
-                            <span class="title">Project Manager</span>
+                            <span class="title">Gerente de Proyecto</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -124,7 +124,7 @@ $nivel = $this->session->userdata('level');
                 <ul class="sub-menu">
                     <li class="nav-item">
                         <a href="<?php echo site_url() ?>/property/unities/<?php echo $this->session->userdata('property_id') ?>" class="nav-link ">
-                            <span class="title">Ver <?php if($nivel!=2) { ?> / Agregar <? } ?>Unidades</span>
+                            <span class="title"> Ver <?php if($nivel!=2) { ?>/ Agregar<?php } else { echo "Unidades"; } ?> </span>
                         </a>
                     </li>
                     <li class="nav-item">

@@ -1,5 +1,5 @@
 <?php
-    
+    $nivel = $this->session->userdata('level');
     if($this->uri->segment(3)==''){
         $Id = $this->session->userdata('property_id');
     } else {
@@ -36,7 +36,7 @@
                     <ul class="dropdown-menu pull-right">
                         <li>
                             <a href="<?php echo site_url() ?>/property/unities/<?php echo $Id ?>">
-                                <i class="fa fa-building"></i> Estado
+                                <i class="fa fa-building"></i> Ver / Agregar Unidades
                             </a>
                         </li>
                         <li>
@@ -173,11 +173,11 @@
                                     </div>
                                     <div class="mt-container bg-dark-opacity">
                                         <div class="mt-head-title"> <?php echo $p['name'] ?></div>
-                                        <div class="mt-footer-button">
+                                        <!--<div class="mt-footer-button">
                                             <a href="<?php echo site_url()?>/property/see/<?php echo $p['property_id'] ?>" class="btn btn-circle btn-danger btn-sm">
                                                 <?php echo $p['country'] ?>
                                             </a>
-                                        </div>
+                                        </div>-->
                                     </div>
                                 </div>
                             </div>

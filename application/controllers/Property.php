@@ -80,7 +80,7 @@
         } else {
             $nombreamostrar=$this->session->userdata('project');
         }
-        $data['titulo'] = 'Lista de unidades '.$nombreamostrar;
+        $data['titulo'] = $nombreamostrar.' > Lista de unidades';
         $data['fields'] = $this->Property_unity_model->columnas();
         $data['tables'] = ""; // <-- Linea 79 / formulario.php
 
@@ -182,11 +182,8 @@
             $nombreamostrar=$this->session->userdata('project');
         }
 
-
-        $data['titulo'] = 'Vista general '.$nombreamostrar;
+        $data['titulo'] = $nombreamostrar. ' > Vista general';
         $data['ID'] = $id;
-
-
 
         //seguridad
         $this->load->view('templates/secure');
