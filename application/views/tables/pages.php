@@ -43,6 +43,7 @@ if($titulo==''){
             <?php if($model!='bank' && $model!='administrator' && $model!='client') { ?>
             <div class="actions pull-right">
                 <div class="btn-group">
+                    <? if($nivel!=0) { ?>
                     <a class="btn dark btn-outline" href="<?php echo site_url() ?>/property/see/<?php echo $Id ?>">
                         <i class="fa fa-chevron-left"></i>
                         Volver atras
@@ -63,6 +64,7 @@ if($titulo==''){
                             </a>
                         </li>
                     </ul>
+                    <? } ?>
                 </div>
             </div>
             <? } ?>
@@ -89,7 +91,7 @@ if($titulo==''){
                                             <i class="fa fa-plus"></i>
                                         </a>
                                         <?php } ?>
-                                        <?php if($model!='client' && $nivel!=2 && $model!='property_photo') { ?>
+                                        <?php if($model!='client' && $nivel!=2 && $model!='property_photo' && $model!='property_parking') { ?>
                                         <a href="<? echo site_url()?>/<?php echo $model ?>/action/new/<?php echo $Id ?>" id="" class="btn green"> Agregar nuevo
                                             <i class="fa fa-plus"></i>
                                         </a>
@@ -119,6 +121,7 @@ if($titulo==''){
                                                 && !preg_match("/unities/i", $field->name)
                                                 && !preg_match("/lobby/i", $field->name)
                                                 && !preg_match("/coordinates/i", $field->name)
+                                                && !preg_match("/parking/i", $field->name)
                                                 // property_unity
                                                 && !preg_match("/_unity_id/i", $field->name)
                                                 && !preg_match("/comission/i", $field->name)
@@ -160,6 +163,7 @@ if($titulo==''){
                                                 && !preg_match("/unities/i", $f->name)
                                                 && !preg_match("/lobby/i", $f->name)
                                                 && !preg_match("/coordinates/i", $f->name)
+                                                && !preg_match("/parking/i", $f->name)
                                                 // property_unity
                                                 && !preg_match("/_unity_id/i", $f->name)
                                                 && !preg_match("/comission/i", $f->name)
@@ -201,7 +205,7 @@ if($titulo==''){
                                                         );
                                                         echo img($imagen);
 
-                                                    } else if(preg_match("/price/i", $f->name) ) {
+                                                    } else if(preg_match("/price/i", $f->name) || preg_match("/amount/i", $f->name)) {
 
                                                         echo 'USD $'.number_format($r[$f->name],2);
 
@@ -230,9 +234,9 @@ if($titulo==''){
                                         ver compradores
                                         -->
                                         <?php if($model=="client") { ?>
-                                        <i class="fa fa-eye"></i> 
                                         <a class="view" href="<? echo site_url() ?>/<?php echo $model ?>/profile/<? echo $r[$model.'_id']?>">
-                                            Ver perfil
+                                            <i class="fa fa-eye"></i> 
+                                            Ver <? if($nivel==2) { ?>perfil<? } else { ?>/ Editar<? } ?>
                                         </a>
 
                                         <?php /*if($nivel!=0) { ?>
@@ -244,22 +248,22 @@ if($titulo==''){
                                         <? } ?>
 
                                         <?php if($model=="property") { ?>
-                                        <i class="fa fa-eye"></i> 
                                         <a class="view" href="<? echo site_url()?>/<?php echo $model ?>/see/<? echo $r[$model.'_id']?>">
+                                            <i class="fa fa-eye"></i> 
                                             Ver <? if($nivel==2) { ?>proyecto<? } else { ?>/ Editar<? } ?>
                                         </a>
                                         <? } ?>
 
-                                        <?php if($nivel!=2 && $model!='property') { ?>
-                                        <i class="fa fa-pencil"></i> 
+                                        <?php if($nivel!=2 && $model!='property' && $model!="client") { ?>
                                         <a class="edit" href="<? echo site_url()?>/<?php echo $model ?>/action/edit/<? echo $r[$model.'_id']?>">
+                                            <i class="fa fa-pencil"></i> 
                                             Editar
                                         </a>
                                         <? } ?>
                                         
                                         <?php if($nivel==0) { ?>
-                                        <i class="fa fa-trash"></i> 
                                         <a class="delete" href="javascript:;" onclick="javascript:check(<? echo $r[$model.'_id']?>);">
+                                            <i class="fa fa-trash"></i> 
                                            Borrar
                                         </a>
                                         <? } ?>

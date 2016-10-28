@@ -131,6 +131,8 @@
         $property_unity_id = $this->input->post("property_unity_id");
         $broker_id = $this->input->post("broker_id");
         $unidad = $this->input->post("unidad");
+        $parking = $this->input->post("parking");
+
 
         switch ($status) {
             case 0:
@@ -167,6 +169,16 @@
         }
         $this->db->query($sql);
         $this->db->query("UPDATE property_unity SET status='".$status."' WHERE property_unity_id='".$property_unity_id."'");
+        // parking
+        $queryp = $this->db->query('SELECT * FROM property_parking WHERE property_unity_id='.$property_unity_id);
+        $checkp = $queryp->num_rows();
+        if($checkp>0){
+            $this->db->query("UPDATE property_parking SET number='".$parking."' WHERE property_unity_id='".$property_unity_id."'");
+        } else {
+            $sql="INSERT INTO property_parking (property_id,property_unity_id,client_id,number) VALUES (".$property_id.", ".$property_unity_id.", ".$client_id.", ".$parking.")";
+            $this->db->query($sql);
+        }
+ 
         $data['n'] = $unidad;
         $data['p'] = $property_id;
         echo json_encode($data);

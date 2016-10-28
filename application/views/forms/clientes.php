@@ -4,11 +4,11 @@
     // comienza el formulario
     $model = 'client';
     $action = '';
-    $ejecutar ="created";
+    //$ejecutar ="created";
     $nivel = 2;
 
-    $titulo="Nuevo";
-    $btn = "Agregar nuevo";
+    //$titulo="Nuevo";
+    $btn = "Guardar";
 ?>
 <div class="page-content-wrapper">
     <!-- BEGIN CONTENT BODY -->
@@ -47,7 +47,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="portlet-body form">
-                                <?php echo form_open('client/created', ['class'=>"form-horizontal", 'role'=>"form"]); ?>                         
+                                <?php echo form_open('client/'.$ejecutar, ['class'=>"form-horizontal", 'role'=>"form"]); ?>                         
                                     <div class="form-group">
                                         <label for="firstname" class="col-md-3 control-label" style="text-transform:Capitalize;">nombre</label> 
                                         <div class="col-md-9">
@@ -101,10 +101,14 @@
                                     <div class="form-actions">     
                                         <div class="row">       
                                             <div class="col-md-offset-3 col-md-9">
-                                                <input type="submit" name="Submit" value="Agregar nuevo" class="btn blue">
+                                                <input type="submit" name="Submit" value="<?=$btn?>" class="btn blue">
                                             </div>  
                                         </div>
                                     </div>
+                                    <?php if($ejecutar=='edited') {?>
+                                        <?php echo form_input(array("type"=>"hidden","name"=>"client_id","id"=>"client_id") ); ?>
+                                        <?php echo form_input(array("type"=>"hidden","name"=>"client_info_id","id"=>"client_info_id") ); ?>
+                                    <? } ?>
                                 <?php echo form_close();?>
                             </div>
                         </div>
@@ -114,3 +118,14 @@
         </div>
     </div>
 </div>
+<script>
+window.onload = function(){
+    <?php if($ejecutar=='edited') {?>
+    var data = <? echo json_encode($result) ?>;
+    console.log('fire', data);
+    $.each(data, function (index, value) {
+        $('#'+index).val(value);
+    });
+    <?php } ?>
+};
+</script>

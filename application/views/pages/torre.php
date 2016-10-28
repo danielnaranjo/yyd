@@ -139,15 +139,15 @@
                                 Modificar
                             </a>
                         </div>
-                        <!--<div class="col-sm-6" id="btnChange" style="display: none;">
-                            <a data-toggle="modal" href="#comprador" class="btn btn-block btn-info">
-                                <i class="fa fa-pencil-o"></i>
-                                Modificar
+                        <!--<div class="col-sm-4" id="btnChange" style="display: none;">
+                            <a data-toggle="modal" href="#parking" class="btn btn-block dark">
+                                <i class="fa fa-car"></i>
+                                Parking <span class="badge" id="cantidadparqueo">0</span>
                             </a>
                         </div>-->
                         <div class="col-sm-6">
-                            <a data-toggle="modal" href="#basic" class="btn btn-block dark">
-                                <i class="fa fa-pencil-o"></i>
+                            <a data-toggle="modal" href="#basic" class="btn btn-block btn-info">
+                                <i class="fa fa-pencil"></i>
                                 Agregar nota
                             </a>
                         </div>
@@ -170,7 +170,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                <h4 class="modal-title">Información de visita</h4>
+                <h4 class="modal-title">Notas</h4>
             </div>
             <div class="modal-body">
             <?php echo form_open_multipart('', ['id'=>"addnote", 'class'=>"form-horizontal", 'role'=>"form"]); ?>
@@ -187,7 +187,7 @@
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-offset-9 col-md-3">
-                                <?=form_submit('Submit', 'Guardar', ['class'=>'btn blue btn-block','id'=>'Submit'])?>
+                                <?=form_submit('SubmitNew', 'Guardar', ['class'=>'btn blue btn-block','id'=>'SubmitNew'])?>
                             </div>
                         </div>
                     </div>
@@ -256,10 +256,17 @@
                         <?=form_dropdown(array('name'=>'client_id','id'=>'client_id','class'=> 'form-control','placeholder'=>'Clientes','autocomplete'=>'off'),$optionsClient)?>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <?=form_label('Parking','Parking', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?php $optionsParking=['0'=>'Sin parking','1'=>'1 puesto','2'=>'2 puestos','3'=>'3 puestos'];?>
+                        <?=form_dropdown(array('name'=>'parking','id'=>'parking','class'=> 'form-control','placeholder'=>'Parkings','autocomplete'=>'off'),$optionsParking)?>
+                        </div>
+                    </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-offset-9 col-md-3">
-                                <?=form_submit('Submit', 'Guardar', ['class'=>'btn blue btn-block','id'=>'SubmitBuyer'])?>
+                                <?=form_submit('SubmitBuyer', 'Guardar', ['class'=>'btn blue btn-block','id'=>'SubmitBuyer'])?>
                             </div>
                         </div>
                     </div>
@@ -269,7 +276,96 @@
     </div>
 </div>
 
+<div class="modal fade" id="editNote" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Editar Nota</h4>
+            </div>
+            <div class="modal-body">
+            <?php echo form_open_multipart('', ['id'=>"form-edit-note", 'class'=>"form-horizontal", 'role'=>"form"]); ?>
+                    <?=form_input(array('type'=>'hidden','name'=>'note_id','id'=>'note_id'))?>
+                    <?//=form_input(array('type'=>'hidden','name'=>'property_id','id'=>'property_id','value'=>$ID))?>
+                    <?=form_input(array('type'=>'hidden','name'=>'broker_id','id'=>'broker_id','value'=> $this->session->userdata('aID')))?>
+                    <?=form_input(array('type'=>'hidden','name'=>'property_unity_id','id'=>'property_unity_id'))?>
+                    <?//=form_input(array('type'=>'hidden','name'=>'client_id','id'=>'client_id'))?>
+                    <div class="form-group">
+                        <?=form_label('Comentarios','Comentarios', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?=form_textarea(array('name'=>'note','id'=>'note','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Comentarios',))?>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-9 col-md-3">
+                                <?=form_submit('SubmitEdit', 'Guardar', ['class'=>'btn blue btn-block','id'=>'SubmitEdit'])?>
+                            </div>
+                        </div>
+                    </div>
+                <?php echo form_close();?>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="modal fade" id="parking" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Parking</h4>
+            </div>
+            <div class="modal-body">
+                <?php echo form_open_multipart('', ['id'=>"addparking", 'class'=>"form-horizontal", 'role'=>"form"]); ?>
+                    <?=form_input(array('type'=>'hidden','name'=>'property_unity_id','id'=>'property_unity_id'))?>
+                    <?=form_input(array('type'=>'hidden','name'=>'property_id','id'=>'property_id','value'=>$ID))?>
+                    <?=form_input(array('type'=>'hidden','name'=>'broker_id','id'=>'broker_id','value'=> $this->session->userdata('aID')))?>
+                    <div class="form-group">
+                        <?=form_label('Unidad','Unidad', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?=form_input(array('name'=>'unidad','id'=>'unidad','class'=>'form-control','placeholder'=>'Unidad','autocomplete'=>'off','readonly'=>'readonly'))?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?=form_label('Cliente','Cliente', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <? 
+                            $optionsClient=[];
+                            $optionsClient['0']='- Seleccione - ';
+                            foreach($clients as $client) {
+                                $optionsClient[$client['client_id']]=$client['firstname'].' '.$client['lastname']. ' ('.$client['country'].')';
+                            }   
+                        ?>
+                        <?=form_dropdown(array('name'=>'client_id','id'=>'client_id','class'=> 'form-control','placeholder'=>'Clientes','autocomplete'=>'off'),$optionsClient)?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?=form_label('Numero','Numero', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?=form_input(array('name'=>'number','id'=>'number','class'=>'form-control','placeholder'=>'Numero','autocomplete'=>'off'))?>
+                        <span id="helpBlock" class="help-block">Nota: Identificativo del puesto asignado. Ej. A10 o 101/span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?=form_label('Monto (USD)','Monto (USD)', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?=form_input(array('name'=>'amount','id'=>'amount','class'=>'form-control','placeholder'=>'Precio','autocomplete'=>'off','value'=>'0'))?>
+                        <span id="helpBlock" class="help-block">Nota: Campo opcional</span>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-9 col-md-3">
+                                <?=form_submit('SubmitParking', 'Guardar', ['class'=>'btn blue btn-block','id'=>'SubmitParking'])?>
+                            </div>
+                        </div>
+                    </div>
+                <?php echo form_close();?>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     var getInfo = function(id, property){
@@ -283,7 +379,8 @@
 
             var info = res.info,
                 broker = res.broker,
-                notes = res.notes;
+                notes = res.notes, 
+                parkeo = res.parking;
             $('#infoUnity').html(' ');
 
             <?php if($nivel==2) {  // se muestra solo en Project manager / administrador ?>
@@ -302,7 +399,7 @@
                 $('#boxStatus').attr('style','display:block');
 
                 if(info.status==0) {
-                    //$('#detalle h4').html('<strong>Estado: </strong> No disponible');
+                    $('#detalle ul').append('<li><strong>Estado: </strong> NO DISPONIBLE</li>');
                 } else if(info.status==2) {
                     $('#detalle ul').append('<li><strong>Estado: </strong> DISPONIBLE</li>');
                     //$('#btnBuyer').attr('style','display:block');
@@ -353,6 +450,24 @@
             $('#addsell #broker_id').val(res.owner.brokerID);
             $('#addsell #status').val(info.status);
             getNotes(info.property_unity_id,id);
+
+            // agregar info al parking
+            $('#addparking #property_unity_id').val(info.property_unity_id);
+            $('#addparking #client_id').val(res.owner.Id);
+            $('#addparking #unidad').val(info.number);
+
+            /*//parking
+            if(parkeo.length>0 && parkeo.length<4){
+                $('#cantidadparqueo').removeAttr('style').text(parkeo.length);
+                //$('#cantidadparqueo').parent().attr('href','#parking');
+                toastr.success('Parking disponible para asignar');
+            } else {
+                $('#cantidadparqueo').attr('style','display:none;');
+                $('#cantidadparqueo').parent().attr('href','<? echo site_url() ?>/property_parking/by/<?php echo $Id ?>');
+                //toastr.error('Ha alcanzado el maximo disponible puestos de parking por unidad');
+            }*/
+            $('#detalle ul').append('<li><strong>Parking:</strong> <span id="parkingInfo">Sin parking</span></li>');
+            $('#parkingInfo').html(parkeo[0].number+' puesto(s)');
         });
     };
     var getData = function(){
@@ -447,13 +562,20 @@
         
         $.getJSON('<?=site_url() ?>/note/view/'+note_id, function(response) {
             console.log('response', response);
-            $('#basic').modal('show');
-            $('#addnote #note').val(response.note);
+            $('#editNote').modal('show');
+            $('#editNote #note_id').val(response.note_id);
+            $('#editNote #note').val(response.note);
+            $('#editNote #broker_id').val(response.broker_id);
+            $('#editNote #property_unity_id').val(response.property_unity_id);
         });
-        $('#Submit').on('click', function(){
-            var formId = "#basic #addnote";
+        $('#SubmitEdit').on('click', function(event){
+            event.preventDefault();
+            var formId = "#editNote";// #form-edit-note
             var params = {
+                note_id : $(formId +" #note_id").val(),
                 note : $(formId +" #note").val(),
+                broker_id : $(formId +" #broker_id").val(),
+                property_unity_id : $(formId +" #property_unity_id").val(),
             }
             jQuery.ajax({
                 type: "POST",
@@ -465,6 +587,7 @@
                 toastr.success('Información actualizada!');
                 $('.modal form input, .modal form select, .modal form textarea').val('');
                 $('.modal').modal('hide');
+                getNotes(res);
             });
         })
     }
@@ -472,9 +595,9 @@
     window.onload = function(){
         console.log('Loaded!');
         getData();
-        $("#Submit").click(function() {
+        $("#SubmitNew").click(function(event) {
+            event.preventDefault();
             var formId = "#basic #addnote";
-            //event.preventDefault();
             var params = {
                 property_id : $(formId +" #property_id").val(),
                 property_unity_id : $(formId+" #property_unity_id").val(),
@@ -489,14 +612,16 @@
                 data: params, //{ property_id: property_id, broker_id: broker_id, client_id: client_id, note: note },               
             })
             .success(function(res) {
+                console.log('res',res);
+                getNotes(res);
                 toastr.success('Información actualizada!');
-                $('.modal form input, .modal form select, .modal form textarea').val('');
-                $('.modal').modal('hide');
+                //$('#basic form input, #basic form select, #basic form textarea').val('');
+                $('#basic').modal('hide');
             });
         });
 
         $("#SubmitBuyer").click(function(event){
-            event.preventDefault()
+            event.preventDefault();
             var formId = "#comprador #addsell";
             var params = {
                 property_id: $(formId+" #property_id").val(),
@@ -504,7 +629,8 @@
                 client_id: $(formId+" #client_id").val(),
                 property_unity_id: $(formId+" #property_unity_id").val(),
                 status: $(formId+" #status").val(),
-                unidad: $(formId+" #unidad").val()
+                unidad: $(formId+" #unidad").val(),
+                parking: $(formId+" #parking").val()
             }
             //console.debug('params',params)
             jQuery.ajax({
@@ -534,6 +660,33 @@
                 $(formId+" #broker_id").removeAttr('readonly');
                 $(formId+" #client_id").removeAttr('readonly');
             }
-        })
+        });
+        $("#SubmitParking").click(function(event){
+            event.preventDefault();
+            var formId = "#parking #addparking";
+            var params = {
+                property_id: $(formId+" #property_id").val(),
+                client_id: $(formId+" #client_id").val(),
+                property_unity_id: $(formId+" #property_unity_id").val(),
+                unidad: $(formId+" #unidad").val(),
+                amount: $(formId+" #amount").val(),
+                broker_id: $(formId+" #broker_id").val(),
+                number: $(formId+" #number").val(),
+            }
+            //console.debug('params',params)
+            jQuery.ajax({
+                type: "POST",
+                url: "<?php echo site_url(); ?>/property_parking/assign",
+                dataType: 'json',
+                data: params,
+            })
+            .success(function(data) {
+                toastr.success('Información actualizada!');
+                console.info('SubmitParking', data);
+                //getInfo(data.n,data.p);
+                //getData();
+                $('#parking').modal('hide');
+            });
+        });
     }
 </script>

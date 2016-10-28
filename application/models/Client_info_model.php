@@ -53,7 +53,7 @@
 
         public function parkeo($id){
             $query=$this->db->query("SELECT property_parking.* FROM property_parking LEFT JOIN property ON property_parking.property_id=property.property_id WHERE property.property_id=$id");
-            return $query->num_rows();
+            return $query->row_array(); //$query->num_rows();
         }
         
         public function columnas(){

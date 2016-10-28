@@ -60,6 +60,7 @@
         //if($data){
         //    echo json_encode($data);
         //}
+        echo json_encode($this->input->post("property_unity_id"));
     }
 
     public function unity($id) {        
@@ -79,6 +80,6 @@
             'property_unity_id' => $this->input->post("property_unity_id"),
         );
         $resp = $this->Note_model->updatear($id, $data);
-        echo json_encode($resp);
+        echo json_encode($data['property_unity_id']);
     }
 }

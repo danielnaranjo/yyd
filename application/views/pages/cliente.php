@@ -25,7 +25,21 @@ $nivel = $this->session->userdata('level');
         </div>
         <!-- END PAGE BAR -->
         <!-- BEGIN PAGE TITLE-->
-        <h3 class="page-title"><?php echo @$property[0]['name'] ?></h3>
+        <h3 class="page-title">
+        <?php echo @$property[0]['name'] ?>
+            <div class="actions pull-right">
+                <div class="btn-group">
+                    <a class="btn dark btn-outline" href="javascript:history.back();">
+                        <i class="fa fa-chevron-left"></i>
+                        Volver atras
+                    </a>
+                    <a class="btn dark btn-outline" href="<? echo site_url()?>/client/edit/<?php echo $result[0]['client_id'] ?>">
+                        <i class="fa fa-pencil"></i>
+                        Editar perfil
+                    </a>
+                </div>
+            </div>
+        </h3>
         <!-- END PAGE TITLE-->
         <!-- END PAGE HEADER-->
         <div class="row">
@@ -53,16 +67,16 @@ $nivel = $this->session->userdata('level');
                         <!-- STAT -->
                         <? if(count($unity)>0) { ?>
                         <div class="row list-separated profile-stat">
-                            <div class="col-md-4 col-sm-4 col-xs-4">
+                            <div class="col-md-6 col-sm-6 col-xs-6">
                                 <div class="uppercase profile-stat-title"> <?php echo $unity[0]['number'] ?> </div>
                                 <div class="uppercase profile-stat-text"> Unidad </div>
                             </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4">
+                            <!--<div class="col-md-4 col-sm-4 col-xs-4">
                                 <div class="uppercase profile-stat-title"> <?php echo $unity[0]['total_feet'] ?> </div>
                                 <div class="uppercase profile-stat-text"> Pies </div>
-                            </div>
-                            <div class="col-md-4 col-sm-4 col-xs-4">
-                                <div class="uppercase profile-stat-title"> <?php echo $parking ?> </div>
+                            </div>-->
+                            <div class="col-md-6 col-sm-6 col-xs-6">
+                                <div class="uppercase profile-stat-title"> <?php echo $parking['number'] ?> </div>
                                 <div class="uppercase profile-stat-text"> Parking </div>
                             </div>
                         </div>
@@ -141,8 +155,7 @@ $nivel = $this->session->userdata('level');
                             <!-- END PORTLET -->
                         </div>
                         <?php }  ?>
-                        <div class="col-md-6">
-                            <!-- BEGIN PORTLET -->
+                        <!--<div class="col-md-6">
                             <div class="portlet light ">
                                 <div class="portlet-title tabbable-line">
                                     <div class="caption caption-md">
@@ -152,7 +165,6 @@ $nivel = $this->session->userdata('level');
                                     </div>
                                 </div>
                                 <div class="portlet-body">
-                                    <!--BEGIN TABS-->
                                     <div class="tab-content">
                                         <div class="scroller" style="height: 320px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
                                             <ul class="feeds">
@@ -173,7 +185,6 @@ $nivel = $this->session->userdata('level');
                                                     </div>
                                                     <div class="col2">
                                                         <div class="date"> 
-                                                        <!-- convertir a moment() -->
                                                         <?php 
                                                             $fecha = mysql_to_unix($n['updated']);
                                                             $now = time();
@@ -191,16 +202,14 @@ $nivel = $this->session->userdata('level');
                                             </ul>
                                         </div>
                                     </div>
-                                    <!--END TABS-->
                                 </div>
                             </div>
-                            <!-- END PORTLET -->
-                        </div>
+                        </div>-->
                     <?php if($nivel!=2) {?>
                     </div>
                     <div class="row">
                     <? } ?>
-                        <div class="col-md-6">
+                        <!--<div class="col-md-6">
                             <div class="portlet light portlet-fit " >
                                 <div class="portlet-title" <?php if($nivel==2) {?>style="padding: 15px 20px 5px 20px !important;"<? } ?>>
                                     <div class="caption">
@@ -212,7 +221,6 @@ $nivel = $this->session->userdata('level');
                                 </div>
                                 <div class="portlet-body" style="overflow-y: scroll;height: 500px;">
                                     <div class="timeline">
-                                        <!-- TIMELINE ITEM -->
                                         <?php foreach($visits as $v) {?>
                                         <div class="timeline-item">
                                             <div class="timeline-badge">
@@ -262,13 +270,12 @@ $nivel = $this->session->userdata('level');
                                                 </div>
                                                 <div class="timeline-body-content">
                                                     <span class="font-grey-cascade">
-                                                        <!-- -->
+
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
                                         <?php } ?>
-                                        <!-- END TIMELINE ITEM -->
 
                                         <?php if(count($visits)==0) { ?>
                                         <div class="timeline-item">
@@ -287,7 +294,6 @@ $nivel = $this->session->userdata('level');
                                                 </div>
                                                 <div class="timeline-body-content">
                                                     <span class="font-grey-cascade">
-                                                        <!-- -->
                                                     </span>
                                                 </div>
                                             </div>
@@ -296,7 +302,7 @@ $nivel = $this->session->userdata('level');
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
                 <!-- END PROFILE CONTENT -->

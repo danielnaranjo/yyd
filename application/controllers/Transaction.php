@@ -8,6 +8,7 @@
         $this->load->model('Client_info_model');//AQUI
         $this->load->model('Property_unity_model');
         $this->load->model('Note_model');
+        $this->load->model('Property_parking_model');
     }
 
     public function index()
@@ -168,6 +169,7 @@
         $data['info'] = $this->Transaction_model->informacion($id,$property);
         $data['owner'] = $this->Property_unity_model->propietario($id);
         //$data['notes'] = $this->Note_model->unidad($data['info']['property_unity_id']);
+        $data['parking'] = $this->Property_parking_model->listar($data['info']['property_unity_id']);
         echo json_encode($data);
     }
     public function columnaspersonalizadas(){

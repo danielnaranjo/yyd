@@ -17,8 +17,8 @@
                     return $query->result_array();
             }
 
-            $query = $this->db->get_where('property_parking', array('property_parking_id' => $id));//AQUI
-            return $query->row_array();
+            $query = $this->db->get_where('property_parking', array('property_unity_id' => $id));//AQUI
+            return $query->result_array();
         }
         public function columnas(){
             $query = $this->db->field_data('property_parking');
@@ -37,7 +37,61 @@
             $this->db->delete('property_parking');
         } 
         public function lista($id){
-            $query = $this->db->get_where('property_parking', array('property_id' => $id));//AQUI
+            $query = $this->db->query('
+                SELECT 
+                    property.name,
+                    property_parking.number AS parking, 
+                    property_unity.number AS unity,
+                    client.firstname, 
+                    client.lastname, 
+                    property_parking.property_parking_id 
+                FROM property_parking 
+                    LEFT JOIN client ON client.client_id=property_parking.client_id
+                    LEFT JOIN property_unity ON property_unity.property_unity_id=property_parking.property_unity_id
+                    LEFT JOIN property ON property.property_id=property_parking.property_id
+                WHERE property_parking.property_id='.$id
+        );//AQUI
             return $query->result_array();
-        }      
+        }
+        public function listacampos($id){
+            $sql = "
+                SELECT 
+                    property.name,
+                    property_parking.number AS parking, 
+                    property_unity.number AS unity,
+                    client.firstname, 
+                    client.lastname, 
+                    property_parking.property_parking_id,
+                    property_parking.property_unity_id,
+                    property.property_id,
+                    client.client_id
+                FROM property_parking 
+                    LEFT JOIN client ON client.client_id=property_parking.client_id
+                    LEFT JOIN property_unity ON property_unity.property_unity_id=property_parking.property_unity_id
+                    LEFT JOIN property ON property.property_id=property_parking.property_id
+            ";
+            $query = $this->db->query($sql);
+            return $query->list_fields();
+        }   
+        public function parkeo($id){
+            $query = $this->db->query('
+                SELECT 
+                    property.name,
+                    property_parking.number AS parking, 
+                    property_parking.amount,
+                    property_unity.number AS unity,
+                    client.firstname, 
+                    client.lastname, 
+                    property_parking.property_parking_id,
+                    property_parking.property_unity_id,
+                    property.property_id,
+                    client.client_id
+                FROM property_parking 
+                    LEFT JOIN client ON client.client_id=property_parking.client_id
+                    LEFT JOIN property_unity ON property_unity.property_unity_id=property_parking.property_unity_id
+                    LEFT JOIN property ON property.property_id=property_parking.property_id
+                WHERE property_parking.property_parking_id='.$id
+        );//AQUI
+            return $query->row_array();
+        }   
 }

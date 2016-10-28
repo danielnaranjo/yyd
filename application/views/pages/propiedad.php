@@ -39,12 +39,9 @@ $nivel=$this->session->userdata('level');
                     <a class="btn dark btn-outline" href="<?php echo site_url() ?>/property_amenities/by/<?php echo $result['property_id']?>">
                         <i class="fa fa-building"></i> Amerities
                     </a>
-                    <a class="btn dark btn-outline" href="<?php echo site_url() ?>/property_parking/by/<?php echo $result['property_id']?>">
+                    <!--<a class="btn dark btn-outline" href="<?php echo site_url() ?>/property_parking/by/<?php echo $result['property_id']?>">
                         <i class="fa fa-car"></i> Parking
-                    </a>
-                    <a class="btn dark btn-outline" href="<?php echo site_url() ?>/property_unity/by/<?php echo $result['property_id']?>">
-                        <i class="fa fa-user"></i> Unidades
-                    </a>
+                    </a>-->
                     <a class="btn dark btn-outline" href="<?php echo site_url() ?>/property_photo/by/<?php echo $result['property_id']?>">
                         <i class="fa fa-eye"></i> Fotografias
                     </a>
@@ -106,7 +103,7 @@ $nivel=$this->session->userdata('level');
         <!-- END PAGE HEADER-->
         <div class="blog-page blog-content-2">
             <div class="row">
-                <div class="col-lg-9">
+                <div class="col-lg-8">
                     <div class="blog-single-content bordered blog-container">
                         <div class="blog-single-img" style="max-height: 600px;overflow-y: hidden;">
                             <p>Loading..</p>
@@ -114,12 +111,12 @@ $nivel=$this->session->userdata('level');
                         <div class="blog-single-desc">
                             <p><?php echo $result['description']?></p>
                             <?php if($result['floors']!='') { ?>
-                            <p>Proyecto de <?php echo $result['floors']?> pisos y <?php echo $result['unities']?> unidades por piso.</p>
+                            <p>Proyecto de <?php echo $result['floors']?> pisos y <?php echo $result['unities']?> unidades por piso. <?php if($result['parking']!='') { ?>Cuenta con <?php echo $result['parking']?> puestos de parking exclusivos.<?php } ?></p>
                             <?php } ?>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <div class="blog-single-sidebar bordered blog-container">
                         <div class="blog-single-sidebar-recent">
                             <h3 class="blog-sidebar-title uppercase">Ubicación</h3>

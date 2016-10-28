@@ -274,4 +274,8 @@
             $query = $this->db->query("SELECT amount, DATE_FORMAT(date,'%Y-%m-%d') as date FROM transaction ");
             return $query->result_array();
         }
+        public function info($id){
+            $query = $this->db->get_where('property_unity', array('property_unity_id' => $id));
+            return $query->row_array();
+        }
 }

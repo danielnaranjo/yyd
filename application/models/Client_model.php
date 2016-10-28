@@ -189,5 +189,28 @@
             $query = $this->db->insert('client', $data);
             return $this->db->insert_id();
         }
-        
+        public function editar($id,$data){
+
+        }
+        public function mostrar($id) {
+            $sql="
+            SELECT 
+                    client.firstname,
+                    client.lastname,
+                    client_info.email,
+                    client_info.address,
+                    client_info.city,
+                    client_info.country,
+                    client_info.phone,
+                    client.client_id,
+                    client_info.client_info_id
+                FROM
+                    client_data
+                    LEFT JOIN client ON client_data.client_id=client.client_id
+                    LEFT JOIN client_info ON client_data.client_info_id=client_info.client_info_id
+                WHERE client_data.client_id=$id
+            ";
+            $query = $this->db->query($sql);
+            return $query->row_array();
+        }
     }

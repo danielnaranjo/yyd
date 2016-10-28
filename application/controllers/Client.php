@@ -211,6 +211,8 @@
 
     public function create(){
         $data['paises'] = $this->Client_model->listadepaises();
+        $data['titulo'] = 'Nuevo comprador';
+        $data['ejecutar'] ="created";
         //seguridad
         $this->load->view('templates/secure');
         // header
@@ -257,6 +259,44 @@
             echo json_encode($resp_info);
             echo json_encode($resp_update);*/
         }
+    }
+
+    public function edit($id){
+        $data['paises'] = $this->Client_model->listadepaises();
+        $data['titulo'] = 'Editar comprador';
+        $data['ejecutar'] ="edited";
+        $data['result'] = $this->Client_model->mostrar($id);
+        //seguridad
+        $this->load->view('templates/secure');
+        // header
+        $this->load->view('templates/header');
+        // sidebar
+        $this->load->view('templates/menu');
+        // main
+        $this->load->view('forms/clientes', $data);
+        // footer
+        $this->load->view('templates/footer');
+        
+    }
+
+    public function edited(){
+        $id = $this->input->post("client_id");
+        $idinfo = $this->input->post("client_info_id");
+        $data = array(
+            'firstname' => $this->input->post("firstname"),
+            'lastname' => $this->input->post("lastname"),
+            'country' => $this->input->post("country")        
+        );
+        $resp = $this->Client_model->updatear($id, $data);
+        $datainfo = array(
+            'email' => $this->input->post("email"),
+            'address' => $this->input->post("address"),
+            'city' => $this->input->post("city"),
+            'country' => $this->input->post("country"),
+            'phone' => $this->input->post("phone"),
+        );
+        $resp_update = $this->Client_info_model->updatear($idinfo, $datainfo);
+        redirect('client/all', 'location');
     }
 
 }
