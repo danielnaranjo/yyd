@@ -77,7 +77,7 @@ function makeaform($fields, $model, $nivel, $action, $btn, $tables, $property_id
 							if($nivel!=0){ // REVISAR
 								$atributes['disabled'] = 'disabled';
 							}
-							if($property_id!=''){ // REVISAR
+							if($property_id!=''){
 								$selected = $property_id;
 							}
 							echo form_dropdown($atributes, $options, $selected);
@@ -176,7 +176,7 @@ function makeaform($fields, $model, $nivel, $action, $btn, $tables, $property_id
 	echo '<div class="form-actions">';
 	echo ' 	<div class="row">';
 	echo ' 		<div class="col-md-offset-3 col-md-9">';
-	echo form_submit('Submit', $btn, ['class'=>'btn blue']);
+	echo form_submit('Submit', $btn, ['class'=>'btn blue', 'id'=> 'btn'.strtoupper($action) ]);
 	// solo si es nuevo
 	if($action=='new'){
 		echo form_reset('reset', 'Borrar', ['class'=>'btn default']);

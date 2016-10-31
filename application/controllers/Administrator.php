@@ -90,7 +90,7 @@
             break;
             
             default:
-               //
+                redirect(site_url().'?msg=Por+favor+verifica+los+datos+de+acceso&dash='.time(), 'refresh');
             break;
         }
     
@@ -134,9 +134,10 @@
 
     /* FORMULARIOS */
     public function action($action = NULL, $id = NULL){
-        //$data['model'] = "administrator";
+        $property_id = $this->session->userdata('property_id');
         $data['fields'] = $this->Administrator_model->columnas();
         $data['tables'] = $this->Property_model->listar(); // <-- Linea 79 / formulario.php
+        $data['property_id'] = $this->session->userdata('property_id');
         //$data['fieldsmore'] = $this->Administrator_model->property_broker();
         //$data['fieldsothers'] = $this->Administrator_model->listar();
         

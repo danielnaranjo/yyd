@@ -286,5 +286,5 @@ window.onload = function(){
     mapadeventas(dataValues,"ventas");
     mapadevisitantes(dataVisits,"visitantes");
 }//onLoad()
-
+console.debug('dash',<?php echo json_encode($this->session->userdata)?>)
 </script>

@@ -26,7 +26,7 @@ $nivel = $this->session->userdata('level');
             <li class="nav-item">
                 <a href="<?php echo site_url() ?>/client/all" class="nav-link">
                     <i class="fa fa-user"></i>
-                    <span class="title">Compradores</span>
+                    <span class="title">Clientes</span>
                 </a>
             </li>
             <?php if($nivel==0) { ?>
@@ -108,7 +108,7 @@ $nivel = $this->session->userdata('level');
             <?php } ?>
             <!-- administrador general -->
             <? 
-                if($nivel!=0 && $this->session->userdata('property_id')=='') {
+                if($nivel>0 && $this->session->userdata('property_id')=='') {
                     echo '<meta http-equiv="refresh" content="0" >';
                     echo '<script>console.log("Fix it",'.now().')</script>';
                 }
@@ -139,7 +139,7 @@ $nivel = $this->session->userdata('level');
             <li class="nav-item">
                 <a href="<?php echo site_url() ?>/client/all" class="nav-link">
                     <i class="fa fa-user"></i>
-                    <span class="title">Compradores</span>
+                    <span class="title">Clientes</span>
                 </a>
             </li>
             <?php } ?>

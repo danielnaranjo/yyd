@@ -57,7 +57,7 @@
         // footer
         $this->load->view('templates/footer');
     }
-    public function upload($id) {
+    public function upload($id = NULL) {
         $config['upload_path']          = './upload/';
         $config['allowed_types']        = 'gif|jpg|png';
         $config['max_size']             = 1000;
@@ -73,7 +73,7 @@
             redirect('property_photo/action/upload/?msg='.$error, 'resfresh', 302);
             //echo json_encode($error);
         } else  {
-            $id = $this->input->post("property_id")||$this->session->userdata('property_id');
+            $id = $this->input->post("property_id");
             $added = array(
                 'file' => $this->upload->data('file_name'),
                 'property_id' => $id,

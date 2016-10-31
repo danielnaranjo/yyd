@@ -1,4 +1,3 @@
-
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
 	
@@ -212,5 +211,9 @@
             ";
             $query = $this->db->query($sql);
             return $query->row_array();
+        }
+        public function todolosclientes(){
+            $query = $this->db->get('client');
+            return $query->result_array();
         }
     }

@@ -35,18 +35,19 @@ class Site extends CI_Controller {
         $this->output->delete_cache();
         $this->session->sess_destroy();
         //$this->load->view('site/login', $data);
-        redirect(site_url(), 'location');
+        redirect(site_url().'?nocache=true&logout='.time(), 'location');
     }
 
     public function login(){
         $login = $this->input->post('username');
         $password = $this->input->post('password');
         $data = $this->Administrator_model->logeo($password, $login);
+        //echo json_encode($data);
 
         if($data!=null){
-
-            $data['session'] = $this->Property_model->ver($id);
-
+            if($data['property_id']>0) {
+                $data['session'] = $this->Property_model->ver($data['property_id']);
+            }
         	$newdata = array(
 	           'aID'  => $data['administrator_id'],
 	           'username'  => $data['email'],
@@ -54,17 +55,22 @@ class Site extends CI_Controller {
 	           'lastname'  => $data['lastname'],
 	           'email'     => $data['email'],
 	           'level'     => $data['level'],
-               'property_id'   => $data['session']['property_id'],
-               'property'  => $data['session']['name'],
-               'project'  => $data['session']['name'],
 	           'logged_in' => TRUE
 	        );
+            
+            if($data['property_id']>0) {
+                $newdata['property_id'] = $data['session']['property_id'];
+                $newdata['property'] = $data['session']['name'];
+                $newdata['project'] = $data['session']['name'];  
+            } 
+
 			$this->session->set_userdata($newdata);
             redirect('administrator/', 'location', 302);
-       	 	//echo json_encode($data);
+       	 	//echo json_encode($this->session->userdata());
+            //echo json_encode($newdata);
 
         } else {
-        	redirect(site_url().'?msg=Por+favor+verifica+los+datos+de+acceso', 'location');
+        	redirect(site_url().'/site?msg=Por+favor+verifica+los+datos+de+acceso&login='.time(), 'location');
         }
     }
 
@@ -77,9 +83,8 @@ class Site extends CI_Controller {
 
             $this->email->from('no-responder@yydgroup.com', 'Webadmin YYD Group');
             $this->email->to($login);
-
-            //$this->email->cc('info@yydgroup.com');
-            //$this->email->bcc('soporte@yydgroup.com');
+            $this->email->cc('info@yydgroup.com');
+            $this->email->bcc('soporte@inacayal.com.ar');
 
             $this->email->subject('Reseteo de password');
             $this->email->message('Tu nuevo password es: '.$nuevopass);

@@ -1,11 +1,16 @@
 <?php
-if ($this->session->userdata('logged_in') == FALSE) {
-    redirect(site_url().'?msg=Por+favor+verifica+los+datos+de+acceso', 'refresh');
-}
 /* variables */
+if ($this->session->userdata('logged_in') == FALSE) {
+    redirect(site_url().'?msg=Por+favor+verifica+los+datos+de+acceso&head='.time(), 'refresh');
+}
+
 $nivel = $this->session->userdata('level');
-$options = array( '0' => 'Administrador', '1' => 'Manager', '2' => 'Broker' );
-$titulo=$options[$nivel];
+if($nivel!=''){
+    $options = array( '0' => 'Administrador', '1' => 'Gerente de Proyecto', '2' => 'Broker' );
+    $titulo=$options[$nivel];
+} else {
+     $titulo='YYD Group';
+}
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
@@ -98,11 +103,13 @@ $titulo=$options[$nivel];
                                 <span class="username username-hide-on-mobile"> <?php echo $this->session->userdata('firstname') .' '.$this->session->userdata('lastname') ?></span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
+                                <?php if($titulo!='') { ?>
                                 <li>
                                     <a href="javascript:;">
-                                        <i class="icon-lock"></i> Perfil: <?php echo $titulo ?>
+                                        <i class="icon-lock"></i> <?php echo $titulo ?>
                                     </a>
                                 </li>
+                                <? } ?>
                                 <?php if($this->session->userdata('project')!='') { ?>
                                 <li style="overflow: hidden;">
                                     <a href="javascript:;">

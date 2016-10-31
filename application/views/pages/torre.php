@@ -423,7 +423,7 @@
 
                 if(info.status>2){ 
                     $('#detalle ul').append('<li><strong>Broker:</strong> <span id="brokerInfo">No disponible</span></li>');
-                    $('#detalle ul').append('<li><strong>Comprador:</strong> <span id="buyerInfo">No disponible</span></li>');
+                    $('#detalle ul').append('<li><strong>Cliente:</strong> <span id="buyerInfo">No disponible</span></li>');
                 }
 
                 if(res.owner && res.owner.name!=null){

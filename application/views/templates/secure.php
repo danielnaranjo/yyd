@@ -1,14 +1,6 @@
 <?php
-/*
-	if (isset($this->session->userdata['logged_in'])) {
-	    $username = ($this->session->userdata['logged_in']['username']);
-	    //$email = ($this->session->userdata['logged_in']['email']);
-	} else {
-	    header("location: ../");
-	}
-	*/
-	if ($this->session->userdata('logged_in') == FALSE) {
-	    redirect(site_url().'?msg=Por+favor+verifica+los+datos+de+acceso', 'refresh');
+	if ($this->session->userdata('logged_in') == FALSE && $this->session->userdata('level')!=0) {
+	    redirect(site_url().'?msg=Por+favor+verifica+los+datos+de+acceso&secure='.time(), 'refresh');
 	}
 ?>
 <script>

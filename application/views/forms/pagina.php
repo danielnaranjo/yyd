@@ -5,8 +5,11 @@ $title ="";
 $model = $this->uri->segment(1);
 $action = $this->uri->segment(3);
 $nivel = $this->session->userdata('level');
-$property_id = $this->session->userdata('property_id');
-
+    if($nivel==1) {
+        $property_id = $this->session->userdata('property_id');
+    } else {
+        $property_id = $this->input->get("property_id");
+    }
     if($action=='edit'){
         $titulo="Modificar";
         $btn = "Guardar";
@@ -118,13 +121,39 @@ window.onload = function(){
     });
     $('#password').val('');
     <?php } ?>
-    <?php 
-        if($this->uri->segment(4)!='') {
-            $property_id=$this->uri->segment(4);
-    ?>
-        console.log(<?=$property_id ?>);
-        $('#property_id').attr('readonly',true);
-        $('#property_id option[value="<?=$property_id ?>"]').attr('selected',true);
-        <?php } ?>
+    <?php  
+        if($this->uri->segment(4)!='' && $model=='administrator' && $nivel!=0) { ?>
+        $('#property_id').parent().parent().attr('style','display:none;');
+        $('#property_id').replaceWith('<input type="hidden" value="<?=$property_id ?>" id="property_id" name="property_id" />');
+    <?php } ?>
+
+    <?php if($action=='upload') {?>
+        $("#btn<?=strtoupper($action)?>").attr('disabled',true);
+        $("input:file").change(function (){
+            var fileName = $(this).val();
+            $("#btn<?=strtoupper($action)?>").removeAttr('disabled');
+        });
+    <?php } ?>
+
+    <?php if($action=='new') {?>
+        $("#btn<?=strtoupper($action)?>").attr('disabled',true);
+        $("input").change(function (){
+            $("#btn<?=strtoupper($action)?>").removeAttr('disabled');
+        });
+    <?php } ?>
+
+    <?php  
+        if($this->uri->segment(4)!='' && $model=='property_amenities') { ?>
+        $('#property_id').parent().parent().attr('style','display:none;');
+        $('#property_id').replaceWith('<input type="hidden" value="<?=$this->uri->segment(4)?>" id="property_id" name="property_id" />');
+        console.log(<?=$this->uri->segment(4)?>)
+    <?php } ?>
+
+    <?php  
+        if($this->uri->segment(4)!='' && $model=='property_photo') { ?>
+        $('#property_id').parent().parent().attr('style','display:none;');
+        $('#property_id').replaceWith('<input type="hidden" value="<?=$this->uri->segment(4)?>" id="property_id" name="property_id" />');
+        console.log(<?=$this->uri->segment(4)?>)
+    <?php } ?>
 };
 </script>

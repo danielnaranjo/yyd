@@ -174,7 +174,7 @@
         $data['result'] = $this->Property_model->ver($id);
         $data['properties'] = $this->Property_model->listar();
         $data['brokers'] = $this->Administrator_model->listar();
-        $data['clients'] = $this->Client_model->listar();
+        $data['clients'] = $this->Client_model->todolosclientes();
 
         if($this->session->userdata('project')==''){
             $nombreamostrar=$data['result']['name'];

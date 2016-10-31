@@ -101,7 +101,7 @@
                                     <div class="form-actions">     
                                         <div class="row">       
                                             <div class="col-md-offset-3 col-md-9">
-                                                <input type="submit" name="Submit" value="<?=$btn?>" class="btn blue">
+                                                <input type="submit" name="Submit" value="<?=$btn?>" class="btn blue" id="btnSubmit">
                                             </div>  
                                         </div>
                                     </div>
@@ -126,6 +126,13 @@ window.onload = function(){
     $.each(data, function (index, value) {
         $('#'+index).val(value);
     });
+    <?php } ?>
+
+    <?php if($ejecutar=='created') {?>
+        $("#btnSubmit").attr('disabled',true);
+        $("input").change(function (){
+            $("#btnSubmit").removeAttr('disabled');
+        });
     <?php } ?>
 };
 </script>
