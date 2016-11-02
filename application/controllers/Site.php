@@ -81,19 +81,20 @@ class Site extends CI_Controller {
             $mydomain = "yydgroup.com";
             $nuevopass = "YYD".date('dmY');
 
-            $this->email->from('no-responder@yydgroup.com', 'Webadmin YYD Group');
+            $this->email->from('no-responder@yydgroup.com', 'YYD Group (webadmin)');
             $this->email->to($login);
             $this->email->cc('info@yydgroup.com');
             $this->email->bcc('soporte@inacayal.com.ar');
-
             $this->email->subject('Reseteo de password');
-            $this->email->message('Tu nuevo password es: '.$nuevopass);
+            $this->email->message('Tu nuevo password es: '.$nuevopass.' *** NO responder. Este es un mensaje automatico, si Usted no ha realizado esta solicitud, por favor, comuniquese con el administrador del sitio de forma inmediata. *** ');
             $this->email->send();
 
-            redirect(site_url().'?msg=Hemos+enviado+un+nuevo+password+por+correo&status=true','location');
+            $newpass = md5($nuevopass);
+            $res = $this->db->query("UPDATE administrator SET password='$newpass' WHERE email='$login' ");
+            redirect(site_url().'?msg=Hemos+enviado+un+nuevo+password+por+correo&status=true','location',302);
             //
         } else {
-            redirect(site_url().'?msg=Por+favor+verifica+los+datos+de+acceso&status=','location');
+            redirect(site_url().'?msg=Por+favor+verifica+los+datos+de+acceso&status=','location',302);
         }
     }
 

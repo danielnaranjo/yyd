@@ -136,11 +136,13 @@
             'payment_type' => $this->input->post("payment_type"),
             'date' => $this->input->post("date"),
             'notes' => $this->input->post("notes"),
-            'status' => $this->input->post("status"),
+            'status' => 1,
         );
         $data = $this->Transaction_model->registrar($data);
         if($data){
-            redirect('property/all', 'location');
+            $query = $this->db->query("INSERT INTO transaction_client (transaction_id,client_id) VALUES (".$data.",".$this->input->post("client_id").")");
+            //redirect('administrator/', 'location');
+            echo true;
         }
     }
     public function update(){

@@ -120,7 +120,7 @@
         }
         public function registrar($data){
             $query = $this->db->insert('transaction', $data);
-            return $query;
+            return $this->db->insert_id();
         }
         public function updatear($id, $data){
             $this->db->where('transaction_id', $id);

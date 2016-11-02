@@ -50,7 +50,7 @@
         } else {
             $nombreamostrar=$this->session->userdata('project');
         }
-        $data['titulo'] = $nombreamostrar.' > Compradores';
+        $data['titulo'] = $nombreamostrar.' > Clientes';
 
         //$data['fields'] = $this->Client_model->columnaspersonalizadas();
         //echo json_encode($data);
@@ -211,7 +211,7 @@
 
     public function create(){
         $data['paises'] = $this->Client_model->listadepaises();
-        $data['titulo'] = 'Nuevo comprador';
+        $data['titulo'] = 'Nuevo cliente';
         $data['ejecutar'] ="created";
         //seguridad
         $this->load->view('templates/secure');
@@ -263,7 +263,7 @@
 
     public function edit($id){
         $data['paises'] = $this->Client_model->listadepaises();
-        $data['titulo'] = 'Editar comprador';
+        $data['titulo'] = 'Editar cliente';
         $data['ejecutar'] ="edited";
         $data['result'] = $this->Client_model->mostrar($id);
         //seguridad

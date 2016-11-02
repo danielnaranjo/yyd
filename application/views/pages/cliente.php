@@ -75,18 +75,19 @@ $nivel = $this->session->userdata('level');
                                 <div class="uppercase profile-stat-title"> <?php echo $unity[0]['total_feet'] ?> </div>
                                 <div class="uppercase profile-stat-text"> Pies </div>
                             </div>-->
+                            
                             <div class="col-md-6 col-sm-6 col-xs-6">
-                                <div class="uppercase profile-stat-title"> <?php echo $parking['number'] ?> </div>
+                                <div class="uppercase profile-stat-title"> <?php if($parking['number']!='') { echo $parking['number']; } else { echo "0"; } ?> </div>
                                 <div class="uppercase profile-stat-text"> Parking </div>
                             </div>
                         </div>
-                        <? } else {?>
+                        <? } else { /*?>
                         <div>
                             <div class="margin-top-20 margin-bottom-30 profile-desc-text">
-                                <a href="#" class="btn btn-default btn-block">Agregar unidad</a>
+                                <a href="/" class="btn btn-default btn-block">Agregar unidad</a>
                             </div>
                         </div>
-                        <? } ?>
+                        <? */ } ?>
                         <!-- END STAT -->
                         <? if(count($info)>0) { ?>
                         <div>
@@ -94,15 +95,21 @@ $nivel = $this->session->userdata('level');
                             <span class="profile-desc-text">
                                 <!-- descripcion -->
                             </span>
+                            <? if($info[0]['address']!='') { ?>
                             <div class="margin-top-20 profile-desc-text">
                                 Dirección: <?php echo $info[0]['address'] ?>. <?php echo $info[0]['city'].', '.$info[0]['country'] ?>
                             </div>
+                            <? } ?>
+                            <? if($info[0]['phone']!='') { ?>
                             <div class="margin-top-20 profile-desc-text">
                                 Teléfono: <?php echo auto_link($info[0]['phone']) ?>
                             </div>
+                            <? } ?>
+                            <? if($info[0]['email']!='') { ?>
                             <div class="margin-top-20 profile-desc-text">
                                 E-mail: <?php echo mailto($info[0]['email'], $info[0]['email']) ?>
                             </div>
+                            <? } ?>
                         </div>
                         <? } ?>
                     </div>
@@ -358,14 +365,21 @@ $nivel = $this->session->userdata('level');
                     <?=form_input(array('type'=>'hidden','name'=>'client_id','id'=>'client_id','value'=> $result[0]['client_id']))?>
                     
                     <div class="form-group">
-                        <?=form_label('Monto','Monto', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <?=form_label('Tipo de pago','Tipo de pago', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
-                        <? $options = array('0'=>'Efectivo','1'=>'Transferencia','2'=>'Cheque','3'=>'Tarjeta de Credito','4'=>'Otros'); ?>
-                        <?= form_dropdown(array('name'=>'amount','id'=>'amount','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Monto'),$options)?>
+                        <? $options = array('1'=>'Seña','2'=>'Cuota','3'=>'Reserva','4'=>'Contado'); ?>
+                        <?= form_dropdown(array('name'=>'transaction_type','id'=>'transaction_type','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Tipo de pago'),$options)?>
                         </div>
                     </div>
                     <div class="form-group">
-                        <?=form_label('Monto','Monto', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <?=form_label('Forma de pago','Forma de pago', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <? $options = array('0'=>'Efectivo','1'=>'Transferencia','2'=>'Cheque','3'=>'Tarjeta de Credito','4'=>'Otros'); ?>
+                        <?= form_dropdown(array('name'=>'payment_type','id'=>'payment_type','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Monto'),$options)?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?=form_label('Monto (USD)','Monto', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
                         <?= form_input(array('name'=>'amount','id'=>'amount','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Monto'))?>
                         </div>
@@ -379,13 +393,14 @@ $nivel = $this->session->userdata('level');
                     <div class="form-group">
                         <?=form_label('Fecha','Fecha', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
-                        <?= form_input(array('name'=>'date','id'=>'date','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Fecha'))?>
+                        <?= form_input(array('name'=>'date','id'=>'date','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Fecha de transacción', 'value'=>date('Y-m-d H:i:s')))?>
                         </div>
                     </div>
                     <div class="form-group">
                         <?=form_label('Comentarios','Comentarios', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
-                        <?=form_textarea(array('name'=>'note','id'=>'note','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Comentarios'))?>
+                        <?=form_textarea(array('name'=>'notes','id'=>'notes','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Comentarios'))?>
+                        <small>Opcional</small>
                         </div>
                     </div>
                     <div class="form-actions">
@@ -446,9 +461,11 @@ $nivel = $this->session->userdata('level');
                                     <li>
                                         Superficie: <?php echo $unity[0]['total_feet'] ?> pies
                                     </li>
+                                    <? if($parking>0) {?>
                                     <li>
                                         Parking: <?php echo $parking ?></strong> 
                                     </li>
+                                    <? } ?>
                                 </ul>
                             </div>
                         </div>
@@ -545,6 +562,35 @@ window.onload = function(){
                 //form[0].reset();
                 $('.modal form input, .modal form select, .modal form textarea').val('');
                 $('#basic').modal('hide');
+                }
+            }
+        });
+    });
+
+    $("#addmoney #Submit").click(function(event) {
+        event.preventDefault();
+        var params = { 
+            'property_id' : $("#property_id").val(),
+            'broker_id' : $("#broker_id").val(),
+            'client_id' : $("#client_id").val(),
+            'notes' : $("#notes").val(),
+            'amount' : $("#amount").val(),
+            'number' : $("#number").val(),
+            'transaction_type' : $("#transaction_type").val(),
+            'payment_type' : $("#payment_type").val(),
+            'date' : $("#date").val(),
+        }
+        console.log('params', params);
+        jQuery.ajax({
+            type: "POST",
+            url: "<?php echo site_url(); ?>/transaction/add",
+            dataType: 'json',
+            data: params,
+            success: function(res) {
+                if(res) {
+                    toastr.success('Información actualizada!');
+                    console.log(res);
+                    $('#transactions').modal('hide');
                 }
             }
         });

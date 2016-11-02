@@ -37,7 +37,7 @@ $nivel=$this->session->userdata('level');
                         Editar propiedad
                     </a>
                     <a class="btn dark btn-outline" href="<?php echo site_url() ?>/property_amenities/by/<?php echo $result['property_id']?>">
-                        <i class="fa fa-building"></i> Amerities
+                        <i class="fa fa-building"></i> Amenities
                     </a>
                     <!--<a class="btn dark btn-outline" href="<?php echo site_url() ?>/property_parking/by/<?php echo $result['property_id']?>">
                         <i class="fa fa-car"></i> Parking
@@ -114,39 +114,27 @@ $nivel=$this->session->userdata('level');
                             <p>Proyecto de <?php echo $result['floors']?> pisos y <?php echo $result['unities']?> unidades por piso. <?php if($result['parking']!='') { ?>Cuenta con <?php echo $result['parking']?> puestos de parking exclusivos.<?php } ?></p>
                             <?php } ?>
                         </div>
+                        <div class="blog-single-desc">
+                            <p>
+                            <strong>Ubicación</strong><br>
+                            <?php echo $result['address']?>. <?php echo $result['city']?> <?php echo $result['province']?>. <?php echo $result['country']?><br>
+                            Teléfono(s): <?php echo $result['phone']?><br>
+                            E-mail: <a href="mailto:<?php echo $result['email']?>"><?php echo $result['email']?></a><br>
+                            </p>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="blog-single-sidebar bordered blog-container">
-                        <div class="blog-single-sidebar-recent">
-                            <h3 class="blog-sidebar-title uppercase">Ubicación</h3>
-                            <ul>
-                                <li>
-                                    <a href="#"><?php echo $result['address']?></a>
-                                </li>
-                                <li>
-                                    <a href="#"><?php echo $result['city']?> <?php echo $result['province']?></a>
-                                </li>
-                                <li>
-                                    <a href="#"><?php echo $result['country']?></a>
-                                </li>
-                                <li>
-                                    <a href="#"><?php echo $result['phone']?></a>
-                                </li>
-                                <li>
-                                    <a href="#"><?php echo $result['email']?></a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="blog-single-sidebar-tags">
+                        <div class="">
                             <h3 class="blog-sidebar-title uppercase">
-                                Amerities
+                                Amenities
                                 <?php if($nivel!=2) { ?><a href="<?php echo site_url() ?>/property_amenities/by/<?php echo $result['property_id']?>"><i class="fa fa-pencil"></i></a><? } ?>
                             </h3>
-                            <ul class="blog-post-tags">
+                            <ul>
                                 <?php  foreach($features as $feat) { ?>
-                                <li class="uppercase">
-                                    <a href="javascript:;"><?php echo $feat['name'] ?></a>
+                                <li>
+                                    <?php echo $feat['name'] ?>
                                 </li>
                                 <?php } ?>
                             </ul>

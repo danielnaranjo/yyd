@@ -86,17 +86,19 @@
                         $ouput.="</tr>";
                         // pisos
                         for($i=$pisos; $i>=$lobby; $i--){
-                            $ouput.="<tr>";
-                            $ouput.="<td style=\"background-color:#2b3643;color:#fff;\"><strong>".$i."</strong></td>";// Pisos
-                            for($j=1; $j<=$unidades; $j++){
-                                $ouput.="<td id=\"".$i.'0'.$j."\">";
-                                $ouput.="<a href=\"javascript:getInfo(".$i.'0'.$j.",".$propiedad.");\">";
-                                $ouput.=$i.'0'.$j;
-                                $ouput.="</a>";
-                                $ouput.="</td>";
-                                if($j==$unidades){
-                                    $ouput.="<td style=\"background-color:#2b3643;color:#fff;\"><strong>".$i."</strong></td>";// Pisos
-                                    $ouput.="</tr>";
+                            if($i!=13){
+                                $ouput.="<tr>";
+                                $ouput.="<td style=\"background-color:#2b3643;color:#fff;\"><strong>".$i."</strong></td>";// Pisos
+                                for($j=1; $j<=$unidades; $j++){
+                                    $ouput.="<td id=\"".$i.'0'.$j."\">";
+                                    $ouput.="<a href=\"javascript:getInfo(".$i.'0'.$j.",".$propiedad.");\">";
+                                    $ouput.=$i.'0'.$j;
+                                    $ouput.="</a>";
+                                    $ouput.="</td>";
+                                    if($j==$unidades){
+                                        $ouput.="<td style=\"background-color:#2b3643;color:#fff;\"><strong>".$i."</strong></td>";// Pisos
+                                        $ouput.="</tr>";
+                                    }
                                 }
                             }
                         }
@@ -390,7 +392,7 @@
                 $('#detalle #infoUnity').html('<ul></ul>');
                 $('#detalle ul').append('<li><strong>Tipo:</strong> '+info.type+'</li>');
                 $('#detalle ul').append('<li><strong>Orientación:</strong> '+info.orientation+'</li>');
-                $('#detalle ul').append('<li><strong>Superficie (pies/metros):</strong> '+info.total_feet+' pies / '+ info.total_feet +' metros <br><br></li>');
+                $('#detalle ul').append('<li><strong>Superficie (pies/metros):</strong> '+info.total_feet+' pies&sup2; / '+ info.total_mts +' metros&sup2; <br><br></li>');
                 $('#detalle ul').append('<li><strong>Precio:</strong> USD $'+info.price+'</li>');
                 $('#detalle ul').append('<li><strong>Precio (pies/metros):</strong> USD $'+info.price_feet +' pies / USD $'+info.price_mts+' metros<br><br></li>');
 
@@ -452,9 +454,9 @@
             getNotes(info.property_unity_id,id);
 
             // agregar info al parking
-            $('#addparking #property_unity_id').val(info.property_unity_id);
-            $('#addparking #client_id').val(res.owner.Id);
-            $('#addparking #unidad').val(info.number);
+            //$('#addparking #property_unity_id').val(info.property_unity_id);
+            //$('#addparking #client_id').val(res.owner.Id);
+            //$('#addparking #unidad').val(info.number);
 
             /*//parking
             if(parkeo.length>0 && parkeo.length<4){
@@ -467,7 +469,14 @@
                 //toastr.error('Ha alcanzado el maximo disponible puestos de parking por unidad');
             }*/
             $('#detalle ul').append('<li><strong>Parking:</strong> <span id="parkingInfo">Sin parking</span></li>');
-            $('#parkingInfo').html(parkeo[0].number+' puesto(s)');
+            
+            var puestos = 0,
+                puestosasignados = parkeo[0].number;
+            if(puestosasignados>0){
+                puestos = parkeo[0].number;
+            }
+            $('#parkingInfo').html(puestos+' puesto(s)');
+            $('#addsell #parking').val(puestos);
         });
     };
     var getData = function(){

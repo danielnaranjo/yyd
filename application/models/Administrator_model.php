@@ -37,7 +37,7 @@
 
         public function registrar($data){
             $query = $this->db->insert('administrator', $data);
-            return $query;
+            return $this->db->insert_id();
         }
         public function updatear($id, $data){
             $this->db->where('administrator_id', $id);

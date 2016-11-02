@@ -212,6 +212,8 @@
         $data = $this->Administrator_model->registrar($data);
         //echo json_encode($data);
         if($data){
+            $query = $this->db->query("INSERT INTO property_broker (property_id,broker_id) VALUES (".$this->input->post("property_id").",".$data.")");
+
             redirect('administrator/', 'location');
         }
     }
