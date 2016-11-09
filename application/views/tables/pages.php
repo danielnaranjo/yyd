@@ -238,16 +238,16 @@ if($titulo==''){
                                             <i class="fa fa-eye"></i> 
                                             Ver <? if($nivel==2) { ?>perfil<? } else { ?>/ Editar<? } ?>
                                         </a>
-
-                                        <?php /*if($nivel!=0) { ?>
-                                        <i class="fa fa-calendar-check-o" aria-hidden="true"></i> 
-                                        <a class="view" href="javascript:;" onclick="javascript:visit(<? echo $r[$model.'_id']?>,1)">
-                                            Visita
-                                        </a>
-                                        <? } */?>
                                         <? } ?>
 
-                                        <?php if($model=="property") { ?>
+                                        <?php if($model=="property" && $action=="unities" && $nivel!=2) { ?>
+                                        <a class="edit" href="<? echo site_url()?>/property_unity/action/edit/<? echo $r['property_unity_id']?>">
+                                            <i class="fa fa-eye"></i> 
+                                            Editar
+                                        </a>
+                                        <? } ?>
+
+                                        <?php if($model=="property" && $action=="all") { ?>
                                         <a class="view" href="<? echo site_url()?>/<?php echo $model ?>/see/<? echo $r[$model.'_id']?>">
                                             <i class="fa fa-eye"></i> 
                                             Ver <? if($nivel==2) { ?>proyecto<? } else { ?>/ Editar<? } ?>

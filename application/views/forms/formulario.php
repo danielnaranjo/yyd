@@ -69,7 +69,7 @@ function makeaform($fields, $model, $nivel, $action, $btn, $tables, $property_id
 							echo form_input($atributes);
 						} else {
 							$selected = "";
-							$options = array( '0' => 'Seleccionar' );
+							$options = array( '0' => ' ' );
 							//Recibe el nombre de la tabla
 							foreach ($tables as $table) { // <- PENDIENTE CON ESTO!!!
 								$options[$table['property_id']]=$table['name'];
