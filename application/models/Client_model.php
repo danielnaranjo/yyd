@@ -79,8 +79,15 @@
             $this->db->update('client', $data);
         }
         public function deletear($id){
-            $this->db->where('client_id', $id);
-            $this->db->delete('client');
+            //$this->db->where('client_id', $id);
+            //$this->db->delete('client');
+            $query = $this->db->query("DELETE FROM client WHERE client_id=$id");
+            $query = $this->db->query("DELETE FROM client_visits WHERE client_id=$id");
+            $query = $this->db->query("DELETE FROM client_data WHERE client_id=$id");
+            $query = $this->db->query("DELETE FROM client_data WHERE client_id=$id");
+            $query = $this->db->query("DELETE FROM client_log WHERE client_id=$id");
+            $query = $this->db->query("DELETE FROM property_client WHERE client_id=$id");
+            $query = $this->db->query("DELETE FROM property_parking WHERE client_id=$id");
         }
         public function enlazar($data){
             $query = $this->db->insert('client_visits', $data);

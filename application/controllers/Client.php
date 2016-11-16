@@ -13,7 +13,7 @@
     {        
         //$data = $this->Client_model->listar();//AQUI
         //echo json_encode($data);
-        $data['titulo'] = 'Compradores';
+        $data['titulo'] = 'Clientes';
         $data['result'] = $this->Client_model->listar();
 
         //seguridad

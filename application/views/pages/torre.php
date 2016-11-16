@@ -641,7 +641,7 @@
                 unidad: $(formId+" #unidad").val(),
                 parking: $(formId+" #parking").val()
             }
-            //console.debug('params',params)
+            console.debug('params',params)
             jQuery.ajax({
                 type: "POST",
                 url: "<?php echo site_url(); ?>/property_unity/marked",
@@ -670,6 +670,16 @@
                 $(formId+" #client_id").removeAttr('readonly');
             }
         });
+        $('#comprador #addsell #client_id').on('change', function(){
+            var clienteId = $(this).val();
+            var formId = "#addsell";
+            if(clienteId>0){
+                $(formId+" #status").val(3);
+            } else {
+                $(formId+" #status").val(0);
+            }
+        });
+
         $("#SubmitParking").click(function(event){
             event.preventDefault();
             var formId = "#parking #addparking";
