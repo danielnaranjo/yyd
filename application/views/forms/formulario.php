@@ -159,6 +159,7 @@ function makeaform($fields, $model, $nivel, $action, $btn, $tables, $property_id
 					//}
 					$atributes['type'] = 'hidden';
 					echo form_input($atributes, mdate($datestring, $time));
+					//echo "<script>if (jQuery().datepicker) { $('#".$field->name."').datepicker();}</script>";
 					break;
 				case 'decimal':
 					echo form_input($atributes);

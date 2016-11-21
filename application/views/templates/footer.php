@@ -28,6 +28,7 @@
         <script src="<?php echo base_url()?>assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url()?>assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url()?>assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+
         <!-- END CORE PLUGINS -->
         <!-- BEGIN PAGE LEVEL PLUGINS -->
         <script src="<?php echo base_url()?>assets/global/plugins/moment.min.js" type="text/javascript"></script>
@@ -70,6 +71,8 @@
         <script src="<?php echo base_url()?>assets/pages/scripts/portfolio-1.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url()?>assets/global/plugins/bootstrap-toastr/toastr.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url()?>assets/pages/scripts/ui-toastr.min.js" type="text/javascript"></script>
+        <script src="<?php echo base_url()?>assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script>
+       <!--<script src="<?php echo base_url()?>assets/pages/scripts/components-date-time-pickers.min.js" type="text/javascript"></script> -->
         <!-- END PAGE LEVEL SCRIPTS -->
 
         <!-- BEGIN THEME LAYOUT SCRIPTS -->

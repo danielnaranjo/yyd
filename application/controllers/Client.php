@@ -7,6 +7,7 @@
         $this->load->model('Client_model');//AQUI
         $this->load->model('Client_info_model');//AQUI
         $this->load->model('Property_model');//AQUI
+        $this->load->model('Bank_model');//AQUI
     }
 
     public function index()
@@ -102,6 +103,7 @@
         $data['unity'] = $this->Client_info_model->compra($id);
         $data['parking'] = $this->Client_info_model->parkeo($id);
         $data['notes'] = $this->Client_info_model->notas($id);
+        $data['bank'] = $this->Bank_model->listar();
 
         // header
         $this->load->view('templates/header');
@@ -109,6 +111,7 @@
         $this->load->view('templates/menu');
         // main
         $this->load->view('pages/cliente', $data);
+        //echo json_encode($data);
         // footer
         $this->load->view('templates/footer');
     }

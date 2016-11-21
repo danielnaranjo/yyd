@@ -144,7 +144,7 @@ $nivel = $this->session->userdata('level');
                                             <tr>
                                                 <td> <?php echo $m['lastname'] ?> </td>
                                                 <td> $<?php echo number_format($m['amount'],2) ?> </td>
-                                                <td> <a data-toggle="modal" href="#basic" class="primary-link"><?php echo $m['number'] ?></a> </td>
+                                                <td> <a data-toggle="modal" href="#basic" class="primary-link"><?php if($m['number']!='') { echo $m['number']; } else { echo "Efectivo"; } ?></a> </td>
                                                 <td> <?php echo $m['date'] ?> </td>
                                             </tr>
                                             <?php } ?>
@@ -367,14 +367,19 @@ $nivel = $this->session->userdata('level');
                     <div class="form-group">
                         <?=form_label('Tipo de pago','Tipo de pago', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
-                        <? $options = array('1'=>'Seña','2'=>'Cuota','3'=>'Reserva','4'=>'Contado'); ?>
+                        <? $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión'); ?>
                         <?= form_dropdown(array('name'=>'transaction_type','id'=>'transaction_type','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Tipo de pago'),$options)?>
                         </div>
                     </div>
                     <div class="form-group">
                         <?=form_label('Forma de pago','Forma de pago', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
-                        <? $options = array('0'=>'Efectivo','1'=>'Transferencia','2'=>'Cheque','3'=>'Tarjeta de Credito','4'=>'Otros'); ?>
+                        <? //$options = array('0'=>'Efectivo','1'=>'Transferencia','2'=>'Cheque','3'=>'Tarjeta de Credito','4'=>'Otros'); ?>
+                        
+                        <?php foreach ($bank as $b) {
+                            $options[$b['bank_id']]=$b['name'];
+                            }
+                        ?>
                         <?= form_dropdown(array('name'=>'payment_type','id'=>'payment_type','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Monto'),$options)?>
                         </div>
                     </div>
@@ -393,7 +398,7 @@ $nivel = $this->session->userdata('level');
                     <div class="form-group">
                         <?=form_label('Fecha','Fecha', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
-                        <?= form_input(array('name'=>'date','id'=>'date','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Fecha de transacción', 'value'=>date('Y-m-d H:i:s')))?>
+                        <?= form_input(array('name'=>'date','id'=>'date','class'=> 'form-control date-picker','autocomplete'=>'off','placeholder'=>'Fecha de transacción'))//, 'value'=>date('Y-m-d H:i:s')?>
                         </div>
                     </div>
                     <div class="form-group">
@@ -443,7 +448,7 @@ $nivel = $this->session->userdata('level');
                                 <h3>Cliente:</h3>
                                 <ul class="list-unstyled">
                                     <li> <?php echo $result[0]['firstname'].' '. $result[0]['lastname'] ?> </li>
-                                    <li> <?php echo $info[0]['address'] ?>.  </li>
+                                    <li> <?php echo $info[0]['address'] ?> </li>
                                     <li> <?php echo $info[0]['city'] ?> </li>
                                     <li> <?php echo @$info[0]['phone'] ?> </li>
                                     <li> <?php echo @$info[0]['country'] ?> </li>
@@ -463,7 +468,13 @@ $nivel = $this->session->userdata('level');
                                     </li>
                                     <? if($parking>0) {?>
                                     <li>
-                                        Parking: <?php echo $parking ?></strong> 
+                                        Parking: <?php 
+                                            //if(@$parking!='' && $parking[0]) { 
+                                                echo $parking['number']; 
+                                            //} else { 
+                                            //    echo "0"; 
+                                            //} 
+                                        ?></strong> 
                                     </li>
                                     <? } ?>
                                 </ul>
@@ -591,9 +602,32 @@ window.onload = function(){
                     toastr.success('Información actualizada!');
                     console.log(res);
                     $('#transactions').modal('hide');
+                    setTimeout(function(){
+                        location.reload()
+                    }, 3000);
                 }
             }
         });
     });
+    if (jQuery().datepicker) { 
+        $('#date').datepicker({
+            format:{
+                toDisplay: function (date, format, language) {
+                    var d = new Date(date);
+                    d.setDate(d.getDate());
+                    return d.toISOString();
+                },
+                toValue: function (date, format, language) {
+                    var d = new Date(date);
+                    d.setDate(d.getDate());
+                    return new Date(d);
+                }
+            }
+             /*'yyyy-mm-dd'*/,
+            autoclose: true,
+            todayBtn: 'linked',
+            todayHighlight: true
+        });
+    }
 }
 </script>
