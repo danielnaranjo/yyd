@@ -245,6 +245,10 @@ if($titulo==''){
                                             <i class="fa fa-eye"></i> 
                                             Editar
                                         </a>
+                                        <a class="delete" href="javascript:;" onclick="javascript:check(<? echo $r['property_unity_id']?>);">
+                                            <i class="fa fa-trash"></i> 
+                                           Borrar
+                                        </a>
                                         <? } ?>
 
                                         <?php if($model=="property" && $action=="all") { ?>
@@ -261,7 +265,7 @@ if($titulo==''){
                                         </a>
                                         <? } ?>
                                         
-                                        <?php if($nivel==0) { ?>
+                                        <?php if($nivel==0 && $action!="unities") { ?>
                                         <a class="delete" href="javascript:;" onclick="javascript:check(<? echo $r[$model.'_id']?>);">
                                             <i class="fa fa-trash"></i> 
                                            Borrar
@@ -286,8 +290,21 @@ if($titulo==''){
 function check(id){
     // confirm delete or not
     if (confirm('Desea eliminar este registro?','Acción requerida')) {
-        window.location.href="<? echo site_url()?>/<?php echo $model ?>/delete/"+id;
-        toastr.success('Acción ejecutada con exito!');
+        //window.location.href="<? echo site_url()?>/<?php echo $model ?>/delete/"+id;
+        <? if($model=='property' && $action=='unities') { ?>
+        var Url='<? echo site_url()?>/property_unity/delete/'+id;
+        <? } else { ?>
+        var Url='<? echo site_url()?>/<?=$model?>/delete/'+id;
+        <? } ?>
+        $.ajax({
+            url: Url,
+            method: "GET",
+        }).done(function(data) {
+            toastr.success('Acción ejecutada con exito!');
+            setTimeout(function(){
+                location.reload();
+            }, 3000);
+        });
     } else {
         return false;
     }

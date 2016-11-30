@@ -35,8 +35,8 @@ $property_id=$this->session->userdata('property_id');
                                     <? if($nivel==0) { ?><th> Proyecto </th><? } ?>
                                     <th> Tipo de Unidad </th>
                                     <th> Total </th>
-
                                     <th> No disponibles </th>
+                                    
                                     <th> Disponibles </th>
                                     <th> Reservadas </th>
                                     <th> Vendidas </th>
@@ -56,6 +56,7 @@ $property_id=$this->session->userdata('property_id');
                                     <td> <?php echo $r['type'] ?> </td>
                                     <td> <?php echo $r['total']; $t +=$r['total']; ?> </td>
                                     <td> <?php echo $r['none']; $n +=$r['none']; ?> </td>
+                                    
                                     <td> <?php echo $r['available']+$r['free']; $af +=$r['available']+$r['free']; ?> </td>
                                     <td> <?php echo $r['reserved']; $re +=$r['reserved']; ?> </td>
                                     <td> <?php echo $r['sold']; $s +=$r['sold']; ?> </td>
@@ -65,12 +66,12 @@ $property_id=$this->session->userdata('property_id');
                             <tfoot>
                                 <tr>
                                     <td>  </td>
+                                    <td> </td>
                                     <td> <?php echo $t ?> </td>
                                     <td> <?php echo $n ?> </td>
                                     <td> <?php echo $af ?> </td>
                                     <td> <?php echo $re ?> </td>
                                     <td> <?php echo $s ?> </td>
-                                    <td>  </td>
                                 </tr>
                             </tfoot>
                         </table>

@@ -1,6 +1,9 @@
 <?
 /* variables */
 $nivel = $this->session->userdata('level');
+ 
+/* General para ambos formularios */
+$options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
 ?>
 <div class="page-content-wrapper">
     <!-- BEGIN CONTENT BODY -->
@@ -120,32 +123,40 @@ $nivel = $this->session->userdata('level');
                 <div class="profile-content">
                     <div class="row">
                         <?php if($nivel!=2) {?>
-                        <div class="col-md-6">
+                        <div class="col-md-7">
                             <!-- BEGIN PORTLET -->
                             <div class="portlet light ">
                                 <div class="portlet-title">
                                     <div class="caption caption-md">
                                         <span class="caption-subject font-blue-madison bold uppercase">Transacciones</span>
-                                        <a data-toggle="modal" href="#transactions" ><i class="fa fa-pencil"></i></a>
+                                        <a data-toggle="modal" href="#transactions" ><i class="fa fa-plus"></i></a>
                                     </div>
                                 </div>
                                 <div class="portlet-body">
-                                    <div class="table-scrollable table-scrollable-borderless">
+                                    <div class="table-scrollable table-scrollable-borderless" style="max-height:500px;overflow-y:auto;">
                                         <table class="table table-hover table-light">
                                             <thead>
                                                 <tr class="uppercase">
                                                     <th> BROKER </th>
                                                     <th> MONTO </th>
-                                                    <th> TRANSACCION </th>
+                                                    <th> FORMA DE PAGO </th>
                                                     <th> FECHA </th>
+                                                    <th> </th>
                                                 </tr>
                                             </thead>
                                             <?php foreach($transactions as $m) {?>
                                             <tr>
                                                 <td> <?php echo $m['lastname'] ?> </td>
                                                 <td> $<?php echo number_format($m['amount'],2) ?> </td>
-                                                <td> <a data-toggle="modal" href="#basic" class="primary-link"><?php if($m['number']!='') { echo $m['number']; } else { echo "Efectivo"; } ?></a> </td>
-                                                <td> <?php echo $m['date'] ?> </td>
+                                                <td> <?php echo $m['bank']; ?>. <?=strtoupper($options[$m['transaction_type']]) ?></td>
+                                                <td> <?php echo nice_date($m['date'],'d/m/Y') ?> </td>
+                                                <td> 
+                                                    <?php if($nivel!=2) { ?>
+                                                    <a data-toggle="modal" href="#basic" class="primary-link"> <i class="fa fa-search"></i></a> 
+                                                    <a class="edit" href="javascript:edit(<?=$m['transaction_id']?>);"> <i class="fa fa-pencil"></i></a>
+                                                    <a class="delete" href="javascript:;" onclick="javascript:check(<?=$m['transaction_id']?>);"> <i class="fa fa-trash"></i></a>
+                                                <?php }  ?>
+                                                </td>
                                             </tr>
                                             <?php } ?>
                                             <?php if(count($transactions)==0) { ?>
@@ -367,7 +378,6 @@ $nivel = $this->session->userdata('level');
                     <div class="form-group">
                         <?=form_label('Tipo de pago','Tipo de pago', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
-                        <? $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión'); ?>
                         <?= form_dropdown(array('name'=>'transaction_type','id'=>'transaction_type','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Tipo de pago'),$options)?>
                         </div>
                     </div>
@@ -377,10 +387,10 @@ $nivel = $this->session->userdata('level');
                         <? //$options = array('0'=>'Efectivo','1'=>'Transferencia','2'=>'Cheque','3'=>'Tarjeta de Credito','4'=>'Otros'); ?>
                         
                         <?php foreach ($bank as $b) {
-                            $options[$b['bank_id']]=$b['name'];
+                            $payment[$b['bank_id']]=$b['name'];
                             }
                         ?>
-                        <?= form_dropdown(array('name'=>'payment_type','id'=>'payment_type','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Monto'),$options)?>
+                        <?= form_dropdown(array('name'=>'payment_type','id'=>'payment_type','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Forma de pago'),$payment)?>
                         </div>
                     </div>
                     <div class="form-group">
@@ -393,6 +403,7 @@ $nivel = $this->session->userdata('level');
                         <?=form_label('Numero','Numero', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
                         <?= form_input(array('name'=>'number','id'=>'number','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Numero'))?>
+                        <small class="help-block">Opcional</small>
                         </div>
                     </div>
                     <div class="form-group">
@@ -405,13 +416,13 @@ $nivel = $this->session->userdata('level');
                         <?=form_label('Comentarios','Comentarios', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
                         <?=form_textarea(array('name'=>'notes','id'=>'notes','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Comentarios'))?>
-                        <small>Opcional</small>
+                        <small class="help-block">Opcional</small>
                         </div>
                     </div>
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-offset-3 col-md-9">
-                                <?=form_submit('Submit', 'Agregar pago', ['class'=>'btn blue','id'=>'Submit'])?>
+                                <?=form_submit('Submit', 'Guardar', ['class'=>'btn blue','id'=>'Submit'])?>
                             </div>
                         </div>
                     </div>
@@ -486,15 +497,18 @@ $nivel = $this->session->userdata('level');
                                     <thead>
                                         <tr class="uppercase">
                                             <th> MONTO </th>
-                                            <th> TRANSACCION </th>
+                                            <th> METODO / TRANSACCION </th>
                                             <th> FECHA </th>
                                         </tr>
                                     </thead>
                                     <?php $total=0; foreach($transactions as $m) {?>
                                     <tr>
                                         <td> USD $<?php echo number_format($m['amount'],2); $total += $m['amount']; ?> </td>
-                                        <td> <?php echo $m['number'] ?> </td>
-                                        <td> <?php echo $m['date'] ?> </td>
+                                        <td> 
+                                            <?php echo $m['bank'] ?> <?php if($m['number']!='') { echo 'Ref. '.$m['number']; } ?>. 
+                                            <?=strtoupper($options[$m['transaction_type']]) ?>   
+                                        </td>
+                                        <td> <?php echo nice_date($m['date'],'d/m/Y') ?> </td>
                                     </tr>
                                     <?php } ?>
                                 </table>
@@ -518,9 +532,9 @@ $nivel = $this->session->userdata('level');
                             </div>-->
                             <div class="col-xs-8 col-xs-offset-4 invoice-block">
                                 <ul class="list-unstyled amounts">
-                                    <li>
+                                    <!--<li>
                                         <strong>Sub - Total amount:</strong> USD $0.00 
-                                    </li>
+                                    </li>-->
                                     <li>
                                         <strong>Total:</strong> USD $<?=number_format($total,2) ?>
                                     </li>
@@ -529,9 +543,9 @@ $nivel = $this->session->userdata('level');
                                 <a class="btn blue hidden-print margin-bottom-5" onclick="javascript:window.print();"> Imprimir
                                     <i class="fa fa-print"></i>
                                 </a>
-                                <a class="btn green hidden-print margin-bottom-5"> Enviar
+                                <!--<a class="btn green hidden-print margin-bottom-5"> Enviar
                                     <i class="fa fa-check"></i>
-                                </a>
+                                </a>-->
                             </div>
                         </div>
                     </div>
@@ -539,6 +553,71 @@ $nivel = $this->session->userdata('level');
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn dark btn-outline" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="transactionEdit" tabindex="-1" role="note" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Transacciones</h4>
+            </div>
+            <div class="modal-body">
+                <?php echo form_open_multipart('', ['id'=>"editar", 'class'=>"form-horizontal", 'role'=>"form"]); ?>                   
+                    <div class="form-group">
+                        <?=form_label('Tipo de pago','Tipo de pago', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?= form_dropdown(array('name'=>'transaction_type','id'=>'transaction_type','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Tipo de pago'),$options)?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?=form_label('Forma de pago','Forma de pago', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">                        
+                        <?php foreach ($bank as $b) {
+                            $payment[$b['bank_id']]=$b['name'];
+                            }
+                        ?>
+                        <?= form_dropdown(array('name'=>'payment_type','id'=>'payment_type','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Forma de pago'),$payment)?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?=form_label('Monto (USD)','Monto', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?= form_input(array('name'=>'amount','id'=>'amount','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Monto'))?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?=form_label('Numero','Numero', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?= form_input(array('name'=>'number','id'=>'number','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Numero'))?>
+                        <small class="help-block">Opcional</small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?=form_label('Fecha','Fecha', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?= form_input(array('name'=>'date','id'=>'date','class'=> 'form-control date-picker','autocomplete'=>'off','placeholder'=>'Fecha de transacción'))?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?=form_label('Comentarios','Comentarios', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?=form_textarea(array('name'=>'notes','id'=>'notes','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Comentarios'))?>
+                        <small class="help-block">Opcional</small>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-3 col-md-9">
+                                <?=form_submit('Submit', 'Guardar', ['class'=>'btn blue','id'=>'Submited'])?>
+                            </div>
+                        </div>
+                    </div>
+                    <?= form_input(array('name'=>'transaction_id', 'id'=>'transaction_id', 'type'=> 'hidden'))?>
+                <?php echo form_close();?>
             </div>
         </div>
     </div>
@@ -556,6 +635,26 @@ window.onload = function(){
             toastr.success('Visita registrada!');
         });
     }
+    //if (jQuery().datepicker) { 
+        $('#date').datepicker({
+            format:{
+                toDisplay: function (date, format, language) {
+                    var d = new Date(date);
+                    d.setDate(d.getDate());
+                    return d.toISOString();
+                },
+                toValue: function (date, format, language) {
+                    var d = new Date(date);
+                    d.setDate(d.getDate());
+                    return new Date(d);
+                }
+            }
+             /*'yyyy-mm-dd'*/,
+            autoclose: true,
+            todayBtn: 'linked',
+            todayHighlight: true
+        });
+    //}
     $("#Submit").click(function(event) {
         event.preventDefault();
         var property_id = $("#property_id").val(),
@@ -609,25 +708,67 @@ window.onload = function(){
             }
         });
     });
-    if (jQuery().datepicker) { 
-        $('#date').datepicker({
-            format:{
-                toDisplay: function (date, format, language) {
-                    var d = new Date(date);
-                    d.setDate(d.getDate());
-                    return d.toISOString();
-                },
-                toValue: function (date, format, language) {
-                    var d = new Date(date);
-                    d.setDate(d.getDate());
-                    return new Date(d);
-                }
+}
+var edit = function(id){
+    console.log('Edit on ', id);
+    $('#transactionEdit form')[0].reset();
+    $('#transactionEdit select option').removeAttr('selected');
+    var formId = "#editar";
+    $.getJSON('<?=site_url() ?>/transaction/view/'+id, function(data) {
+        console.debug('data',data);
+        $(formId +" #transaction_id").val(data.transaction_id);
+        $(formId +" #notes").val(data.notes);
+        $(formId +" #amount").val(data.amount);
+        $(formId +" #number").val(data.number);
+        $(formId +" #date").val(data.date);
+        //$(formId +' #transaction_type option:selected').val(data.transaction_type).prop('selected', true);
+        //$(formId +' #payment_type option:selected').val(data.payment_type).prop('selected', true);
+        $(formId +' #transaction_type').val(data.transaction_type).prop('selected', true);
+        $(formId +' #payment_type').val(data.payment_type).prop('selected', true);
+
+        $('#transactionEdit').modal('show'); 
+    });
+    $("#transactionEdit #editar #Submited").click(function(event) {
+        event.preventDefault();
+        var params = { 
+            'transaction_id' : $(formId +" #transaction_id").val(),
+            'notes' : $(formId +" #notes").val(),
+            'amount' : $(formId +" #amount").val(),
+            'number' : $(formId +" #number").val(),
+            'transaction_type' : $(formId +" #transaction_type").val(),
+            'payment_type' : $(formId +" #payment_type").val(),
+            'date' : $(formId +" #date").val(),
+        }
+        console.log('params', params);
+        jQuery.ajax({
+            type: "POST",
+            url: "<?php echo site_url(); ?>/transaction/modify",
+            dataType: 'json',
+            data: params,
+        }).done(function(res){
+            console.log('success',res);
+            if(res) {
+                toastr.success('Información actualizada!');
+                //console.log(res);
+                $('#transactionEdit').modal('hide');
+                setTimeout(function(){
+                    location.reload()
+                }, 3000);
             }
-             /*'yyyy-mm-dd'*/,
-            autoclose: true,
-            todayBtn: 'linked',
-            todayHighlight: true
-        });
+        }).fail(function(err){
+            toastr.error('Ha ocurrido un error');
+            console.log('error',err);
+        });/**/
+    });
+}
+function check(id){
+    // confirm delete or not
+    if (confirm('Desea eliminar este registro?','Acción requerida')) {
+        window.location.href="<? echo site_url()?>/transaction/delete/"+id;
+        toastr.success('Acción ejecutada con exito!');
+        location.reload();
+    } else {
+        return false;
     }
 }
 </script>

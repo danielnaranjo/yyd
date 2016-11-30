@@ -378,7 +378,7 @@
         $('#detalle #infoUnity').html('<img src="<?=base_url() ?>/assets/global/img/input-spinner.gif" />');
 
         $.getJSON('<?=site_url() ?>/transaction/info/'+id+'/'+property, function(res) {
-
+            console.log('res', res);
             var info = res.info,
                 broker = res.broker,
                 notes = res.notes, 

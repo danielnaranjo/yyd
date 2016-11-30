@@ -31,7 +31,7 @@
         }
 
         public function transacciones($id){
-            $query = $this->db->query("SELECT transaction.*, property.name, administrator.firstname, administrator.lastname FROM transaction LEFT JOIN transaction_client ON transaction.transaction_id=transaction_client.transaction_id LEFT JOIN property ON property.property_id=transaction.property_id LEFT JOIN administrator ON administrator.administrator_id=transaction.broker_id WHERE transaction_client.client_id=$id");
+            $query = $this->db->query("SELECT transaction.*, property.name, administrator.firstname, administrator.lastname, bank.name AS bank FROM transaction LEFT JOIN transaction_client ON transaction.transaction_id=transaction_client.transaction_id LEFT JOIN property ON property.property_id=transaction.property_id LEFT JOIN administrator ON administrator.administrator_id=transaction.broker_id LEFT JOIN bank ON transaction.payment_type=bank.bank_id WHERE transaction_client.client_id=$id");
             return $query->result_array();
         }
 

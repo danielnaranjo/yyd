@@ -20,6 +20,7 @@
     public function view($slug = NULL)
     {
         $data = $this->Transaction_model->listar($slug);//AQUI
+        echo json_encode($data);
     }
     /* FORMULARIOS */
     public function action($action = NULL, $id = NULL){
@@ -123,8 +124,9 @@
 
 
     public function delete($id){
-        $this->Transaction_model->deletear($id);
-         redirect('property/all', 'location', 302);
+        $data = $this->Transaction_model->deletear($id);
+        //redirect('property/all', 'location', 302);
+        echo json_encode($data);
     }
     public function add(){
         $data = array(
@@ -195,5 +197,18 @@
         $data['dash_available']=$af;
         $data['dash_reserved']=$re;
         $data['dash_sold']=$s;
+    }
+    public function modify(){
+        $id = $this->input->post("transaction_id");
+        $data = array(
+            'transaction_type' => $this->input->post("transaction_type"),
+            'amount' => $this->input->post("amount"),
+            'number' => $this->input->post("number"),
+            'payment_type' => $this->input->post("payment_type"),
+            'date' => $this->input->post("date"),
+            'notes' => $this->input->post("notes"),
+        );
+        $this->Transaction_model->updatear($id, $data);
+        echo true;
     }
 }
