@@ -141,12 +141,6 @@
                                 Modificar
                             </a>
                         </div>
-                        <!--<div class="col-sm-4" id="btnChange" style="display: none;">
-                            <a data-toggle="modal" href="#parking" class="btn btn-block dark">
-                                <i class="fa fa-car"></i>
-                                Parking <span class="badge" id="cantidadparqueo">0</span>
-                            </a>
-                        </div>-->
                         <div class="col-sm-6">
                             <a data-toggle="modal" href="#basic" class="btn btn-block btn-info">
                                 <i class="fa fa-pencil"></i>
@@ -396,36 +390,30 @@
                 $('#detalle ul').append('<li><strong>Precio:</strong> USD $'+info.price+'</li>');
                 $('#detalle ul').append('<li><strong>Precio (pies/metros):</strong> USD $'+info.price_feet +' pies / USD $'+info.price_mts+' metros<br><br></li>');
 
-                
-                //$('#detalle h4').html(res.status);
                 $('#boxStatus').attr('style','display:block');
 
                 if(info.status==0) {
                     $('#detalle ul').append('<li><strong>Estado: </strong> NO DISPONIBLE</li>');
                 } else if(info.status==2) {
                     $('#detalle ul').append('<li><strong>Estado: </strong> DISPONIBLE</li>');
-                    //$('#btnBuyer').attr('style','display:block');
-                    //$('#btnChange').attr('style','display:none;');
                 } else if(info.status==3) {
                     $('#detalle ul').append('<li><strong>Estado: </strong> RESERVADA</li>');
-                    //$('#btnBuyer').attr('style','display:none');
-                    //$('#btnChange').attr('style','display:block;');
                 } else if(info.status==4) {
                     $('#detalle ul').append('<li><strong>Estado: </strong> <strong>VENDIDA</strong></li>');
-                    //$('#btnBuyer').attr('style','display:none');
-                    //$('#btnChange').attr('style','display:inline');
                     $('#boxStatus').attr('style','display:none');
-                    
                 } else {
                     $('#detalle ul').append('<li><strong>Estado: </strong> DISPONIBLE</li>');
-                    //$('#detalle a').attr('href','#').text('Reservar').addClass('btn btn-default');
                     toastr.info('Es posible reservar esta unidad', 'Unidad #'+info.number);
-                    //$('#btnChange').attr('style','display:none;');
                 }
 
                 if(info.status>2){ 
                     $('#detalle ul').append('<li><strong>Broker:</strong> <span id="brokerInfo">No disponible</span></li>');
                     $('#detalle ul').append('<li><strong>Cliente:</strong> <span id="buyerInfo">No disponible</span></li>');
+                } 
+                if(info.status>3){
+                    $('#btnBuyer').attr('style','display:none;');
+                } else {
+                    $('#btnBuyer').attr('style','display:inline;');
                 }
 
                 if(res.owner && res.owner.name!=null){
@@ -453,21 +441,6 @@
             $('#addsell #status').val(info.status);
             getNotes(info.property_unity_id,id);
 
-            // agregar info al parking
-            //$('#addparking #property_unity_id').val(info.property_unity_id);
-            //$('#addparking #client_id').val(res.owner.Id);
-            //$('#addparking #unidad').val(info.number);
-
-            /*//parking
-            if(parkeo.length>0 && parkeo.length<4){
-                $('#cantidadparqueo').removeAttr('style').text(parkeo.length);
-                //$('#cantidadparqueo').parent().attr('href','#parking');
-                toastr.success('Parking disponible para asignar');
-            } else {
-                $('#cantidadparqueo').attr('style','display:none;');
-                $('#cantidadparqueo').parent().attr('href','<? echo site_url() ?>/property_parking/by/<?php echo $Id ?>');
-                //toastr.error('Ha alcanzado el maximo disponible puestos de parking por unidad');
-            }*/
             $('#detalle ul').append('<li><strong>Parking:</strong> <span id="parkingInfo">Sin parking</span></li>');
             
             var puestos = 0,
@@ -490,33 +463,35 @@
                 reserved = 0,
                 sold = 0;
             for(var i = 0; i<st.length; i++){
-                if(st[i].status==0) {
+                var statusProp = parseFloat(st[i].status),
+                    currentProp = st[i].number;
+                if(statusProp==0) {
                     <?php if($nivel==2) { ?>
-                    $('#'+st[i].number).html(st[i].number);
+                    $('#'+currentProp).html(currentProp);
                     <?php } ?>
-                    $('#'+st[i].number).removeAttr('class').addClass('bg-default');
+                    $('#'+currentProp).removeAttr('class').addClass('bg-default');
                     $('#bagde-none').text(none);
-                    $('#btnBuyer').attr('style','display:none;');
+                    //$('#btnBuyer').attr('style','display:none;');
                     none+=1;
-                } else if(st[i].status==1) {
-                    $('#'+st[i].number).removeAttr('class').addClass('bg-default');
-                    $('#btnBuyer').attr('style','display:inline;');
+                } else if(statusProp==1) {
+                    $('#'+currentProp).removeAttr('class').addClass('bg-default');
+                    //$('#btnBuyer').attr('style','display:inline;');
                     $('#bagde-available').text(available);
                     free+=1;
-                } else if(st[i].status==2) {
-                    $('#'+st[i].number).removeAttr('class').addClass('bg-success');
-                    $('#btnBuyer').attr('style','display:inline;');
+                } else if(statusProp==2) {
+                    $('#'+currentProp).removeAttr('class').addClass('bg-success');
+                    //$('#btnBuyer').attr('style','display:inline;');
                     $('#bagde-free').text(free);
                     free+=1;
-                } else if(st[i].status==3) {
-                    $('#'+st[i].number).removeAttr('class').addClass('bg-warning');
+                } else if(statusProp==3) {
+                    $('#'+currentProp).removeAttr('class').addClass('bg-warning');
                     $('#bagde-reserved').text(reserved);
-                    $('#btnBuyer').attr('style','display:none;');
+                    //$('#btnBuyer').attr('style','display:inline;');
                     reserved+=1;
-                } else if(st[i].status==4) {
-                    $('#'+st[i].number).removeAttr('class').addClass('bg-danger');
+                } else if(statusProp==4) {
+                    $('#'+currentProp).removeAttr('class').addClass('bg-danger');
                     $('#bagde-sold').text(sold);
-                    $('#btnBuyer').attr('style','display:none;');
+                    //$('#btnBuyer').attr('style','display:none;');
                     $('#btnChange').attr('style','display:inline;');
                     sold+=1;
                 } else {
