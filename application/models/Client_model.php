@@ -10,10 +10,29 @@
 
         public function listar($id = FALSE){
             if ($id === FALSE) {
-                $query = $this->db->query('SELECT property.name, client.* FROM property_client LEFT JOIN property ON property.property_id=property_client.property_id LEFT JOIN client ON property_client.client_id=client.client_id WHERE property_client.property_id');//AQUI
+                $query = $this->db->query('
+                SELECT 
+                    property.name,
+                    property_unity.number,  
+                    client.* 
+                FROM property_client 
+                    LEFT JOIN property ON property.property_id=property_client.property_id 
+                    LEFT JOIN client ON property_client.client_id=client.client_id 
+                    LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id
+                WHERE property_client.property_id
+                ');//AQUI
                 return $query->result_array();
             }
-            $query = $this->db->query('SELECT property.name, client.* FROM property_client LEFT JOIN property ON property.property_id=property_client.property_id LEFT JOIN client ON property_client.client_id=client.client_id WHERE property_client.property_id='.$id);//AQUI
+            $query = $this->db->query('
+                SELECT 
+                    property.name,
+                    property_unity.number,   
+                    client.* 
+                FROM property_client 
+                    LEFT JOIN property ON property.property_id=property_client.property_id 
+                    LEFT JOIN client ON property_client.client_id=client.client_id 
+                    LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id
+                WHERE property_client.property_id='.$id);//AQUI
             return $query->row_array();
         }
 
@@ -21,14 +40,16 @@
 
             $sql="
             SELECT 
-                property.*, 
+                property.*,
+                property_unity.number, 
                 client.*, 
-                client_info.* 
+                client_info.*
             FROM property_client 
                 LEFT JOIN property ON property.property_id=property_client.property_id 
                 LEFT JOIN client ON property_client.client_id=client.client_id 
                 LEFT JOIN client_data ON client_data.client_id=client.client_id
                 LEFT JOIN client_info ON client_info.client_info_id =client_data.client_info_id
+                LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id
             ";
            
             if ($this->session->userdata('level')!=0) {
@@ -123,12 +144,33 @@
         }
 
         public function columnaspersonalizadas(){
-            $sql = "SELECT property.property_id, client.* FROM property_client LEFT JOIN property ON property.property_id=property_client.property_id LEFT JOIN client ON property_client.client_id=client.client_id LEFT JOIN client_info ON client.client_id=client_info.client_info_id WHERE client.status=1";
+            $sql = "
+                SELECT 
+                    property.property_id,
+                    property_unity.number,
+                    client.*
+                FROM property_client 
+                    LEFT JOIN property ON property.property_id=property_client.property_id 
+                    LEFT JOIN client ON property_client.client_id=client.client_id 
+                    LEFT JOIN client_info ON client.client_id=client_info.client_info_id
+                    LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id 
+                WHERE client.status=1";
             $query = $this->db->query($sql);
             return $query->field_data();
         }
         public function compradores() {
-            $sql="SELECT property.property_id, client.* FROM property_client LEFT JOIN property ON property.property_id=property_client.property_id LEFT JOIN client ON property_client.client_id=client.client_id LEFT JOIN client_info ON client.client_id=client_info.client_info_id WHERE client.status=1"; 
+            $sql="
+            SELECT 
+                property.property_id, 
+                property_unity.number,
+                client.*
+            FROM property_client 
+                LEFT JOIN property ON property.property_id=property_client.property_id 
+                LEFT JOIN client ON property_client.client_id=client.client_id 
+                LEFT JOIN client_info ON client.client_id=client_info.client_info_id 
+                LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id
+            WHERE client.status=1
+            "; 
             $query = $this->db->query($sql);
             return $query->result_array();
         }
