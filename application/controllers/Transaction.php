@@ -211,4 +211,28 @@
         $this->Transaction_model->updatear($id, $data);
         echo true;
     }
+    /* 13/12/2016 Cashflow */
+    public function cashflow(){
+        $data['result'] = $this->Transaction_model->ingresos();
+        $data['fields'] = $this->Transaction_model->camposdeingresos();
+        //$data['cash'] = $this->Transaction_model->ventaspormes();
+        $data['titulo'] = 'Cashflow';
+        
+        //seguridad
+        $this->load->view('templates/secure');
+        // header
+        $this->load->view('templates/header');
+        // sidebar
+        $this->load->view('templates/menu');
+        // main
+        $this->load->view('tables/ventas', $data);
+        // footer
+        $this->load->view('templates/footer');
+        
+        /*echo json_encode($data);*/
+    }
+    public function bymonth(){
+        $data = $this->Transaction_model->ventaspormes();
+        echo json_encode($data);
+    }
 }

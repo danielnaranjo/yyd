@@ -89,6 +89,11 @@ $nivel = $this->session->userdata('level');
                 </a>
                 <ul class="sub-menu">
                     <li class="nav-item">
+                        <a href="<?php echo site_url() ?>/transaction/cashflow" class="nav-link ">
+                            <span class="title">Cashflow</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="<?php echo site_url() ?>/transaction/countries" class="nav-link ">
                             <span class="title">Nacionalidades</span>
                         </a>

@@ -277,4 +277,80 @@
             $query = $this->db->get_where('property_unity', array('property_unity_id' => $id));
             return $query->row_array();
         }
+        /* 13/12/2016 Cashflow */
+        public function ingresos(){
+            $sql = "
+                SELECT 
+                    property_unity.number AS unidad,
+                    CONCAT (client.firstname, ' ', client.lastname) as propietario,
+                    DATE_FORMAT(transaction.date,'%d/%m/%Y') AS fecha,
+                    SUM(transaction.amount) AS total,
+                    property_unity.price AS precio,
+                    client.client_id
+                FROM transaction_client 
+                    LEFT JOIN transaction ON transaction_client.transaction_id=transaction.transaction_id
+                    LEFT JOIN client ON transaction_client.client_id=client.client_id
+                    LEFT JOIN property_client ON transaction_client.client_id=property_client.client_id
+                    LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id
+                GROUP BY property_unity.number
+                ORDER BY unidad ASC
+            ";/*SELECT COUNT(*) AS cantidad, SUM(amount) AS total, MONTH(date) AS mes
+                FROM transaction
+                GROUP BY MONTH(date)
+                ORDER BY MONTH(date) ASC*/
+            $query = $this->db->query($sql);
+            return $query->result_array();
+        }
+        public function camposdeingresos(){
+            $sql = "
+               SELECT 
+                    property_unity.number AS unidad,
+                    CONCAT (client.firstname, ' ', client.lastname) as propietario,
+                    DATE_FORMAT(transaction.date,'%d/%m/%Y') AS fecha,
+                    SUM(transaction.amount) AS total,
+                    property_unity.price AS precio,
+                    client.client_id
+                FROM transaction_client 
+                    LEFT JOIN transaction ON transaction_client.transaction_id=transaction.transaction_id
+                    LEFT JOIN client ON transaction_client.client_id=client.client_id
+                    LEFT JOIN property_client ON transaction_client.client_id=property_client.client_id
+                    LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id
+                GROUP BY property_unity.number
+                ORDER BY unidad ASC
+            ";
+            $query = $this->db->query($sql);
+            return $query->list_fields();
+        }
+        public function ventaspormes(){
+            $sql = "
+                SELECT 
+                    property_unity.number AS u,
+                    COUNT(*) AS c, 
+                    CONCAT('$', FORMAT(SUM(amount), 2)) AS t,#SUM(amount) AS t,
+                    MONTH(date)  AS m,
+                    MONTHNAME(date) AS n,
+                    DATE_FORMAT(date,'%y') AS a
+                FROM transaction_client 
+                    LEFT JOIN transaction ON transaction_client.transaction_id=transaction.transaction_id
+                    LEFT JOIN client ON transaction_client.client_id=client.client_id
+                    LEFT JOIN property_client ON transaction_client.client_id=property_client.client_id
+                    LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id
+                GROUP BY MONTH(date),property_unity.number
+                ORDER BY YEAR(date),MONTH(date) ASC
+            ";
+            $query = $this->db->query($sql);
+            return $query->result_array();
+        }
 }
+
+/*SELECT 
+                  property_unity.number AS unidad,
+                  amount AS total, 
+                  CONCAT(MONTH(date),'-',YEAR(date)) as periodo
+                FROM transaction_client 
+                  LEFT JOIN transaction ON transaction_client.transaction_id=transaction.transaction_id
+                  LEFT JOIN client ON transaction_client.client_id=client.client_id
+                  LEFT JOIN property_client ON transaction_client.client_id=property_client.client_id
+                  LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id
+                ORDER BY MONTH(date) ASC
+                */
