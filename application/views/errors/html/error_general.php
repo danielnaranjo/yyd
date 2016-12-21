@@ -39,7 +39,7 @@ h1 {
 			Oops! Something went wrong. <?php echo $heading; ?>
 		</h1>
 		<p>We are fixing it! Please come back in a while. Try again or <a href="/">contact</a> support</p>
-		<p><?php echo $message; ?></p>
+		<pre><?php echo $message; ?></pre>
 	</div>
 </body>
 </html>
