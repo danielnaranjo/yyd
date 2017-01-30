@@ -1,6 +1,6 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	
+
 	class Client_info_model extends CI_Model {//AQUI
 
         public function __construct()
@@ -15,23 +15,23 @@
 
         public function visita($id){
             $query = $this->db->query("
-            SELECT 
-                client_visits.*, 
-                client.lastname, 
+            SELECT
+                client_visits.*,
+                client.lastname,
                 property.*,
                 client_log.*
-            FROM client_visits 
-                LEFT JOIN client ON client_visits.client_id=client.client_id 
-                LEFT JOIN property ON property.property_id=client_visits.client_id 
+            FROM client_visits
+                LEFT JOIN client ON client_visits.client_id=client.client_id
+                LEFT JOIN property ON property.property_id=client_visits.client_id
                 LEFT JOIN client_log ON client_log.client_id=client.client_id
-            WHERE client_visits.client_id=$id  
+            WHERE client_visits.client_id=$id
             ORDER BY client_log.client_log_id DESC
             ");
             return $query->result_array();
         }
 
         public function transacciones($id){
-            $query = $this->db->query("SELECT transaction.*, property.name, administrator.firstname, administrator.lastname, bank.name AS bank FROM transaction LEFT JOIN transaction_client ON transaction.transaction_id=transaction_client.transaction_id LEFT JOIN property ON property.property_id=transaction.property_id LEFT JOIN administrator ON administrator.administrator_id=transaction.broker_id LEFT JOIN bank ON transaction.payment_type=bank.bank_id WHERE transaction_client.client_id=$id");
+            $query = $this->db->query("SELECT transaction.*, property.name, administrator.firstname, administrator.lastname, bank.name AS bank FROM transaction LEFT JOIN transaction_client ON transaction.transaction_id=transaction_client.transaction_id LEFT JOIN property ON property.property_id=transaction.property_id LEFT JOIN administrator ON administrator.administrator_id=transaction.broker_id LEFT JOIN bank ON transaction.payment_type=bank.bank_id WHERE transaction_client.client_id=$id ORDER BY transaction.date DESC");
             return $query->result_array();
         }
 
@@ -54,7 +54,7 @@
             $query=$this->db->query("SELECT property_parking.* FROM property_parking LEFT JOIN property ON property_parking.property_id=property.property_id WHERE property_parking.client_id=$id");
             return $query->row_array(); //$query->num_rows();
         }
-        
+
         public function columnas(){
             $query = $this->db->field_data('client_info');
             return $query;
