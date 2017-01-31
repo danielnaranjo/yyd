@@ -1,4 +1,4 @@
-<? 
+<?
     $nivel = $this->session->userdata('level');
     if($this->uri->segment(3)==''){
         $Id = $this->session->userdata('property_id');
@@ -37,7 +37,7 @@
         </div>
         <!-- END PAGE BAR -->
         <!-- BEGIN PAGE TITLE-->
-        <h3 class="page-title"> 
+        <h3 class="page-title">
             <?php echo $titulo ?>
             <div class="actions pull-right">
                 <div class="btn-group">
@@ -52,7 +52,7 @@
                     <ul class="dropdown-menu pull-right">
                         <li>
                             <a href="<?php echo site_url() ?>/property/unities/<?php echo $Id ?>">
-                                <i class="fa fa-building"></i> Ver <?php if($nivel!=2) { ?>/ Agregar<?php } else { echo "Unidades"; } ?> 
+                                <i class="fa fa-building"></i> Ver <?php if($nivel!=2) { ?>/ Agregar<?php } else { echo "Unidades"; } ?>
                             </a>
                         </li>
                         <li>
@@ -62,7 +62,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>    
+            </div>
         </h3>
         <!-- END PAGE TITLE-->
         <!-- END PAGE HEADER-->
@@ -77,7 +77,7 @@
                         $ouput.="<tr>";
                         for($j=0; $j<=$unidades; $j++){
                             $ouput.="<td style=\"background-color:#2b3643;color:#fff;\">";
-                            if($j>0){ 
+                            if($j>0){
                                 $ouput.="<strong>".$j."</strong>";
                             }
                             $ouput.="</td>";
@@ -106,7 +106,7 @@
                         $ouput.="<tr>";
                         for($j=0; $j<=$unidades; $j++){
                             $ouput.="<td style=\"background-color:#2b3643;color:#fff;\">";
-                            if($j>0){ 
+                            if($j>0){
                                 $ouput.="<strong>".$j."</strong>";
                             }
                             $ouput.="</td>";
@@ -214,14 +214,14 @@
                     <div class="form-group">
                         <?=form_label('Estado','Estado', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
-                        <?php 
+                        <?php
                         $optionsStatus = array(
-                            //'-1' => 'Estado', 
-                            '4' => 'Vendida', 
-                            '3' => 'Reservada', 
+                            //'-1' => 'Estado',
+                            '4' => 'Vendida',
+                            '3' => 'Reservada',
                             '2' => 'Disponible',
                             '0' => 'No Disponible'
-                        ); 
+                        );
                         ?>
                         <?=form_dropdown(array('name'=>'status','id'=>'status','class'=> 'form-control','autocomplete'=>'off'), $optionsStatus)?>
                         </div>
@@ -229,12 +229,12 @@
                     <div class="form-group">
                         <?=form_label('Broker','Broker', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
-                        <? 
+                        <?
                             $optionsBroker=[];
                             $optionsBroker['0']='- Seleccione - ';
                             foreach($brokers as $broker) {
                                 $optionsBroker[$broker['administrator_id']]=$broker['firstname'].' '.$broker['lastname'];
-                            }   
+                            }
                         ?>
                         <?=form_dropdown(array('name'=>'broker_id','id'=>'broker_id','class'=> 'form-control','placeholder'=>'Clientes','autocomplete'=>'off'),$optionsBroker)?>
                         </div>
@@ -242,12 +242,12 @@
                     <div class="form-group">
                         <?=form_label('Cliente','Cliente', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
-                        <? 
+                        <?
                             $optionsClient=[];
                             $optionsClient['0']='- Seleccione - ';
                             foreach($clients as $client) {
                                 $optionsClient[$client['client_id']]=$client['firstname'].' '.$client['lastname']. ' ('.$client['country'].')';
-                            }   
+                            }
                         ?>
                         <?=form_dropdown(array('name'=>'client_id','id'=>'client_id','class'=> 'form-control','placeholder'=>'Clientes','autocomplete'=>'off'),$optionsClient)?>
                         </div>
@@ -326,12 +326,12 @@
                     <div class="form-group">
                         <?=form_label('Cliente','Cliente', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
-                        <? 
+                        <?
                             $optionsClient=[];
                             $optionsClient['0']='- Seleccione - ';
                             foreach($clients as $client) {
                                 $optionsClient[$client['client_id']]=$client['firstname'].' '.$client['lastname']. ' ('.$client['country'].')';
-                            }   
+                            }
                         ?>
                         <?=form_dropdown(array('name'=>'client_id','id'=>'client_id','class'=> 'form-control','placeholder'=>'Clientes','autocomplete'=>'off'),$optionsClient)?>
                         </div>
@@ -375,13 +375,13 @@
             console.log('res', res);
             var info = res.info,
                 broker = res.broker,
-                notes = res.notes, 
+                notes = res.notes,
                 parkeo = res.parking;
             $('#infoUnity').html(' ');
 
             <?php if($nivel==2) {  // se muestra solo en Project manager / administrador ?>
 
-            if(info.status!=0){ 
+            if(info.status!=0){
             <? } ?>
                 $('#detalle #infoUnity').html('<ul></ul>');
                 $('#detalle ul').append('<li><strong>Tipo:</strong> '+info.type+'</li>');
@@ -406,10 +406,10 @@
                     toastr.info('Es posible reservar esta unidad', 'Unidad #'+info.number);
                 }
 
-                if(info.status>2){ 
+                if(info.status>2){
                     $('#detalle ul').append('<li><strong>Broker:</strong> <span id="brokerInfo">No disponible</span></li>');
                     $('#detalle ul').append('<li><strong>Cliente:</strong> <span id="buyerInfo">No disponible</span></li>');
-                } 
+                }
                 if(info.status>3){
                     $('#btnBuyer').attr('style','display:none;');
                 } else {
@@ -434,7 +434,7 @@
             <?php } ?>
             //console.log('data', res);
 
-            // agrega info de compra 
+            // agrega info de compra
             $('#addsell #property_unity_id').val(info.property_unity_id);
             $('#addsell #client_id').val(res.owner.Id);
             $('#addsell #broker_id').val(res.owner.brokerID);
@@ -442,7 +442,7 @@
             getNotes(info.property_unity_id,id);
 
             $('#detalle ul').append('<li><strong>Parking:</strong> <span id="parkingInfo">Sin parking</span></li>');
-            
+
             var puestos = 0,
                 puestosasignados = parkeo[0].number;
             if(puestosasignados>0){
@@ -470,35 +470,32 @@
                     $('#'+currentProp).html(currentProp);
                     <?php } ?>
                     $('#'+currentProp).removeAttr('class').addClass('bg-default');
-                    $('#bagde-none').text(none);
-                    //$('#btnBuyer').attr('style','display:none;');
                     none+=1;
                 } else if(statusProp==1) {
                     $('#'+currentProp).removeAttr('class').addClass('bg-default');
-                    //$('#btnBuyer').attr('style','display:inline;');
-                    $('#bagde-available').text(available);
+                    console.log('statusProp:1', statusProp, '#'+currentProp);
                     free+=1;
                 } else if(statusProp==2) {
                     $('#'+currentProp).removeAttr('class').addClass('bg-success');
-                    //$('#btnBuyer').attr('style','display:inline;');
-                    $('#bagde-free').text(free);
                     free+=1;
                 } else if(statusProp==3) {
                     $('#'+currentProp).removeAttr('class').addClass('bg-warning');
-                    $('#bagde-reserved').text(reserved);
-                    //$('#btnBuyer').attr('style','display:inline;');
                     reserved+=1;
                 } else if(statusProp==4) {
                     $('#'+currentProp).removeAttr('class').addClass('bg-danger');
-                    $('#bagde-sold').text(sold);
-                    //$('#btnBuyer').attr('style','display:none;');
                     $('#btnChange').attr('style','display:inline;');
                     sold+=1;
                 } else {
                     //$('#bagde-free').text(st.length - none - sold -free - reserved);
+                    console.error('statusProp', statusProp,'#'+currentProp);
                 }
             }
-                //console.log('!',response, st.length, none, free, sold, reserved, available);
+            $('#bagde-none').text(none);
+            $('#bagde-sold').text(sold);
+            $('#bagde-reserved').text(reserved);
+            $('#bagde-free').text(free);
+            $('#bagde-available').text(available);
+            //console.log('Totales: ',none,available,free,reserved,sold);
         });
     }
     var remove = function(note_id){
@@ -543,7 +540,7 @@
     }
     var edit = function(note_id){
         console.log('edit', note_id);
-        
+
         $.getJSON('<?=site_url() ?>/note/view/'+note_id, function(response) {
             console.log('response', response);
             $('#editNote').modal('show');
@@ -565,7 +562,7 @@
                 type: "POST",
                 url: "<?php echo site_url(); ?>/note/update",
                 dataType: 'json',
-                data: params, 
+                data: params,
             })
             .success(function(res) {
                 toastr.success('Información actualizada!');
@@ -575,7 +572,7 @@
             });
         })
     }
-    
+
     window.onload = function(){
         console.log('Loaded!');
         getData();
@@ -593,7 +590,7 @@
                 type: "POST",
                 url: "<?php echo site_url(); ?>/note/add",
                 dataType: 'json',
-                data: params, //{ property_id: property_id, broker_id: broker_id, client_id: client_id, note: note },               
+                data: params, //{ property_id: property_id, broker_id: broker_id, client_id: client_id, note: note },
             })
             .success(function(res) {
                 console.log('res',res);
