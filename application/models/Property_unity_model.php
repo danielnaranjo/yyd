@@ -1,6 +1,6 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	
+
 	class Property_unity_model extends CI_Model {//AQUI
 
         public function __construct()
@@ -41,11 +41,11 @@
         }
         public function estado($id){
             $query = $this->db->get_where('property_unity', array('property_id' => $id));//AQUI
-            /*$sql="SELECT 
+            /*$sql="SELECT
                     property_unity.*,
                     client.*
-                FROM property_client 
-                    LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id 
+                FROM property_client
+                    LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id
                     LEFT JOIN client ON property_client.client_id =client.client_id
                 WHERE property.property_id=".$id;
             $query = $this->db->query($sql);
@@ -57,17 +57,17 @@
             $this->db->update('property_unity', $data);
         }
         public function asignar($data){
-            
+
             $this->db->where('property_unity_id', $data['property_unity_id']);
             $this->db->update('property_unity', array('status'=>$data['status']) );
             $query = $this->db->insert('property_client', $data);
-            
+
             //$broker = $data['broker'];
             //$query = $this->db->insert('property_broker', $broker);
             return $query;
         }
         public function propietario($number){
-            $sql="SELECT 
+            $sql="SELECT
                 administrator.administrator_id AS brokerID,
                 administrator.firstname AS brokerName,
                 administrator.lastname AS brokerSurname,
@@ -75,10 +75,10 @@
                 client.firstname AS name,
                 client.lastname AS surname,
                 client.client_id AS Id
-            FROM property_unity 
+            FROM property_unity
                 LEFT JOIN property_client ON property_client.property_unity_id = property_unity.property_unity_id
                 LEFT JOIN client ON client.client_id=property_client.client_id
-                LEFT JOIN administrator ON administrator.administrator_id=property_client.broker_id 
+                LEFT JOIN administrator ON administrator.administrator_id=property_client.broker_id
             WHERE property_unity.number='".$number."'";
             $query = $this->db->query($sql);
             return $query->row_array();

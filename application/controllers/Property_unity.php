@@ -9,7 +9,7 @@
     }
 
     public function index()
-    {        
+    {
         $data = $this->Property_unity_model->listar();//AQUI
         echo json_encode($data);
     }
@@ -24,7 +24,7 @@
         $data['model'] = "property_unity";
         $data['fields'] = $this->Property_unity_model->columnas();
         $data['tables'] = $this->Property_model->listar();//<-- Linea 79 / formulario.php
-        
+
         if($action){
             $data['action']="edit";// acction
             $data['btn']="Editar registro";// Texto boton
@@ -35,7 +35,7 @@
             $data['btn']="Agregar nuevo";// Texto boton
             $data['result'] = "";
         }
-        
+
         //seguridad
         $this->load->view('templates/secure');
         // header
@@ -57,6 +57,7 @@
             'number' => $this->input->post("number"),
             'type' => $this->input->post("type"),
             'orientation' => $this->input->post("orientation"),
+            'price' => $this->input->post("price"),
             'price_mts' => $this->input->post("price_mts"),
             'price_feet' => $this->input->post("price_feet"),
             'total_mts' => $this->input->post("total_mts"),
@@ -76,6 +77,7 @@
             'number' => $this->input->post("number"),
             'type' => $this->input->post("type"),
             'orientation' => $this->input->post("orientation"),
+            'price' => $this->input->post("price"),
             'price_mts' => $this->input->post("price_mts"),
             'price_feet' => $this->input->post("price_feet"),
             'total_mts' => $this->input->post("total_mts"),
@@ -85,7 +87,7 @@
         $this->Property_unity_model->updatear($id, $data);
         redirect('property/all', 'location');
     }
-    public function by($id) {        
+    public function by($id) {
         $data['titulo'] = 'Unidades';
         $data['result'] = $this->Property_unity_model->lista($id);
         $data['fields'] = $this->Property_unity_model->columnas();
@@ -113,7 +115,7 @@
         echo true;
     }
     public function marked(){
-        
+
         /*$persona = array(
             'property_id' => $this->input->post("property_id"),
             'broker_id' => $this->input->post("broker_id"),
@@ -178,9 +180,20 @@
             $sql="INSERT INTO property_parking (property_id,property_unity_id,client_id,number) VALUES (".$property_id.", ".$property_unity_id.", ".$client_id.", ".$parking.")";
             $this->db->query($sql);
         }
- 
+
         $data['n'] = $unidad;
         $data['p'] = $property_id;
+        echo json_encode($data);
+    }
+
+    public function json($id) {
+        $data = $this->Property_unity_model->listar($id);//AQUI
+        echo json_encode($data);
+    }
+    public function updateonsale(){
+        $id = $this->input->post("property_unity_id");
+        $this->Property_unity_model->updatear($id, $this->input->post(NULL, TRUE));
+        $data = $this->Property_unity_model->listar($id);
         echo json_encode($data);
     }
 }

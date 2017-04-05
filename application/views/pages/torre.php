@@ -363,7 +363,83 @@
     </div>
 </div>
 
+<!-- AQUI -->
+<div class="modal fade" id="editarprecio" tabindex="-1" role="basic" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Editar Precio de venta</h4>
+            </div>
+            <div class="modal-body">
+            <?php echo form_open_multipart('', ['id'=>"form-price", 'class'=>"form-horizontal", 'role'=>"form"]); ?>
+                    <?=form_input(array('type'=>'hidden','name'=>'property_unity_id','id'=>'property_unity_id'))?>
+                    <div class="form-group">
+                        <?=form_label('Precio','Precio', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?=form_input(array('name'=>'price','id'=>'price','class'=>'form-control','placeholder'=>'Precio de Venta','autocomplete'=>'off'))?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?=form_label('Precio pies','Precio pies', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?=form_input(array('name'=>'price_feet','id'=>'price_feet','class'=>'form-control','placeholder'=>'Precio pies','autocomplete'=>'off'))?>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?=form_label('Precio mts','Precio mts', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?=form_input(array('name'=>'price_mts','id'=>'price_mts','class'=>'form-control','placeholder'=>'Precio mts','autocomplete'=>'off'))?>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-9 col-md-3">
+                                <?=form_submit('SubmitEditPrice', 'Modificar', ['class'=>'btn blue btn-block','id'=>'SubmitEditPrice'])?>
+                            </div>
+                        </div>
+                    </div>
+                <?php echo form_close();?>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
+    var customPrice = function(property_unity_id){
+        console.log('editPrecio', property_unity_id);
+        $('#editarprecio').modal('show');
+        $.getJSON('<?=site_url() ?>/property_unity/json/'+property_unity_id, function(response) {
+            console.log('response', response);
+            $('#editarprecio').modal('show');
+            $('#editarprecio form #price').val(response.price);
+            $('#editarprecio form #price_feet').val(response.price_feet);
+            $('#editarprecio form #price_mts').val(response.price_mts);
+            $('#editarprecio form #property_unity_id').val(response.property_unity_id);
+        });
+        $('#SubmitEditPrice').on('click', function(event){
+            event.preventDefault();
+            var formId = "#form-price-note";// #form-edit-note
+            var params = {
+                price : $(formId +" #price").val(),
+                price_mts : $(formId +" #price_mts").val(),
+                price_feet : $(formId +" #price_feet").val(),
+                property_unity_id : $(formId +" #property_unity_id").val(),
+            }
+            jQuery.ajax({
+                type: "POST",
+                url: "<?php echo site_url(); ?>/property_unity/update",
+                dataType: 'json',
+                data: params,
+            })
+            .success(function(res) {
+                toastr.success('Información actualizada!');
+                $('.modal form input, .modal form select, .modal form textarea').val('');
+                $('.modal').modal('hide');
+                //getNotes(res);
+            });
+        })
+    }
     var getInfo = function(id, property){
         //console.info('getInfo', new Date());
         $('#detalle h3').html('Unidad '+id);
@@ -387,8 +463,9 @@
                 $('#detalle ul').append('<li><strong>Tipo:</strong> '+info.type+'</li>');
                 $('#detalle ul').append('<li><strong>Orientación:</strong> '+info.orientation+'</li>');
                 $('#detalle ul').append('<li><strong>Superficie (pies/metros):</strong> '+info.total_feet+' pies&sup2; / '+ info.total_mts +' metros&sup2; <br><br></li>');
-                $('#detalle ul').append('<li><strong>Precio:</strong> USD $'+info.price+'</li>');
-                $('#detalle ul').append('<li><strong>Precio (pies/metros):</strong> USD $'+info.price_feet +' pies / USD $'+info.price_mts+' metros<br><br></li>');
+<!-- AQUI -->
+                $('#detalle ul').append('<li><strong>Precio:</strong> USD $<span id="preciofull">'+info.price+'</span> <a href="javascript:customPrice('+ info.property_unity_id+')"><i class="fa fa-pencil"></i> Modificar</a></li>');// data-toggle="modal" href="#comprador"
+                $('#detalle ul').append('<li><strong>Precio (pies/metros):</strong> USD $<span id="preciopies">'+info.price_feet +'</span> pies / USD <span id="preciomts">$'+info.price_mts+'</span> metros<br><br></li>');
 
                 $('#boxStatus').attr('style','display:block');
 
@@ -427,7 +504,7 @@
                 $('#notes #note').val('Unidad #'+id+' Propiedad: '+property);
                 // populate property_unity_id
                 $('#addnote #property_unity_id').val(info.property_unity_id);
-                $('#unidad').val(info.number);
+<!-- AQUI -->   $('#unidad').val(info.number);// Unidad en el Modal
 
             <?php if($nivel==2) { ?>
             } // se muestra solo en Project manager / administrador
@@ -624,7 +701,6 @@
                 toastr.success('Información actualizada!');
                 console.info('SubmitBuyer', data);
                 getInfo(data.n,data.p);
-                getData();
                 $('#comprador').modal('hide');
             });
         });
@@ -677,6 +753,33 @@
                 //getInfo(data.n,data.p);
                 //getData();
                 $('#parking').modal('hide');
+            });
+        });
+
+        $("#SubmitEditPrice").click(function(event){
+            event.preventDefault();
+            var formId = "#form-price";
+            var params = {
+                price: $(formId+" #price").val(),
+                price_mts: $(formId+" #price_mts").val(),
+                price_feet: $(formId+" #price_feet").val(),
+                property_unity_id: $(formId+" #property_unity_id").val(),
+            }
+            console.debug('params',params)
+            jQuery.ajax({
+                type: "POST",
+                url: "<?php echo site_url(); ?>/property_unity/updateonsale",
+                dataType: 'json',
+                data: params,
+            })
+            .success(function(res) {
+                toastr.success('Información actualizada!');
+                console.info('SubmitEditPrice', res);
+                //getInfo(res.id, <?php echo $Id ?>);
+                $('span#preciofull').html(res.price);
+                $('span#preciopies').html(res.price_feet);
+                $('span#preciomts').html(res.price_mts);
+                $('#editarprecio').modal('hide');
             });
         });
     }

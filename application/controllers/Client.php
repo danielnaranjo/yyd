@@ -11,7 +11,7 @@
     }
 
     public function index()
-    {        
+    {
         //$data = $this->Client_model->listar();//AQUI
         //echo json_encode($data);
         $data['titulo'] = 'Clientes';
@@ -19,7 +19,7 @@
 
         //seguridad
         $this->load->view('templates/secure');
-        
+
         // header
         $this->load->view('templates/header');
         // sidebar
@@ -36,8 +36,8 @@
     }
 
     public function all(){
-        
-        if($this->session->userdata('level')==0){
+
+        if($this->session->userdata('level')!=2){
             $data['fields'] = $this->Client_model->columnaspersonalizadas();
             $data['result'] = $this->Client_model->compradores();
             $data['property'] = $this->Property_model->listar();
@@ -69,7 +69,7 @@
         $this->load->view('templates/footer');
     }
     public function count()
-    {        
+    {
         $data = $this->Client_model->contar();//AQUI
         echo json_encode($data);
     }
@@ -122,7 +122,7 @@
         $data['fields'] = $this->Client_model->columnas();
         $data['fieldsmore'] = $this->Client_info_model->columnas();
         $data['tables'] = ""; // <-- Linea 79 / formulario.php
-        
+
         if($action=='edit'){
             //$data['action']="edit";// acction
             //$data['btn']="Editar registro";// Texto boton
@@ -135,7 +135,7 @@
             $data['result'] = "";
             $data['resultmore'] = "";
         }
-        
+
         //seguridad
         $this->load->view('templates/secure');
         // header
@@ -226,7 +226,7 @@
         $this->load->view('forms/clientes', $data);
         // footer
         $this->load->view('templates/footer');
-        
+
     }
 
     public function created(){
@@ -279,7 +279,7 @@
         $this->load->view('forms/clientes', $data);
         // footer
         $this->load->view('templates/footer');
-        
+
     }
 
     public function edited(){
@@ -288,7 +288,7 @@
         $data = array(
             'firstname' => $this->input->post("firstname"),
             'lastname' => $this->input->post("lastname"),
-            'country' => $this->input->post("country")        
+            'country' => $this->input->post("country")
         );
         $resp = $this->Client_model->updatear($id, $data);
         $datainfo = array(
