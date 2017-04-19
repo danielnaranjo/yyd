@@ -494,7 +494,7 @@
                 }
 
                 if(res.owner && res.owner.name!=null){
-                    $('#buyerInfo').html('<a href="<?php echo site_url() ?>/client/profile/'+res.owner.Id+'">'+res.owner.name +' '+res.owner.surname+'</a>');
+                    $('#buyerInfo').html('<a href="<?php echo site_url() ?>/client/profile/'+res.owner.Id+'/'+info.number+'">'+res.owner.name +' '+res.owner.surname+'</a>');
                     $('#brokerInfo').html('<a href="mailto:'+res.owner.brokerEmail+'">'+res.owner.brokerName +' '+res.owner.brokerSurname+'</a>');
                     //console.info('buyerInfo',res.owner.name);
                 }

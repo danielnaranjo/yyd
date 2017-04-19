@@ -1,6 +1,6 @@
 <?php
 	defined('BASEPATH') OR exit('No direct script access allowed');
-	
+
 	class Transaction_model extends CI_Model {//AQUI
 
         public function __construct() {
@@ -20,7 +20,7 @@
 
         public function paises($id = FALSE) {
             if ($id === FALSE){
-                //$query = $this->db->like('country', $id);               
+                //$query = $this->db->like('country', $id);
                 //$query = $this->db->get('client_info');
                 $query = $this->db->query("SELECT COUNT(*) AS total, country FROM client_info GROUP BY country ORDER BY total DESC");
                 return $query->result_array();
@@ -28,7 +28,7 @@
 
             //$query = $this->db->group_by(array("country"));
             //$query = $this->db->select('country')->get("client_info");
-            $query = $this->db->query("SELECT COUNT(*) AS total, country FROM client_info WHERE country LIKE '%$id%'  GROUP BY country ORDER BY total DESC");   
+            $query = $this->db->query("SELECT COUNT(*) AS total, country FROM client_info WHERE country LIKE '%$id%'  GROUP BY country ORDER BY total DESC");
             return $query->result_array();
         }
         public function unidades($id = FALSE) {
@@ -38,67 +38,67 @@
             */
             if ($id === FALSE){
                 $query = $this->db->query("
-                    SELECT 
+                    SELECT
                         property.name,
                         property_unity.type,
                         COUNT(*) AS total,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=0 THEN 1
                             ELSE 0
                             END) AS none,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=1 THEN 1
                             ELSE 0
                             END) AS available,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=2 THEN 1
                             ELSE 0
                             END) AS free,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=3 THEN 1
                             ELSE 0
                            END) AS reserved,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=4 THEN 1
                             ELSE 0
                             END) AS sold
                         FROM property_unity
                             LEFT JOIN property ON property.property_id=property_unity.property_id
-                        WHERE property_unity.property_id='$id' 
+                        WHERE property_unity.property_id='$id'
                         GROUP BY property_unity.type
                 ");
                 return $query->result_array();
             }
 
             $query = $this->db->query("
-                    SELECT 
+                    SELECT
                         property.name,
                         property_unity.type,
                         COUNT(*) AS total,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=0 THEN 1
                             ELSE 0
                             END) AS none,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=1 THEN 1
                             ELSE 0
                             END) AS available,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=2 THEN 1
                             ELSE 0
                             END) AS free,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=3 THEN 1
                             ELSE 0
                            END) AS reserved,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=4 THEN 1
                             ELSE 0
                             END) AS sold
                         FROM property_unity
                             LEFT JOIN property ON property.property_id=property_unity.property_id
                         GROUP BY property_unity.type
-                ");   
+                ");
             return $query->result_array();
         }
 
@@ -109,7 +109,7 @@
             return $query->list_fields();
         }*/
         public function vendedores() {
-            $query = $this->db->query("SELECT property.property_id, property.name AS property, property_unity.number, property_unity.price, DATE_FORMAT(broker_comission.date,'%d/%m/%Y') AS date, broker_comission.amount, broker_comission.comission AS split, administrator.firstname AS name, administrator.lastname AS surname FROM broker_comission LEFT JOIN property ON property.property_id=broker_comission.property_id LEFT JOIN administrator ON administrator.administrator_id=broker_comission.broker_id LEFT JOIN property_unity ON property_unity.property_unity_id=broker_comission.property_unity_id WHERE 1");   
+            $query = $this->db->query("SELECT property.property_id, property.name AS property, property_unity.number, property_unity.price, DATE_FORMAT(broker_comission.date,'%d/%m/%Y') AS date, broker_comission.amount, broker_comission.comission AS split, administrator.firstname AS name, administrator.lastname AS surname FROM broker_comission LEFT JOIN property ON property.property_id=broker_comission.property_id LEFT JOIN administrator ON administrator.administrator_id=broker_comission.broker_id LEFT JOIN property_unity ON property_unity.property_unity_id=broker_comission.property_unity_id WHERE 1");
             return $query->result_array();
         }
 
@@ -140,67 +140,67 @@
 
             if($report=='countries'){
                 $sql="
-                    SELECT 
-                        COUNT(*) AS total, 
-                        country 
-                    FROM client_info 
-                    GROUP BY country 
+                    SELECT
+                        COUNT(*) AS total,
+                        country
+                    FROM client_info
+                    GROUP BY country
                     ORDER BY total DESC
                 ";
             } else if($report=='unities' && $id!=''){
                 $sql="
-                    SELECT 
+                    SELECT
                         property.name,
                         property_unity.type,
                         COUNT(*) AS total,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=0 THEN 1
                             ELSE 0
                             END) AS none,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=1 THEN 1
                             ELSE 0
                             END) AS available,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=2 THEN 1
                             ELSE 0
                             END) AS free,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=3 THEN 1
                             ELSE 0
                            END) AS reserved,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=4 THEN 1
                             ELSE 0
                             END) AS sold
                         FROM property_unity
                             LEFT JOIN property ON property.property_id=property_unity.property_id
-                        WHERE property_unity.property_id='$id' 
+                        WHERE property_unity.property_id='$id'
                         GROUP BY property_unity.type
                 ";
             } else if($report=='unities' && $id==''){
                 $sql="
-                    SELECT 
+                    SELECT
                         property.name,
                         property_unity.type,
                         COUNT(*) AS total,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=0 THEN 1
                             ELSE 0
                             END) AS none,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=1 THEN 1
                             ELSE 0
                             END) AS available,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=2 THEN 1
                             ELSE 0
                             END) AS free,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=3 THEN 1
                             ELSE 0
                            END) AS reserved,
-                        SUM(CASE 
+                        SUM(CASE
                             WHEN property_unity.status=4 THEN 1
                             ELSE 0
                             END) AS sold
@@ -210,39 +210,39 @@
                 ";
             } else if($report=='brokers'){
                 $sql="
-                SELECT 
+                SELECT
                     property.name AS property,
                     property_unity.number,
-                    property_unity.price, 
+                    property_unity.price,
                     broker_comission.date,
                     broker_comission.amount,
                     broker_comission.comission AS split,
                     administrator.firstname AS name,
                     administrator.lastname AS surname
-                FROM broker_comission 
-                    LEFT JOIN property ON property.property_id=broker_comission.property_id 
+                FROM broker_comission
+                    LEFT JOIN property ON property.property_id=broker_comission.property_id
                     LEFT JOIN administrator ON administrator.administrator_id=broker_comission.broker_id
                     LEFT JOIN property_unity ON property_unity.property_unity_id=broker_comission.property_unity_id
                 WHERE 1
                 ";
             } else {
                 $sql="
-                SELECT 
-                    property.name AS property, 
-                    property_unity.number, 
-                    property_unity.type, 
+                SELECT
+                    property.name AS property,
+                    property_unity.number,
+                    property_unity.type,
                     property_unity.square,
-                    client.firstname AS name, 
-                    client.lastname AS surname, 
-                    client_info.email, 
-                    client_info.address, 
-                    client_info.city, 
-                    client_info.country, 
+                    client.firstname AS name,
+                    client.lastname AS surname,
+                    client_info.email,
+                    client_info.address,
+                    client_info.city,
+                    client_info.country,
                     client_info.phone
-                FROM client 
-                    LEFT JOIN property_client ON property_client.client_id=client.client_id 
-                    LEFT JOIN property ON property.property_id=property_client.property_id 
-                    LEFT JOIN client_info ON client.client_id=client_info.client_info_id 
+                FROM client
+                    LEFT JOIN property_client ON property_client.client_id=client.client_id
+                    LEFT JOIN property ON property.property_id=property_client.property_id
+                    LEFT JOIN client_info ON client.client_id=client_info.client_info_id
                     LEFT JOIN property_unity ON property_unity.property_unity_id=property_client.property_unity_id
                 WHERE client.status=1
                 ";
@@ -280,14 +280,14 @@
         /* 13/12/2016 Cashflow */
         public function ingresos(){
             $sql = "
-                SELECT 
+                SELECT
                     property_unity.number AS unidad,
                     CONCAT (client.firstname, ' ', client.lastname) as propietario,
                     DATE_FORMAT(transaction.date,'%d/%m/%Y') AS fecha,
                     SUM(transaction.amount) AS total,
                     property_unity.price AS precio,
                     client.client_id
-                FROM transaction_client 
+                FROM transaction_client
                     LEFT JOIN transaction ON transaction_client.transaction_id=transaction.transaction_id
                     LEFT JOIN client ON transaction_client.client_id=client.client_id
                     LEFT JOIN property_client ON transaction_client.client_id=property_client.client_id
@@ -303,14 +303,14 @@
         }
         public function camposdeingresos(){
             $sql = "
-               SELECT 
+               SELECT
                     property_unity.number AS unidad,
                     CONCAT (client.firstname, ' ', client.lastname) as propietario,
                     DATE_FORMAT(transaction.date,'%d/%m/%Y') AS fecha,
                     SUM(transaction.amount) AS total,
                     property_unity.price AS precio,
                     client.client_id
-                FROM transaction_client 
+                FROM transaction_client
                     LEFT JOIN transaction ON transaction_client.transaction_id=transaction.transaction_id
                     LEFT JOIN client ON transaction_client.client_id=client.client_id
                     LEFT JOIN property_client ON transaction_client.client_id=property_client.client_id
@@ -323,16 +323,16 @@
         }
         public function ventaspormes(){
             $sql = "
-                SELECT 
+                SELECT
                     property_unity.number AS u,
-                    COUNT(*) AS c, 
+                    COUNT(*) AS c,
                     CONCAT('$', FORMAT(SUM(amount), 2)) AS t,#SUM(amount) AS t,
                     MONTH(date)  AS m,
                     MONTHNAME(date) AS n,
                     DATE_FORMAT(date,'%y') AS a
-                FROM transaction_client 
+                FROM transaction_client
                     LEFT JOIN transaction ON transaction_client.transaction_id=transaction.transaction_id
-                    LEFT JOIN client ON transaction_client.client_id=client.client_id
+                    #LEFT JOIN client ON transaction_client.client_id=client.client_id
                     LEFT JOIN property_client ON transaction_client.client_id=property_client.client_id
                     LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id
                 GROUP BY MONTH(date),property_unity.number
@@ -343,11 +343,11 @@
         }
 }
 
-/*SELECT 
+/*SELECT
                   property_unity.number AS unidad,
-                  amount AS total, 
+                  amount AS total,
                   CONCAT(MONTH(date),'-',YEAR(date)) as periodo
-                FROM transaction_client 
+                FROM transaction_client
                   LEFT JOIN transaction ON transaction_client.transaction_id=transaction.transaction_id
                   LEFT JOIN client ON transaction_client.client_id=client.client_id
                   LEFT JOIN property_client ON transaction_client.client_id=property_client.client_id

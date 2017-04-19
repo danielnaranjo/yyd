@@ -50,7 +50,7 @@
                                     <? for($i=16; $i<=18; $i++) { ?>
 
                                         <? if($i==16) { // Desde Ago 2016 ?>
-                                            
+
                                             <? for($j=$iniciodeobra; $j<=12; $j++) { $genMes++; // Mitad año 2016 ?>
                                                 <th> <?= $meses[$j] .'-'. $i?> </th>
                                             <? }  ?>
@@ -70,30 +70,30 @@
                             <? $moneda="$";?>
                             <?php foreach($result as $r) {?>
                                 <tr>
-                                    <td> 
+                                    <td>
                                         <a class="edit" href="<?=site_url()?>/client/profile/<?=$r['client_id']?>">
                                             <?php echo $r['unidad'] ?>
-                                        </a> 
+                                        </a>
                                     </td>
                                     <td> <?php echo $r['propietario'] ?> </td>
                                     <td> <?php echo $r['fecha'] ?> </td>
                                     <td> <?php echo $moneda.number_format($r['precio'],2); ?> </td>
                                     <td> <?php echo $moneda.number_format($r['total'],2); ?> </td>
                                     <!--<td> N/A<?php //echo $r['registered'] ?> </td>-->
-                                    <td> <?php 
-                                            $resta=$r['precio']-$r['total']; 
+                                    <td> <?php
+                                            $resta=$r['precio']-$r['total'];
                                             echo $moneda.number_format($resta,2);
-                                        ?> 
+                                        ?>
                                     </td>
                                     <?/* for($x=0; $x<$genMes; $x++) { ?>
-                                        <td id="<?=$r['unidad'] ?>"> 
-                                            - 
+                                        <td id="<?=$r['unidad'] ?>">
+                                            -
                                         </td>
                                     <? } */?>
                                     <? for($i=16; $i<=18; $i++) { ?>
 
                                         <? if($i==16) { // Desde Ago 2016 ?>
-                                            
+
                                             <? for($j=$iniciodeobra; $j<=12; $j++) { $genMes++; // Mitad año 2016 ?>
                                                 <td id="<?=$r['unidad'] ?>-<?=$j ?>-20<?=$i ?>"> </td>
                                             <? }  ?>
@@ -122,7 +122,7 @@
 <!-- END CONTENT -->
 <script>
 window.onload = function(){
-    console.log('Loaded!');    
+    console.log('Loaded!');
     $.getJSON('<?=site_url() ?>/transaction/bymonth', function(d) {
         for(var i = 0; i < d.length; i++){
             $('#'+d[i].u+'-'+d[i].m+'-20'+d[i].a ).html(d[i].t);

@@ -766,9 +766,23 @@ var edit = function(id){
 function check(id){
     // confirm delete or not
     if (confirm('Desea eliminar este registro?','Acción requerida')) {
-        window.location.href="<? echo site_url()?>/transaction/delete/"+id;
-        toastr.success('Acción ejecutada con exito!');
-        location.reload();
+        //window.location.href="<? echo site_url()?>/transaction/delete/"+id;
+        jQuery.ajax({
+            type: "GET",
+            url: "<?php echo site_url(); ?>/transaction/delete/"+id,
+        }).done(function(res){
+            if(res) {
+                toastr.success('Acción ejecutada con exito!');
+                setTimeout(function(){
+                    location.reload()
+                }, 3000);
+            }
+        }).fail(function(err){
+            toastr.error('Ha ocurrido un error');
+            console.log('error',err);
+        });
+
+        //location.reload();
     } else {
         return false;
     }
