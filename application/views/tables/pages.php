@@ -263,6 +263,10 @@ if($titulo==''){
                                             <i class="fa fa-eye"></i>
                                             Ver <? if($nivel==2) { ?>proyecto<? } else { ?>/ Editar<? } ?>
                                         </a>
+                                        <a class="view" href="<? echo site_url()?>/property/details/<? echo $r[$model.'_id']?>">
+                                            <i class="fa fa-building"></i>
+                                            Vista general
+                                        </a>
                                         <? } ?>
 
                                         <?php if($nivel!=2 && $model!='property' && $model!="client") { ?>

@@ -121,12 +121,16 @@
 </div>
 <!-- END CONTENT -->
 <script>
-window.onload = function(){
-    console.log('Loaded!');
+var getFlow = function(){
     $.getJSON('<?=site_url() ?>/transaction/bymonth', function(d) {
         for(var i = 0; i < d.length; i++){
             $('#'+d[i].u+'-'+d[i].m+'-20'+d[i].a ).html(d[i].t);
         };
     });
+}
+window.onload = function(){
+    toastr.info('Por favor, espere..','Cargando Cashflow');
+    console.log('Loaded!');
+    getFlow();
 }
 </script>

@@ -322,21 +322,38 @@
             return $query->list_fields();
         }
         public function ventaspormes(){
-            $sql = "
-                SELECT
+            // $sql = "
+            //     SELECT
+            //         property_unity.number AS u,
+            //         COUNT(*) AS c,
+            //         CONCAT('$', FORMAT(SUM(amount), 2)) AS t,#SUM(amount) AS t,
+            //         MONTH(date)  AS m,
+            //         MONTHNAME(date) AS n,
+            //         DATE_FORMAT(date,'%y') AS a
+            //     FROM transaction_client
+            //         LEFT JOIN transaction ON transaction_client.transaction_id=transaction.transaction_id
+            //         #LEFT JOIN client ON transaction_client.client_id=client.client_id
+            //         LEFT JOIN property_client ON transaction_client.client_id=property_client.client_id
+            //         LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id
+            //     GROUP BY MONTH(date),property_unity.number
+            //     ORDER BY YEAR(date),MONTH(date) ASC
+            // ";
+            $sql="
+                SELECT 
                     property_unity.number AS u,
                     COUNT(*) AS c,
                     CONCAT('$', FORMAT(SUM(amount), 2)) AS t,#SUM(amount) AS t,
                     MONTH(date)  AS m,
                     MONTHNAME(date) AS n,
                     DATE_FORMAT(date,'%y') AS a
-                FROM transaction_client
-                    LEFT JOIN transaction ON transaction_client.transaction_id=transaction.transaction_id
+                FROM transaction
+                    LEFT JOIN transaction_client ON transaction.transaction_id=transaction_client.transaction_id
                     #LEFT JOIN client ON transaction_client.client_id=client.client_id
-                    LEFT JOIN property_client ON transaction_client.client_id=property_client.client_id
-                    LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id
-                GROUP BY MONTH(date),property_unity.number
-                ORDER BY YEAR(date),MONTH(date) ASC
+                    #LEFT JOIN property_client ON transaction_client.client_id=property_client.client_id
+                    LEFT JOIN property_unity ON transaction.property_unity_id=property_unity.property_unity_id
+                #WHERE transaction_client.client_id=17
+                GROUP BY MONTH(date), property_unity.property_unity_id
+                ORDER BY YEAR(date) DESC,MONTH(date) DESC
             ";
             $query = $this->db->query($sql);
             return $query->result_array();
