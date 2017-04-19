@@ -38,7 +38,7 @@ if($titulo==''){
         </div>
         <!-- END PAGE BAR -->
         <!-- BEGIN PAGE TITLE-->
-        <h3 class="page-title" style="text-transform: capitalize;"> 
+        <h3 class="page-title" style="text-transform: capitalize;">
             <?php echo $title ?>
             <?php if($model!='bank' && $model!='administrator' && $model!='client') { ?>
             <div class="actions pull-right">
@@ -55,7 +55,7 @@ if($titulo==''){
                     <ul class="dropdown-menu pull-right">
                         <li>
                             <a href="<?php echo site_url() ?>/property/unities/<?php echo $Id ?>">
-                                <i class="fa fa-building"></i> Ver <?php if($nivel!=2) { ?>/ Agregar<?php } else { echo "Unidades"; } ?> 
+                                <i class="fa fa-building"></i> Ver <?php if($nivel!=2) { ?>/ Agregar<?php } else { echo "Unidades"; } ?>
                             </a>
                         </li>
                         <li>
@@ -107,10 +107,10 @@ if($titulo==''){
                             <thead>
                                 <tr>
                                     <?php foreach ($fields as $field){ //campos ?>
-                                        <?php 
+                                        <?php
                                             if (!preg_match("/".$model."_id/i", $field->name) // Muestra todo, excepto el model_id de la tabla
-                                                && !preg_match("/status/i", $field->name)  
-                                                //&& !preg_match("/level/i", $field->name) 
+                                                && !preg_match("/status/i", $field->name)
+                                                //&& !preg_match("/level/i", $field->name)
                                                 && !preg_match("/password/i", $field->name)
                                                 && !preg_match("/description/i", $field->name)
                                                 && !preg_match("/notes/i", $field->name)
@@ -129,17 +129,20 @@ if($titulo==''){
                                                 && !preg_match("/square/i", $field->name)
                                                 // photos
                                                 && !preg_match("/caption/i", $field->name)
+                                                // clients
+                                                && !preg_match("/country/i", $field->name)
+                                                && !preg_match("/registered/i", $field->name)
 
                                             ) {  // campos con "_id" ?>
-                                            <th style="text-transform: capitalize;" id="<? echo $field->name ?>"> 
-                                                <?php 
+                                            <th style="text-transform: capitalize;" id="<? echo $field->name ?>">
+                                                <?php
                                                     echo traducir($field->name);
-                                                ?> 
+                                                ?>
                                             </th>
                                         <? } ?>
                                     <? } ?>
                                     <th>
-                                        Opciones 
+                                        Opciones
                                     </th>
                                 </tr>
                             </thead>
@@ -147,11 +150,11 @@ if($titulo==''){
                             <?php foreach($result as $r) { // filas ?>
                                 <tr>
                                     <?php foreach ($fields as $f) { // columnas ?>
-                                        <?php 
+                                        <?php
                                             if (
                                                 !preg_match("/".$model."_id/i", $f->name) // Muestra todo, excepto el model_id de la tabla
-                                                && !preg_match("/status/i", $f->name)  
-                                                //&& !preg_match("/level/i", $f->name)  
+                                                && !preg_match("/status/i", $f->name)
+                                                //&& !preg_match("/level/i", $f->name)
                                                 && !preg_match("/password/i", $f->name)
                                                 && !preg_match("/description/i", $f->name)
                                                 && !preg_match("/notes/i", $f->name)
@@ -171,11 +174,15 @@ if($titulo==''){
                                                 && !preg_match("/square/i", $f->name)
                                                 // photos
                                                 && !preg_match("/caption/i", $f->name)
+                                                // clients
+                                                && !preg_match("/country/i", $f->name)
+                                                && !preg_match("/registered/i", $f->name)
+
 
                                             ) {  // campos con "_id" ?>
                                             <td id="<?php echo $f->name ?>">
-                                                <?php 
-                                                    //echo $r[$f->name]; 
+                                                <?php
+                                                    //echo $r[$f->name];
                                                     if (preg_match("/registered/i", $f->name) ) {
                                                         /*
                                                         $fecha = mysql_to_unix($r[$f->name]);
@@ -191,8 +198,8 @@ if($titulo==''){
                                                             echo 'Administrador';
                                                         } else if ($r['level']==1) {
                                                             echo 'Gerente de Proyecto';
-                                                        } else { 
-                                                            echo "Broker"; 
+                                                        } else {
+                                                            echo "Broker";
                                                         }
 
                                                     } else if (preg_match("/file/i", $f->name) ) {
@@ -221,58 +228,58 @@ if($titulo==''){
                                                     } else {
                                                         echo $r[$f->name];
                                                     }
-  
+
                                                 ?>
                                             </td>
                                         <? } ?>
                                     <? } ?>
 
                                     <td>
-                                        <!-- 
+                                        <!--
                                         ver perfil
                                         ver propiedad
                                         ver compradores
                                         -->
                                         <?php if($model=="client") { ?>
-                                        <a class="view" href="<? echo site_url() ?>/<?php echo $model ?>/profile/<? echo $r[$model.'_id']?>">
-                                            <i class="fa fa-eye"></i> 
+                                        <a class="view" href="<? echo site_url() ?>/<?php echo $model ?>/profile/<? echo $r[$model.'_id']?>/<? echo $r['number']?>">
+                                            <i class="fa fa-eye"></i>
                                             Ver <? if($nivel==2) { ?>perfil<? } else { ?>/ Editar<? } ?>
                                         </a>
                                         <? } ?>
 
                                         <?php if($model=="property" && $action=="unities" && $nivel!=2) { ?>
                                         <a class="edit" href="<? echo site_url()?>/property_unity/action/edit/<? echo $r['property_unity_id']?>">
-                                            <i class="fa fa-eye"></i> 
+                                            <i class="fa fa-eye"></i>
                                             Editar
                                         </a>
                                         <a class="delete" href="javascript:;" onclick="javascript:check(<? echo $r['property_unity_id']?>);">
-                                            <i class="fa fa-trash"></i> 
+                                            <i class="fa fa-trash"></i>
                                            Borrar
                                         </a>
                                         <? } ?>
 
                                         <?php if($model=="property" && $action=="all") { ?>
                                         <a class="view" href="<? echo site_url()?>/<?php echo $model ?>/see/<? echo $r[$model.'_id']?>">
-                                            <i class="fa fa-eye"></i> 
+                                            <i class="fa fa-eye"></i>
                                             Ver <? if($nivel==2) { ?>proyecto<? } else { ?>/ Editar<? } ?>
                                         </a>
                                         <? } ?>
 
                                         <?php if($nivel!=2 && $model!='property' && $model!="client") { ?>
                                         <a class="edit" href="<? echo site_url()?>/<?php echo $model ?>/action/edit/<? echo $r[$model.'_id']?>">
-                                            <i class="fa fa-pencil"></i> 
+                                            <i class="fa fa-pencil"></i>
                                             Editar
                                         </a>
                                         <? } ?>
-                                        
+
                                         <?php if($nivel==0 && $action!="unities") { ?>
                                         <a class="delete" href="javascript:;" onclick="javascript:check(<? echo $r[$model.'_id']?>);">
-                                            <i class="fa fa-trash"></i> 
+                                            <i class="fa fa-trash"></i>
                                            Borrar
                                         </a>
                                         <? } ?>
                                     </td>
-                                   
+
                                 </tr>
                                 <? } ?>
                             </tbody>

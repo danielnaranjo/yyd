@@ -30,8 +30,8 @@
             return $query->result_array();
         }
 
-        public function transacciones($id){
-            $query = $this->db->query("SELECT transaction.*, property.name, administrator.firstname, administrator.lastname, bank.name AS bank FROM transaction LEFT JOIN transaction_client ON transaction.transaction_id=transaction_client.transaction_id LEFT JOIN property ON property.property_id=transaction.property_id LEFT JOIN administrator ON administrator.administrator_id=transaction.broker_id LEFT JOIN bank ON transaction.payment_type=bank.bank_id WHERE transaction_client.client_id=$id ORDER BY transaction.date DESC");
+        public function transacciones($id, $unidad){
+            $query = $this->db->query("SELECT transaction.*, property.name, administrator.firstname, administrator.lastname, bank.name AS bank FROM transaction LEFT JOIN transaction_client ON transaction.transaction_id=transaction_client.transaction_id LEFT JOIN property ON property.property_id=transaction.property_id LEFT JOIN administrator ON administrator.administrator_id=transaction.broker_id LEFT JOIN bank ON transaction.payment_type=bank.bank_id WHERE transaction_client.client_id=$id AND transaction.property_unity_id=$unidad ORDER BY transaction.date DESC");
             return $query->result_array();
         }
 
@@ -45,8 +45,8 @@
             return $query->result_array();
         }
 
-        public function compra($id){
-            $query=$this->db->query("SELECT property_unity.* FROM property_client LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id WHERE property_client.client_id=$id");
+        public function compra($unity){ // se busca por unidad
+            $query=$this->db->query("SELECT property_unity.* FROM property_client LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id WHERE property_unity.number=$unity");
             return $query->result_array();
         }
 

@@ -93,17 +93,17 @@
         $this->load->view('templates/footer');
     }
 
-    public function profile($id = NULL) {
-        $data['result'] = $this->Client_model->perfil($id);//AQUI
-        $data['info'] = $this->Client_info_model->perfil($id);//AQUI
-        $data['visits'] = $this->Client_info_model->visita($id);//AQUI
-        $data['transactions'] = $this->Client_info_model->transacciones($id);//AQUI
-        $data['property'] = $this->Client_info_model->propiedad($id);
+    public function profile($id = NULL, $number = NULL) {// unidad vendida (fix para compradores con multiples unidades)
+        $data['result'] = $this->Client_model->perfil($id);
+        $data['info'] = $this->Client_info_model->perfil($id);
+        $data['visits'] = $this->Client_info_model->visita($id);
+        $data['property'] = $this->Client_info_model->propiedad($id);// unidad vendida (fix para compradores con multiples unidades)
         $data['total'] = $this->Client_info_model->montototal($id);
-        $data['unity'] = $this->Client_info_model->compra($id);
-        $data['parking'] = $this->Client_info_model->parkeo($id);
+        $data['unity'] = $this->Client_info_model->compra($number);// unidad vendida (fix para compradores con multiples unidades)
+        $data['parking'] = $this->Client_info_model->parkeo($id);// unidad vendida (fix para compradores con multiples unidades)
         $data['notes'] = $this->Client_info_model->notas($id);
         $data['bank'] = $this->Bank_model->listar();
+        $data['transactions'] = $this->Client_info_model->transacciones($id, $number);// unidad vendida (fix para compradores con multiples unidades)
 
         // header
         $this->load->view('templates/header');
