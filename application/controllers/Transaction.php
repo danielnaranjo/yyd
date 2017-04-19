@@ -12,7 +12,7 @@
     }
 
     public function index()
-    {        
+    {
         $data = $this->Transaction_model->listar();//AQUI
         echo json_encode($data);
     }
@@ -27,7 +27,7 @@
         $data['model'] = "transaction_model";
         $data['fields'] = $this->Transaction_model->columnas();
         $data['tables'] = ""; // <-- Linea 79 / formulario.php
-        
+
         if($action){
             $data['action']="edit";// acction
             $data['btn']="Editar registro";// Texto boton
@@ -38,7 +38,7 @@
             $data['btn']="Agregar nuevo";// Texto boton
             $data['result'] = "";
         }
-        
+
         //seguridad
         $this->load->view('templates/secure');
         // header
@@ -118,7 +118,7 @@
         $this->load->view('tables/broker', $data);//
         // footer
         $this->load->view('templates/footer');
-        
+
         /*echo json_encode($data);*/
     }
 
@@ -131,6 +131,7 @@
     public function add(){
         $data = array(
             'property_id' => $this->input->post("property_id"),
+            'property_unity_id' => $this->input->post("property_unity_id"),
             'broker_id' => $this->input->post("broker_id"),
             'transaction_type' => $this->input->post("transaction_type"),
             'amount' => $this->input->post("amount"),
@@ -217,7 +218,7 @@
         $data['fields'] = $this->Transaction_model->camposdeingresos();
         //$data['cash'] = $this->Transaction_model->ventaspormes();
         $data['titulo'] = 'Cashflow';
-        
+
         //seguridad
         $this->load->view('templates/secure');
         // header
@@ -228,7 +229,7 @@
         $this->load->view('tables/ventas', $data);
         // footer
         $this->load->view('templates/footer');
-        
+
         /*echo json_encode($data);*/
     }
     public function bymonth(){

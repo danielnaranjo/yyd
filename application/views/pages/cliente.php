@@ -1,7 +1,7 @@
 <?
 /* variables */
 $nivel = $this->session->userdata('level');
- 
+
 /* General para ambos formularios */
 $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
 ?>
@@ -78,7 +78,7 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                                 <div class="uppercase profile-stat-title"> <?php echo $unity[0]['total_feet'] ?> </div>
                                 <div class="uppercase profile-stat-text"> Pies </div>
                             </div>-->
-                            
+
                             <div class="col-md-6 col-sm-6 col-xs-6">
                                 <div class="uppercase profile-stat-title"> <?php if($parking['number']!='') { echo $parking['number']; } else { echo "0"; } ?> </div>
                                 <div class="uppercase profile-stat-text"> Parking </div>
@@ -150,9 +150,9 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                                                 <td> $<?php echo number_format($m['amount'],2) ?> </td>
                                                 <td> <?php echo $m['bank']; ?>. <?=strtoupper($options[$m['transaction_type']]) ?></td>
                                                 <td> <?php echo nice_date($m['date'],'d/m/Y') ?> </td>
-                                                <td> 
+                                                <td>
                                                     <?php if($nivel!=2) { ?>
-                                                    <a data-toggle="modal" href="#basic" class="primary-link"> <i class="fa fa-search"></i></a> 
+                                                    <a data-toggle="modal" href="#basic" class="primary-link"> <i class="fa fa-search"></i></a>
                                                     <a class="edit" href="javascript:edit(<?=$m['transaction_id']?>);"> <i class="fa fa-pencil"></i></a>
                                                     <a class="delete" href="javascript:;" onclick="javascript:check(<?=$m['transaction_id']?>);"> <i class="fa fa-trash"></i></a>
                                                 <?php }  ?>
@@ -202,14 +202,14 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                                                         </div>
                                                     </div>
                                                     <div class="col2">
-                                                        <div class="date"> 
-                                                        <?php 
+                                                        <div class="date">
+                                                        <?php
                                                             $fecha = mysql_to_unix($n['updated']);
                                                             $now = time();
                                                             $units = 2;
                                                             echo timespan($fecha, $now, $units) . ' ago';
                                                             //echo timespan($fecha, $now) . ' ago';
-                                                        ?> 
+                                                        ?>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -233,7 +233,7 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                                     <div class="caption">
                                         <span class="caption-subject bold font-green uppercase"> Visitas</span>
                                         <a class="pull-right" href="javascript:;" onclick="javascript:visit(<? echo $result[0]['client_id']?>,1)">
-                                            <i class="fa fa-check" aria-hidden="true"></i> 
+                                            <i class="fa fa-check" aria-hidden="true"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -262,13 +262,13 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                                                     <div class="timeline-body-head-caption">
                                                         <span class="timeline-body-alerttitle font-green-haze">
                                                            <?php
-                                                                if($v['activity']==1){ 
+                                                                if($v['activity']==1){
                                                                     echo "Nuevo cliente";
-                                                                } else if($v['activity']==2){ 
+                                                                } else if($v['activity']==2){
                                                                     echo "Propiedad agregada";
-                                                                } else if($v['activity']==3){ 
+                                                                } else if($v['activity']==3){
                                                                     echo "Visita";
-                                                                } else if($v['activity']==1){ 
+                                                                } else if($v['activity']==1){
                                                                     echo "Pago registrado";
                                                                 } else {
                                                                     echo "Consulta a la cuenta";
@@ -276,7 +276,7 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                                                             ?>
                                                         </span>
                                                         <span class="timeline-body-time font-grey-cascade">
-                                                            <?php 
+                                                            <?php
                                                                 //echo $v['timestamp'];
                                                                 $fecha = mysql_to_unix($v['timestamp']);
                                                                 $now = time();
@@ -339,7 +339,7 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
             </div>
             <div class="modal-body">
             <?php echo form_open_multipart('', ['id'=>"addnote", 'class'=>"form-horizontal", 'role'=>"form"]); ?>
-                    <?=form_input(array('type'=>'hidden','name'=>'property_id','id'=>'property_id','value'=> 1))?>
+                    <?=form_input(array('type'=>'hidden','name'=>'property_id','id'=>'property_id','value'=> $property[0]['property_id']))?>
                     <?=form_input(array('type'=>'hidden','name'=>'broker_id','id'=>'broker_id','value'=> $this->session->userdata('aID')))?>
                     <?=form_input(array('type'=>'hidden','name'=>'client_id','id'=>'client_id','value'=> $result[0]['client_id']))?>
                     <div class="form-group">
@@ -371,10 +371,11 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
             </div>
             <div class="modal-body">
                 <?php echo form_open_multipart('', ['id'=>"addmoney", 'class'=>"form-horizontal", 'role'=>"form"]); ?>
-                    <?=form_input(array('type'=>'hidden','name'=>'property_id','id'=>'property_id','value'=> 1))?>
+                    <?=form_input(array('type'=>'hidden','name'=>'property_id','id'=>'property_id','value'=> $property[0]['property_id']))?>
+                    <?=form_input(array('type'=>'hidden','name'=>'property_unity_id','id'=>'property_unity_id','value'=> @$unity[0]['property_unity_id']))?>
                     <?=form_input(array('type'=>'hidden','name'=>'broker_id','id'=>'broker_id','value'=> $this->session->userdata('aID')))?>
                     <?=form_input(array('type'=>'hidden','name'=>'client_id','id'=>'client_id','value'=> $result[0]['client_id']))?>
-                    
+
                     <div class="form-group">
                         <?=form_label('Tipo de pago','Tipo de pago', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
@@ -385,7 +386,7 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                         <?=form_label('Forma de pago','Forma de pago', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
                         <? //$options = array('0'=>'Efectivo','1'=>'Transferencia','2'=>'Cheque','3'=>'Tarjeta de Credito','4'=>'Otros'); ?>
-                        
+
                         <?php foreach ($bank as $b) {
                             $payment[$b['bank_id']]=$b['name'];
                             }
@@ -448,7 +449,7 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                     <div class="invoice">
                         <div class="row invoice-logo">
                             <div class="col-xs-6 col-xs-offset-6">
-                                <p> 
+                                <p>
                                     <?=date('d/m/Y')?>
                                 </p>
                             </div>
@@ -479,13 +480,13 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                                     </li>
                                     <? if($parking>0) {?>
                                     <li>
-                                        Parking: <?php 
-                                            //if(@$parking!='' && $parking[0]) { 
-                                                echo $parking['number']; 
-                                            //} else { 
-                                            //    echo "0"; 
-                                            //} 
-                                        ?></strong> 
+                                        Parking: <?php
+                                            //if(@$parking!='' && $parking[0]) {
+                                                echo $parking['number'];
+                                            //} else {
+                                            //    echo "0";
+                                            //}
+                                        ?></strong>
                                     </li>
                                     <? } ?>
                                 </ul>
@@ -504,9 +505,9 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                                     <?php $total=0; foreach($transactions as $m) {?>
                                     <tr>
                                         <td> USD $<?php echo number_format($m['amount'],2); $total += $m['amount']; ?> </td>
-                                        <td> 
-                                            <?php echo $m['bank'] ?> <?php if($m['number']!='') { echo 'Ref. '.$m['number']; } ?>. 
-                                            <?=strtoupper($options[$m['transaction_type']]) ?>   
+                                        <td>
+                                            <?php echo $m['bank'] ?> <?php if($m['number']!='') { echo 'Ref. '.$m['number']; } ?>.
+                                            <?=strtoupper($options[$m['transaction_type']]) ?>
                                         </td>
                                         <td> <?php echo nice_date($m['date'],'d/m/Y') ?> </td>
                                     </tr>
@@ -533,7 +534,7 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                             <div class="col-xs-8 col-xs-offset-4 invoice-block">
                                 <ul class="list-unstyled amounts">
                                     <!--<li>
-                                        <strong>Sub - Total amount:</strong> USD $0.00 
+                                        <strong>Sub - Total amount:</strong> USD $0.00
                                     </li>-->
                                     <li>
                                         <strong>Total:</strong> USD $<?=number_format($total,2) ?>
@@ -566,7 +567,7 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                 <h4 class="modal-title">Transacciones</h4>
             </div>
             <div class="modal-body">
-                <?php echo form_open_multipart('', ['id'=>"editar", 'class'=>"form-horizontal", 'role'=>"form"]); ?>                   
+                <?php echo form_open_multipart('', ['id'=>"editar", 'class'=>"form-horizontal", 'role'=>"form"]); ?>
                     <div class="form-group">
                         <?=form_label('Tipo de pago','Tipo de pago', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
@@ -575,7 +576,7 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                     </div>
                     <div class="form-group">
                         <?=form_label('Forma de pago','Forma de pago', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
-                        <div class="col-md-9">                        
+                        <div class="col-md-9">
                         <?php foreach ($bank as $b) {
                             $payment[$b['bank_id']]=$b['name'];
                             }
@@ -635,7 +636,7 @@ window.onload = function(){
             toastr.success('Visita registrada!');
         });
     }
-    //if (jQuery().datepicker) { 
+    //if (jQuery().datepicker) {
         $('#date').datepicker({
             format:{
                 toDisplay: function (date, format, language) {
@@ -679,8 +680,9 @@ window.onload = function(){
 
     $("#addmoney #Submit").click(function(event) {
         event.preventDefault();
-        var params = { 
+        var params = {
             'property_id' : $("#property_id").val(),
+            'property_unity_id' : $("#property_unity_id").val(),
             'broker_id' : $("#broker_id").val(),
             'client_id' : $("#client_id").val(),
             'notes' : $("#notes").val(),
@@ -726,11 +728,11 @@ var edit = function(id){
         $(formId +' #transaction_type').val(data.transaction_type).prop('selected', true);
         $(formId +' #payment_type').val(data.payment_type).prop('selected', true);
 
-        $('#transactionEdit').modal('show'); 
+        $('#transactionEdit').modal('show');
     });
     $("#transactionEdit #editar #Submited").click(function(event) {
         event.preventDefault();
-        var params = { 
+        var params = {
             'transaction_id' : $(formId +" #transaction_id").val(),
             'notes' : $(formId +" #notes").val(),
             'amount' : $(formId +" #amount").val(),

@@ -35,13 +35,13 @@
             return $query->result_array();
         }
 
-        public function montototal($id){
-            $query = $this->db->query("SELECT SUM(transaction.amount) AS total FROM transaction LEFT JOIN transaction_client ON transaction.transaction_id=transaction_client.transaction_id LEFT JOIN property ON property.property_id=transaction.property_id LEFT JOIN administrator ON administrator.administrator_id=transaction.broker_id WHERE transaction_client.client_id=$id");
+        public function montototal($id, $unidad){
+            $query = $this->db->query("SELECT SUM(transaction.amount) AS total FROM transaction LEFT JOIN transaction_client ON transaction.transaction_id=transaction_client.transaction_id LEFT JOIN property ON property.property_id=transaction.property_id LEFT JOIN administrator ON administrator.administrator_id=transaction.broker_id WHERE transaction_client.client_id=$id AND transaction.property_unity_id=$unidad");
             return $query->result_array();
         }
 
         public function propiedad($id){
-            $query = $this->db->query("SELECT property.name FROM property_client LEFT JOIN property ON property_client.property_id=property.property_id LEFT JOIN client ON client.client_id=property_client.client_id WHERE property_client.client_id=$id");
+            $query = $this->db->query("SELECT property.name, property.property_id FROM property_client LEFT JOIN property ON property_client.property_id=property.property_id LEFT JOIN client ON client.client_id=property_client.client_id WHERE property_client.client_id=$id");
             return $query->result_array();
         }
 
@@ -51,7 +51,7 @@
         }
 
         public function parkeo($id){
-            $query=$this->db->query("SELECT property_parking.* FROM property_parking LEFT JOIN property ON property_parking.property_id=property.property_id WHERE property_parking.client_id=$id");
+            $query=$this->db->query("SELECT property_parking.* FROM property_parking LEFT JOIN property ON property_parking.property_id=property.property_id WHERE property_parking.property_unity_id=$id");
             return $query->row_array(); //$query->num_rows();
         }
 
