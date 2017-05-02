@@ -208,7 +208,7 @@
                     <div class="form-group">
                         <?=form_label('Unidad','Unidad', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
-                        <?=form_input(array('name'=>'unidad','id'=>'unidad','class'=>'form-control','placeholder'=>'Unidad','autocomplete'=>'off','readonly'=>'readonly'))?>
+                        <?=form_input(array('name'=>'unidad','id'=>'unidad','class'=>'form-control','placeholder'=>'Unidad','autocomplete'=>'off','readonly'=>'readonly'))?><!-- AQUI-->
                         </div>
                     </div>
                     <div class="form-group">
@@ -320,7 +320,7 @@
                     <div class="form-group">
                         <?=form_label('Unidad','Unidad', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
-                        <?=form_input(array('name'=>'unidad','id'=>'unidad','class'=>'form-control','placeholder'=>'Unidad','autocomplete'=>'off','readonly'=>'readonly'))?>
+                        <?=form_input(array('name'=>'unidad','id'=>'unidad','class'=>'form-control','placeholder'=>'Unidad','autocomplete'=>'off','readonly'=>'readonly' ))?> <!-- AQUI -->
                         </div>
                     </div>
                     <div class="form-group">
@@ -454,7 +454,7 @@
                 notes = res.notes,
                 parkeo = res.parking;
             $('#infoUnity').html(' ');
-
+            $('.modal form #unidad').val(info.number);
             <?php if($nivel==2) {  // se muestra solo en Project manager / administrador ?>
 
             if(info.status!=0){
@@ -504,7 +504,7 @@
                 $('#notes #note').val('Unidad #'+id+' Propiedad: '+property);
                 // populate property_unity_id
                 $('#addnote #property_unity_id').val(info.property_unity_id);
-<!-- AQUI -->   $('#unidad').val(info.number);// Unidad en el Modal
+<!-- AQUI -->   //$('.modal form #unidad').val(id);// Unidad en el Modal
 
             <?php if($nivel==2) { ?>
             } // se muestra solo en Project manager / administrador
