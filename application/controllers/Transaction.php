@@ -226,7 +226,7 @@
         // sidebar
         $this->load->view('templates/menu');
         // main
-        $this->load->view('tables/ventas', $data);
+        $this->load->view('tables/cashflow', $data);// ventas
         // footer
         $this->load->view('templates/footer');
 
