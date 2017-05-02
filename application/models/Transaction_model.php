@@ -339,7 +339,7 @@
             //     ORDER BY YEAR(date),MONTH(date) ASC
             // ";
             $sql="
-                SELECT 
+                SELECT
                     property_unity.number AS u,
                     COUNT(*) AS c,
                     CONCAT('$', FORMAT(SUM(amount), 2)) AS t,#SUM(amount) AS t,
@@ -358,16 +358,38 @@
             $query = $this->db->query($sql);
             return $query->result_array();
         }
+        public function formadepago($data){
+            $query = $this->db->insert('payment_method', $data);
+            return $this->db->insert_id();
+        }
+        public function coutaspormes(){
+            $sql="
+            SELECT
+                property_unity.number AS u,
+                COUNT(*) AS c,
+                CONCAT('$', FORMAT(SUM(amount), 2)) AS t,
+                MONTH(date)  AS m,
+                MONTHNAME(date) AS n,
+                DATE_FORMAT(date,'%y') AS a
+            FROM payment_method
+                LEFT JOIN property_unity ON payment_method.property_unity_id=property_unity.property_unity_id
+            GROUP BY MONTH(date), property_unity.property_unity_id
+            ORDER BY YEAR(date) DESC,MONTH(date) DESC
+            ";
+            $query = $this->db->query($sql);
+            return $query->result_array();
+        }
+        public function pagorealizados(){
+            $sql="SELECT
+                property_unity.number AS u,
+                CONCAT('$', FORMAT(SUM(amount), 2)) AS t
+            FROM transaction
+                LEFT JOIN transaction_client ON transaction.transaction_id=transaction_client.transaction_id
+                LEFT JOIN property_unity ON transaction.property_unity_id=property_unity.property_unity_id
+            GROUP BY property_unity.property_unity_id
+            ORDER BY u ASC
+            ";
+            $query = $this->db->query($sql);
+            return $query->result_array();
+        }
 }
-
-/*SELECT
-                  property_unity.number AS unidad,
-                  amount AS total,
-                  CONCAT(MONTH(date),'-',YEAR(date)) as periodo
-                FROM transaction_client
-                  LEFT JOIN transaction ON transaction_client.transaction_id=transaction.transaction_id
-                  LEFT JOIN client ON transaction_client.client_id=client.client_id
-                  LEFT JOIN property_client ON transaction_client.client_id=property_client.client_id
-                  LEFT JOIN property_unity ON property_client.property_unity_id=property_unity.property_unity_id
-                ORDER BY MONTH(date) ASC
-                */

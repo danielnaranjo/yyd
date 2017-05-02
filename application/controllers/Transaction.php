@@ -236,4 +236,23 @@
         $data = $this->Transaction_model->ventaspormes();
         echo json_encode($data);
     }
+    public function method(){
+        $data = array(
+            'transaction_type' => $this->input->post("transaction_type"),
+            'amount' => $this->input->post("amount"),
+            'property_unity_id' => $this->input->post("property_unity_id"),
+            'property_id' => $this->input->post("property_id"),
+            'date' => $this->input->post("date"),
+        );
+        $response = $this->Transaction_model->formadepago($data);
+        echo json_encode($response);
+    }
+    public function invoicesbymonth(){
+        $data = $this->Transaction_model->coutaspormes();
+        echo json_encode($data);
+    }
+    public function paid(){
+        $data = $this->Transaction_model->pagorealizados();
+        echo json_encode($data);
+    }
 }

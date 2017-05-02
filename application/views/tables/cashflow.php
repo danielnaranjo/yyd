@@ -43,26 +43,26 @@
                                             'May','Jun','Jul','Ago',
                                             'Sep','Oct','Nov','Dic'
                                             ];
-                                        $iniciodeobra=1; // Mes de inicio: Agosto = 8
+                                        $iniciodeobra=8; // Mes de inicio: Agosto = 8
                                         $genMes = 0; // Genera la cantidad de <td> para los montos
-                                        $iniciodeconstruccion=17;// Original 16
+                                        $iniciodeconstruccion=16;// Original 16
                                         $fechadeentrega=19;// Original 18
                                     ?>
                                     <? for($i=$iniciodeconstruccion; $i<=$fechadeentrega; $i++) { ?>
 
-                                        <?// if($i==$iniciodeconstruccion) { // Desde Ago 2016 ?>
+                                        <? if($i==$iniciodeconstruccion) { // Desde Ago 2016 ?>
 
-                                            <?// for($j=$iniciodeobra; $j<=12; $j++) { $genMes++; // Mitad año 2016 ?>
-                                                <!-- <th> <?//= $meses[$j] .'-'. $i?> </th> -->
-                                            <?// }  ?>
+                                            <? for($j=$iniciodeobra; $j<=12; $j++) { $genMes++; // Mitad año 2016 ?>
+                                                <th style="display:none;"> <?= $meses[$j] .'-'. $i?> </th>
+                                            <? }  ?>
 
-                                        <?// } else { // Hasta Dic 2018 ?>
+                                        <? } else { // Hasta Dic 2018 ?>
 
                                             <? for($j=1; $j<=12; $j++) { $genMes++; // Todo 2017/18 ?>
                                                 <th> <?= $meses[$j] .'-'. $i?> </th>
                                             <? } ?>
 
-                                        <? //}  ?>
+                                        <? }  ?>
 
                                     <? }  ?>
                                     <th> Entrega </th>
@@ -80,10 +80,10 @@
                                     <td> <?php echo $r['propietario'] ?> </td>
                                     <td> <?php echo $r['fecha'] ?> </td>
                                     <td> <?php echo $moneda.number_format($r['precio'],2); ?> </td>
-                                    <td id="pagado_<?=$r['unidad']?>"> <?php echo $moneda.number_format($r['total'],2); ?> </td>
+                                    <td id="pagado_<?=$r['unidad']?>"> 0<?php // echo $moneda.number_format($r['total'],2); ?> </td>
                                     <!--<td> N/A<?php //echo $r['registered'] ?> </td>-->
                                     <td id="pendiente_<?=$r['unidad']?>"> <?php
-                                            $resta=$r['total']-$r['precio'];
+                                            $resta=$r['precio']-$r['total'];
                                             echo $moneda.number_format($resta,2);
                                             ?>
                                     </td>
@@ -97,7 +97,7 @@
                                         <? if($i==$iniciodeconstruccion) { // Desde Ago 2016 ?>
 
                                             <? for($j=$iniciodeobra; $j<=12; $j++) { $genMes++; // Mitad año 2016 ?>
-                                                <td id="<?=$r['unidad'] ?>-<?=$j ?>-20<?=$i ?>"> </td>
+                                                <td style="display:none;" id="<?=$r['unidad'] ?>-<?=$j ?>-20<?=$i ?>"> </td>
                                             <? }  ?>
 
                                         <? } else { // Hasta Dic 2018 ?>
@@ -127,19 +127,33 @@
 var getFlow = function(){
     $.getJSON('<?=site_url() ?>/transaction/bymonth', function(d) {
         for(var i = 0; i < d.length; i++){
-            if(d[i].a<=2016){
-                console.log('pagado_'+d[i].u, d[i].t);
-            } else {
-                $('#'+d[i].u+'-'+d[i].m+'-20'+d[i].a ).html(d[i].t);
-            }
-            console.log( $('#'+d[i].u+'-'+d[i].m+'-20'+d[i].a ).html(d[i].t) );
+            $('#'+d[i].u+'-'+d[i].m+'-20'+d[i].a ).html('<strong>'+d[i].t+'</strong>');
         };
-        console.log('d',d.length);
+        getMethods();
+        getPaid();
+    });
+}
+var getMethods = function(){
+    $.getJSON('<?=site_url() ?>/transaction/invoicesbymonth', function(d) {
+        for(var i = 0; i < d.length; i++){
+            $('#'+d[i].u+'-'+d[i].m+'-20'+d[i].a ).append('<br>'+d[i].t);
+        };
+    });
+}
+var getPaid = function(){
+    $.getJSON('<?=site_url() ?>/transaction/paid', function(d) {
+        for(var i = 0; i < d.length; i++){
+            $('#pagado_'+d[i].u).html(d[i].t);
+        };
     });
 }
 window.onload = function(){
     toastr.info('Por favor, espere..','Cargando Cashflow');
     console.log('Loaded!');
     getFlow();
+    $('#sample_2_paginate .btn').on('click', function(){
+        getFlow();
+        console.log('cliked!');
+    })
 }
 </script>

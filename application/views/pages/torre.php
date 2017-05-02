@@ -135,16 +135,22 @@
 
                 <div class="panel panel-default" id="action" style="display: none;">
                     <div class="panel-body">
-                        <div class="col-sm-6" id="btnBuyer">
+                        <div class="col-sm-4" id="btnBuyer">
                             <a data-toggle="modal" href="#comprador" class="btn btn-block btn-success">
-                                <i class="fa fa-user"></i>
+                                <!-- <i class="fa fa-user"></i> -->
                                 Modificar
                             </a>
                         </div>
-                        <div class="col-sm-6">
-                            <a data-toggle="modal" href="#basic" class="btn btn-block btn-info">
-                                <i class="fa fa-pencil"></i>
-                                Agregar nota
+                        <div class="col-sm-4">
+                            <a data-toggle="modal" href="#formasdepago" class="btn btn-block btn-info">
+                                <!-- <i class="fa fa-pencil"></i> -->
+                                Formas de pago
+                            </a>
+                        </div>
+                        <div class="col-sm-4">
+                            <a data-toggle="modal" href="#basic" class="btn btn-block btn-default">
+                                <!-- <i class="fa fa-pencil"></i> -->
+                                Nota
                             </a>
                         </div>
                     </div>
@@ -405,6 +411,51 @@
     </div>
 </div>
 
+<div class="modal fade" id="formasdepago" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Formas de pago</h4>
+            </div>
+            <div class="modal-body">
+            <?php echo form_open_multipart('', ['id'=>"payments", 'class'=>"form-horizontal", 'role'=>"form"]); ?>
+                    <?=form_input(array('type'=>'hidden','name'=>'property_id','id'=>'property_id','value'=>$Id))?>
+                    <?=form_input(array('type'=>'hidden','name'=>'property_unity_id','id'=>'property_unity_id'))?>
+                    <div class="form-group">
+                        <?=form_label('Forma de pago','', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?=form_dropdown(array('name'=>'transaction_type','id'=>'transaction_type','class'=> 'form-control','autocomplete'=>'off'), array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Entrega','5'=>'Contado'))?>
+                        <!-- <small style="padding-top:20px">ej. Couta</small> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?=form_label('Monto','', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?=form_input(array('name'=>'amount','id'=>'amount','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Monto',))?>
+                        <!-- <small style="padding-top:20px">ej. 150000</small> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <?=form_label('Cuota del mes','', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
+                        <div class="col-md-9">
+                        <?=form_input(array('name'=>'date','id'=>'date','class'=> 'form-control','autocomplete'=>'off', 'placeholder'=>'Fecha', 'type'=>'date'))?>
+                        <!-- <small style="padding-top:20px">ej. Mayo 2017</small> -->
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-md-offset-9 col-md-3">
+                                <?=form_submit('SubmitPayment', 'Guardar', ['class'=>'btn blue btn-block','id'=>'SubmitPayment'])?>
+                            </div>
+                        </div>
+                    </div>
+                <?php echo form_close();?>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     var customPrice = function(property_unity_id){
         console.log('editPrecio', property_unity_id);
@@ -455,6 +506,7 @@
                 parkeo = res.parking;
             $('#infoUnity').html(' ');
             $('.modal form #unidad').val(info.number);
+            $('.modal form #property_unity_id').val(info.property_unity_id);
             <?php if($nivel==2) {  // se muestra solo en Project manager / administrador ?>
 
             if(info.status!=0){
@@ -475,6 +527,7 @@
                     $('#detalle ul').append('<li><strong>Estado: </strong> DISPONIBLE</li>');
                 } else if(info.status==3) {
                     $('#detalle ul').append('<li><strong>Estado: </strong> RESERVADA</li>');
+//                    $('#btnBuyer').attr('style','display:none;');
                 } else if(info.status==4) {
                     $('#detalle ul').append('<li><strong>Estado: </strong> <strong>VENDIDA</strong></li>');
                     $('#boxStatus').attr('style','display:none');
@@ -780,6 +833,39 @@
                 $('span#preciopies').html(res.price_feet);
                 $('span#preciomts').html(res.price_mts);
                 $('#editarprecio').modal('hide');
+            });
+        });
+
+        $("#SubmitPayment").click(function(event){
+            event.preventDefault();
+            var formId = "#payments";
+            var params = {
+                amount: $(formId+" #amount").val(),
+                transaction_type: $(formId+" #transaction_type").val(),
+                property_unity_id: $(formId+" #property_unity_id").val(),
+                property_id: $(formId+" #property_id").val(),
+                date: $(formId+" #date").val(),
+            }
+            console.debug('params',params)
+            jQuery.ajax({
+                type: "POST",
+                url: "<?php echo site_url(); ?>/transaction/method",
+                dataType: 'json',
+                data: params,
+            })
+            .success(function(res) {
+                toastr.success('Información actualizada!');
+                console.info('SubmitPayment', res);
+                $('span#preciofull').html(res.price);
+                $('span#preciopies').html(res.price_feet);
+                $('span#preciomts').html(res.price_mts);
+                $('#formasdepago').modal('hide');
+
+                $(formId+" #amount").val('');
+                $(formId+" #transaction_type").val('');
+                $(formId+" #property_unity_id").val('');
+                $(formId+" #property_id").val('');
+                $(formId+" #date").val('');
             });
         });
     }
