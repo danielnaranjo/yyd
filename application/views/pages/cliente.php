@@ -144,10 +144,18 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                                                     <th> </th>
                                                 </tr>
                                             </thead>
+                                            <tbody>
+                                            <?
+                                                // Sumamos todos los pagos y restamos el monto total de la propiedad
+                                                $montoventa=$unity[0]['price'];
+                                                $pagado=0;
+                                                $restante=0;
+                                                $deuda=0;
+                                            ?>
                                             <?php foreach($transactions as $m) {?>
                                             <tr>
                                                 <td> <?php echo $m['lastname'] ?> </td>
-                                                <td> $<?php echo number_format($m['amount'],2) ?> </td>
+                                                <td> $<?php echo number_format($m['amount'],2); $pagado+=$m['amount']; ?> </td>
                                                 <td> <?php echo $m['bank']; ?>. <?=strtoupper($options[$m['transaction_type']]) ?></td>
                                                 <td> <?php echo nice_date($m['date'],'d/m/Y') ?> </td>
                                                 <td>
@@ -166,6 +174,7 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                                                 </td>
                                             </tr>
                                             <?php }  ?>
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -173,56 +182,54 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                             <!-- END PORTLET -->
                         </div>
                         <?php }  ?>
-                        <!--<div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="portlet light ">
                                 <div class="portlet-title tabbable-line">
                                     <div class="caption caption-md">
                                         <i class="icon-globe theme-font hide"></i>
-                                        <span class="caption-subject font-blue-madison bold uppercase">ACTIVIDAD</span>
-                                        <a  data-toggle="modal" href="#note" ><i class="fa fa-pencil"></i></a>
+                                        <span class="caption-subject font-blue-madison bold uppercase">INFORMACION DE VENTA</span>
                                     </div>
                                 </div>
                                 <div class="portlet-body">
                                     <div class="tab-content">
+                                        <div id="chart_6" style="width:100%;height:200px;"></div>
                                         <div class="scroller" style="height: 320px;" data-always-visible="1" data-rail-visible1="0" data-handle-color="#D7DCE2">
-                                            <ul class="feeds">
-                                            <?php if(count($notes)>0) { ?>
-                                                <?php foreach ($notes as $n) { // columnas ?>
-                                                <li>
-                                                    <div class="col1">
-                                                        <div class="cont">
-                                                            <div class="cont-col1">
-                                                                <div class="">
-                                                                    <i class="fa fa-check-square-o"></i>
-                                                                </div>
-                                                            </div>
-                                                            <div class="cont-col2">
-                                                                <div class="desc"><? echo $n['note'] ?></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col2">
-                                                        <div class="date">
-                                                        <?php
-                                                            $fecha = mysql_to_unix($n['updated']);
-                                                            $now = time();
-                                                            $units = 2;
-                                                            echo timespan($fecha, $now, $units) . ' ago';
-                                                            //echo timespan($fecha, $now) . ' ago';
-                                                        ?>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <? } ?>
-                                            <? } else { ?>
-                                                <li>No hay notas disponibles</li>
-                                            <? } ?>
-                                            </ul>
+                                            <table class="table table-hover table-light" style="margin-top:10px" >
+                                                <thead>
+                                                    <tr class="uppercase">
+                                                        <th> DETALLE </th>
+                                                        <th>  </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td> Precio de venta:</td>
+                                                        <td>
+                                                            <strong>$<?=number_format($montoventa,2)?></strong>
+                                                         </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td> Adeuda: </td>
+                                                        <td>
+                                                            <strong style="color:#f00">$<? $restante=$montoventa-$pagado; echo number_format($restante,2); ?></strong>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td> Pagado a la fecha: </td>
+                                                        <td>
+                                                            <strong style="color:#0a942d">$<?=number_format($pagado,2)?></strong>
+                                                         </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td> <?//=$deuda?> </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>-->
+                        </div>
                     <?php if($nivel!=2) {?>
                     </div>
                     <div class="row">
@@ -786,5 +793,31 @@ function check(id){
     } else {
         return false;
     }
+}
+</script>
+<script>
+window.onload = function(){
+    var chartData = [{
+      type: "Pagado",
+      percent: <?=$pagado?>,
+      color: "#0a942d",
+    },{
+      type: "Restante",
+      percent: <?=$restante?>,
+      color: "#f00",
+    }];
+    AmCharts.makeChart("chart_6", {
+        "type": "pie",
+        "theme": "light",
+        "dataProvider": chartData,
+        "titleField": "type",
+        "valueField": "percent",
+        "pullOutRadius": 0,
+        "labelRadius": -22,
+        "labelText": "[[percents]]%",
+        "balloonText": "[[title]]: $[[value]]",
+        "percentPrecision": 1,
+        "colorField": "color",
+    });
 }
 </script>
