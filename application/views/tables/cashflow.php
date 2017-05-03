@@ -82,10 +82,11 @@
                                     <td> <?php echo $moneda.number_format($r['precio'],2); ?> </td>
                                     <td id="pagado_<?=$r['unidad']?>"> 0<?php // echo $moneda.number_format($r['total'],2); ?> </td>
                                     <!--<td> N/A<?php //echo $r['registered'] ?> </td>-->
-                                    <td id="pendiente_<?=$r['unidad']?>"> <?php
-                                            $resta=$r['precio']-$r['total'];
-                                            echo $moneda.number_format($resta,2);
-                                            ?>
+                                    <td id="pendiente_<?=$r['unidad']?>">
+                                    <?php
+                                        $resta=$r['precio']-$r['total'];
+                                        echo $moneda.number_format($resta,2);
+                                    ?>
                                     </td>
                                     <?/* for($x=0; $x<$genMes; $x++) { ?>
                                         <td id="<?=$r['unidad'] ?>">
