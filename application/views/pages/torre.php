@@ -141,7 +141,7 @@
                                 Modificar
                             </a>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-4" id="btnMethod">
                             <a data-toggle="modal" href="#formasdepago" class="btn btn-block btn-info">
                                 <!-- <i class="fa fa-pencil"></i> -->
                                 Formas de pago
@@ -488,6 +488,9 @@
                 $('.modal form input, .modal form select, .modal form textarea').val('');
                 $('.modal').modal('hide');
                 //getNotes(res);
+            })
+            .fail(function(err) {
+                toastr.error('Ha ocurrido un problema');
             });
         })
     }
@@ -541,9 +544,9 @@
                     $('#detalle ul').append('<li><strong>Cliente:</strong> <span id="buyerInfo">No disponible</span></li>');
                 }
                 if(info.status>3){
-                    $('#btnBuyer').attr('style','display:none;');
+                    $('#btnBuyer, #btnMethod').attr('style','display:none;');
                 } else {
-                    $('#btnBuyer').attr('style','display:inline;');
+                    $('#btnBuyer, #btnMethod').attr('style','display:inline;');
                 }
 
                 if(res.owner && res.owner.name!=null){
@@ -699,7 +702,10 @@
                 $('.modal form input, .modal form select, .modal form textarea').val('');
                 $('.modal').modal('hide');
                 getNotes(res);
-            });
+            })
+            .fail(function(err) {
+                toastr.error('Ha ocurrido un problema');
+            })
         })
     }
 
@@ -728,6 +734,9 @@
                 toastr.success('Información actualizada!');
                 //$('#basic form input, #basic form select, #basic form textarea').val('');
                 $('#basic').modal('hide');
+            })
+            .fail(function(err) {
+                toastr.error('Ha ocurrido un problema');
             });
         });
 
@@ -755,6 +764,9 @@
                 console.info('SubmitBuyer', data);
                 getInfo(data.n,data.p);
                 $('#comprador').modal('hide');
+            })
+            .fail(function(err) {
+                toastr.error('Ha ocurrido un problema');
             });
         });
         $('#comprador #addsell #status').on('change', function(){
@@ -806,6 +818,9 @@
                 //getInfo(data.n,data.p);
                 //getData();
                 $('#parking').modal('hide');
+            })
+            .fail(function(err) {
+                toastr.error('Ha ocurrido un problema');
             });
         });
 
@@ -833,6 +848,9 @@
                 $('span#preciopies').html(res.price_feet);
                 $('span#preciomts').html(res.price_mts);
                 $('#editarprecio').modal('hide');
+            })
+            .fail(function(err) {
+                toastr.error('Ha ocurrido un problema');
             });
         });
 
@@ -866,6 +884,12 @@
                 $(formId+" #property_unity_id").val('');
                 $(formId+" #property_id").val('');
                 $(formId+" #date").val('');
+                setTimeout(function(){
+                    location.reload()
+                }, 3000);
+            })
+            .fail(function(err) {
+                toastr.error('Ha ocurrido un problema');
             });
         });
     }

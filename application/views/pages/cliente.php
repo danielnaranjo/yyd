@@ -234,100 +234,6 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                     </div>
                     <div class="row">
                     <? } ?>
-                        <!--<div class="col-md-6">
-                            <div class="portlet light portlet-fit " >
-                                <div class="portlet-title" <?php if($nivel==2) {?>style="padding: 15px 20px 5px 20px !important;"<? } ?>>
-                                    <div class="caption">
-                                        <span class="caption-subject bold font-green uppercase"> Visitas</span>
-                                        <a class="pull-right" href="javascript:;" onclick="javascript:visit(<? echo $result[0]['client_id']?>,1)">
-                                            <i class="fa fa-check" aria-hidden="true"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="portlet-body" style="overflow-y: scroll;height: 500px;">
-                                    <div class="timeline">
-                                        <?php foreach($visits as $v) {?>
-                                        <div class="timeline-item">
-                                            <div class="timeline-badge">
-                                                <div class="timeline-icon">
-                                                    <?php if($v['activity']==1){ ?>
-                                                    <i class="icon-user-following font-grey-cascade"></i>
-                                                    <?php } else if($v['activity']==2){ ?>
-                                                    <i class="icon-user-following font-green"></i>
-                                                    <?php } else if($v['activity']==3){ ?>
-                                                    <i class="icon-globe font-green-haze"></i>
-                                                    <?php } else if($v['activity']==4){ ?>
-                                                    <i class="icon-docs font-red-intense"></i>
-                                                    <?php } else { ?>
-                                                    <i class="icon-user-following font-green-haze"></i>
-                                                    <?php } ?>
-                                                </div>
-                                            </div>
-                                            <div class="timeline-body">
-                                                <div class="timeline-body-arrow"> </div>
-                                                <div class="timeline-body-head">
-                                                    <div class="timeline-body-head-caption">
-                                                        <span class="timeline-body-alerttitle font-green-haze">
-                                                           <?php
-                                                                if($v['activity']==1){
-                                                                    echo "Nuevo cliente";
-                                                                } else if($v['activity']==2){
-                                                                    echo "Propiedad agregada";
-                                                                } else if($v['activity']==3){
-                                                                    echo "Visita";
-                                                                } else if($v['activity']==1){
-                                                                    echo "Pago registrado";
-                                                                } else {
-                                                                    echo "Consulta a la cuenta";
-                                                                }
-                                                            ?>
-                                                        </span>
-                                                        <span class="timeline-body-time font-grey-cascade">
-                                                            <?php
-                                                                //echo $v['timestamp'];
-                                                                $fecha = mysql_to_unix($v['timestamp']);
-                                                                $now = time();
-                                                                $units = 2;
-                                                                echo timespan($fecha, $now, $units);
-                                                            ?>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="timeline-body-content">
-                                                    <span class="font-grey-cascade">
-
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <?php } ?>
-
-                                        <?php if(count($visits)==0) { ?>
-                                        <div class="timeline-item">
-                                            <div class="timeline-badge">
-                                                <div class="timeline-icon">
-                                                    <i class="icon-puzzle font-green-haze"></i>
-                                                </div>
-                                            </div>
-                                            <div class="timeline-body">
-                                                <div class="timeline-body-arrow"> </div>
-                                                <div class="timeline-body-head">
-                                                    <div class="timeline-body-head-caption">
-                                                        <span class="timeline-body-alerttitle font-green-haze">No tiene propiedades</span>
-                                                        <span class="timeline-body-time font-grey-cascade"><?php echo date('d-m-Y') ?></span>
-                                                    </div>
-                                                </div>
-                                                <div class="timeline-body-content">
-                                                    <span class="font-grey-cascade">
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <?php  } ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
                     </div>
                 </div>
                 <!-- END PROFILE CONTENT -->
@@ -417,7 +323,7 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                     <div class="form-group">
                         <?=form_label('Fecha','Fecha', ['class'=>'col-md-3 control-label', 'style'=>'text-transform:Capitalize;'])?>
                         <div class="col-md-9">
-                        <?= form_input(array('name'=>'date','id'=>'date','class'=> 'form-control date-picker','autocomplete'=>'off','placeholder'=>'Fecha de transacción'))//, 'value'=>date('Y-m-d H:i:s')?>
+                        <?= form_input(array('name'=>'date','id'=>'date','class'=> 'form-control','autocomplete'=>'off','placeholder'=>'Fecha de transacción', 'type'=>'date'))//, 'value'=>date('Y-m-d H:i:s')?>
                         </div>
                     </div>
                     <div class="form-group">
@@ -430,7 +336,7 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                     <div class="form-actions">
                         <div class="row">
                             <div class="col-md-offset-3 col-md-9">
-                                <?=form_submit('Submit', 'Guardar', ['class'=>'btn blue','id'=>'Submit'])?>
+                                <?=form_submit('SubmitTrans', 'Guardar', ['class'=>'btn blue','id'=>'SubmitTrans','onclick'=>'addTransaction()'])?>
                             </div>
                         </div>
                     </div>
@@ -523,21 +429,6 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                             </div>
                         </div>
                         <div class="row">
-                            <!--<div class="col-xs-4">
-                                <div class="well">
-                                    <address>
-                                        <strong>Loop, Inc.</strong>
-                                        <br/> 795 Park Ave, Suite 120
-                                        <br/> San Francisco, CA 94107
-                                        <br/>
-                                        <abbr title="Phone">P:</abbr> (234) 145-1810 </address>
-                                    <address>
-                                        <strong>Full Name</strong>
-                                        <br/>
-                                        <a href="mailto:#"> first.last@email.com </a>
-                                    </address>
-                                </div>
-                            </div>-->
                             <div class="col-xs-8 col-xs-offset-4 invoice-block">
                                 <ul class="list-unstyled amounts">
                                     <!--<li>
@@ -551,9 +442,6 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                                 <a class="btn blue hidden-print margin-bottom-5" onclick="javascript:window.print();"> Imprimir
                                     <i class="fa fa-print"></i>
                                 </a>
-                                <!--<a class="btn green hidden-print margin-bottom-5"> Enviar
-                                    <i class="fa fa-check"></i>
-                                </a>-->
                             </div>
                         </div>
                     </div>
@@ -624,7 +512,7 @@ $options = array('1'=>'Reserva','2'=>'Firma CCV','3'=>'Cuota','4'=>'Posesión');
                             </div>
                         </div>
                     </div>
-                    <?= form_input(array('name'=>'transaction_id', 'id'=>'transaction_id', 'type'=> 'hidden'))?>
+                    <?= form_input(array('name'=>'transaction_id', 'id'=>'transaction_id', 'type'=> 'hidden', ))?>
                 <?php echo form_close();?>
             </div>
         </div>
@@ -641,6 +529,9 @@ window.onload = function(){
         }).done(function(data) {
             console.log('data', data);
             toastr.success('Visita registrada!');
+        }).fail(function(err) {
+            toastr.error('Ha ocurrido un problema');
+            console.error('data', err);
         });
     }
     //if (jQuery().datepicker) {
@@ -663,61 +554,10 @@ window.onload = function(){
             todayHighlight: true
         });
     //}
-    $("#Submit").click(function(event) {
-        event.preventDefault();
-        var property_id = $("#property_id").val(),
-            broker_id = $("#broker_id").val(),
-            client_id = $("#client_id").val(),
-            note = $("#note").val();
-        jQuery.ajax({
-            type: "POST",
-            url: "<?php echo site_url(); ?>/note/add",
-            dataType: 'json',
-            data: { property_id: property_id, broker_id: broker_id, client_id: client_id, note: note },
-            success: function(res) {
-            if(res) {
-                toastr.success('Información actualizada!');
-                //form[0].reset();
-                $('.modal form input, .modal form select, .modal form textarea').val('');
-                $('#basic').modal('hide');
-                }
-            }
-        });
-    });
 
-    $("#addmoney #Submit").click(function(event) {
-        event.preventDefault();
-        var params = {
-            'property_id' : $("#property_id").val(),
-            'property_unity_id' : $("#property_unity_id").val(),
-            'broker_id' : $("#broker_id").val(),
-            'client_id' : $("#client_id").val(),
-            'notes' : $("#notes").val(),
-            'amount' : $("#amount").val(),
-            'number' : $("#number").val(),
-            'transaction_type' : $("#transaction_type").val(),
-            'payment_type' : $("#payment_type").val(),
-            'date' : $("#date").val(),
-        }
-        console.log('params', params);
-        jQuery.ajax({
-            type: "POST",
-            url: "<?php echo site_url(); ?>/transaction/add",
-            dataType: 'json',
-            data: params,
-            success: function(res) {
-                if(res) {
-                    toastr.success('Información actualizada!');
-                    console.log(res);
-                    $('#transactions').modal('hide');
-                    setTimeout(function(){
-                        location.reload()
-                    }, 3000);
-                }
-            }
-        });
-    });
-}
+
+
+}//end window.onload
 var edit = function(id){
     console.log('Edit on ', id);
     $('#transactionEdit form')[0].reset();
@@ -769,7 +609,76 @@ var edit = function(id){
             console.log('error',err);
         });/**/
     });
+}//edit transactionEdit
+
+var addTransaction = function(){
+    //$("#transactions #addmoney #SubmitTrans").on('click',function(event) {
+        console.log('#transactions #addmoney #SubmitTrans clicked');
+        //event.preventDefault();
+        var params = {
+            'property_id' : $("#property_id").val(),
+            'property_unity_id' : $("#property_unity_id").val(),
+            'broker_id' : $("#broker_id").val(),
+            'client_id' : $("#client_id").val(),
+            'notes' : $("#notes").val(),
+            'amount' : $("#amount").val(),
+            'number' : $("#number").val(),
+            'transaction_type' : $("#transaction_type").val(),
+            'payment_type' : $("#payment_type").val(),
+            'date' : $("#date").val(),
+        }
+        console.log('params', params);
+        jQuery.ajax({
+            type: "POST",
+            url: "<?php echo site_url(); ?>/transaction/add",
+            dataType: 'json',
+            data: params,
+            success: function(res) {
+                if(res) {
+                    toastr.success('Información actualizada!');
+                    console.log(res);
+                    //$('#transactions').modal('hide');
+                    setTimeout(function(){
+                        location.reload()
+                    }, 3000);
+                }
+            },
+            fail: function(xhr, status, error) {
+                toastr.error('Ha ocurrido un problema');
+                console.error('data', err);
+            }
+        });
+    //});
+}//addTransaction
+
+var addNote = function(){
+    //$("#Submit").click(function(event) {
+        event.preventDefault();
+        var property_id = $("#property_id").val(),
+            broker_id = $("#broker_id").val(),
+            client_id = $("#client_id").val(),
+            note = $("#note").val();
+        jQuery.ajax({
+            type: "POST",
+            url: "<?php echo site_url(); ?>/note/add",
+            dataType: 'json',
+            data: { property_id: property_id, broker_id: broker_id, client_id: client_id, note: note },
+            success: function(res) {
+            if(res) {
+                toastr.success('Información actualizada!');
+                //form[0].reset();
+                $('.modal form input, .modal form select, .modal form textarea').val('');
+                $('#basic').modal('hide');
+                }
+            },
+            fail: function(xhr, status, error) {
+                toastr.error('Ha ocurrido un problema');
+                console.error('data', err);
+            }
+        });
+    //});
 }
+
 function check(id){
     // confirm delete or not
     if (confirm('Desea eliminar este registro?','Acción requerida')) {
@@ -793,9 +702,9 @@ function check(id){
     } else {
         return false;
     }
-}
-</script>
-<script>
+}//check
+
+
 window.onload = function(){
     var chartData = [{
       type: "Pagado",
