@@ -84,9 +84,11 @@
                                     <!--<td> N/A<?php //echo $r['registered'] ?> </td>-->
                                     <td id="pendiente_<?=$r['unidad']?>">
                                     <?php
-                                        $resta=$r['precio']-$r['total'];
-                                        echo $moneda.number_format($resta,2);
+                                        //$resta=$r['precio']-$r['total'];
+                                        //echo $moneda.number_format($resta,2);
+                                        echo $moneda.number_format($r['resta'],2);
                                     ?>
+                                    0
                                     </td>
                                     <?/* for($x=0; $x<$genMes; $x++) { ?>
                                         <td id="<?=$r['unidad'] ?>">

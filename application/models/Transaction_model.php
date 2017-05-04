@@ -285,6 +285,7 @@
                     CONCAT (client.firstname, ' ', client.lastname) as propietario,
                     DATE_FORMAT(transaction.date,'%d/%m/%Y') AS fecha,
                     SUM(transaction.amount) AS total,
+                    (property_unity.price - SUM(transaction.amount)) AS resta,
                     property_unity.price AS precio,
                     client.client_id
                 FROM transaction_client
@@ -308,6 +309,7 @@
                     CONCAT (client.firstname, ' ', client.lastname) as propietario,
                     DATE_FORMAT(transaction.date,'%d/%m/%Y') AS fecha,
                     SUM(transaction.amount) AS total,
+                    (property_unity.price - SUM(transaction.amount)) AS resta,
                     property_unity.price AS precio,
                     client.client_id
                 FROM transaction_client
