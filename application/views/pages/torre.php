@@ -544,9 +544,9 @@
                     $('#detalle ul').append('<li><strong>Cliente:</strong> <span id="buyerInfo">No disponible</span></li>');
                 }
                 if(info.status>3){
-                    $('#btnBuyer, #btnMethod').attr('style','display:none;');
+                    //$('#btnBuyer, #btnMethod').attr('style','display:none;');
                 } else {
-                    $('#btnBuyer, #btnMethod').attr('style','display:inline;');
+                    //$('#btnBuyer, #btnMethod').attr('style','display:inline;');
                 }
 
                 if(res.owner && res.owner.name!=null){

@@ -255,4 +255,9 @@
         $data = $this->Transaction_model->pagorealizados();
         echo json_encode($data);
     }
+    public function getcashflow() {
+        $this->load->helper('download');
+        $data = $this->Transaction_model->coutaspormes();
+        echo force_download('yydgroup_cashflow_'.now().'.csv', $data);
+    }
 }
